@@ -1,0 +1,11 @@
+shader derivative(
+  point Point = P,
+  
+  output point XDeriv = 0.0, 
+  output point YDeriv = 0.0, 
+  output point ZDeriv = 0.0) {
+  
+  XDeriv = Dx(Point);
+  YDeriv = Dy(Point);
+  ZDeriv = Dz(Point);
+}

@@ -1,0 +1,28 @@
+float filter(float v, float lb, float ub) {
+  return v * (v >= lb && v <= ub);
+}
+
+float quantize(float v, float d) {
+  return d == 0.0 ? v : d * floor(0.5 + (v / d));
+}
+
+closure color mix(closure color a, closure color b, float t) {
+  return ((1.0 - t) * a) + (t * b);
+}
+
+shader shapedEmission(
+  float Fac = 0.5,
+  float LowerBound = 0.0,
+  float UpperBound = 1.0,
+  float Delta = 0.02,
+  float Strength = 1.0,
+  point Center = 0.0,
+  point Point = P,
+  color Color = 1.0,
+  output closure color Shader = holdout()) {
+
+    float flt = filter(Fac, LowerBound, UpperBound);
+    float qnt = quantize(flt, Delta);
+    float srf = Strength / (surfacearea() * M_PI);
+    Shader = mix(holdout(), Color * srf * emission(), qnt);
+}

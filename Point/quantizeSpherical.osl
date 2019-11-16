@@ -1,0 +1,55 @@
+point fromSpherical(
+  float azimuth, 
+  float inclination, 
+  float radius) {
+
+  float cp;
+  float sp;
+  float ct;
+  float st;
+
+  sincos(azimuth, st, ct);
+  sincos(inclination, sp, cp);
+
+  float rcp = radius * cp;
+  return point(
+    rcp * ct, rcp * st, radius * -sp);
+}
+
+void toSpherical(
+  point p,
+  output float azimuth, 
+  output float inclination, 
+  output float radius) {
+
+    azimuth = atan2(p[1], p[0]);
+    radius = length(p);
+    inclination = asin(p[2] / radius);
+}
+
+float quantize(float value, float delta) {
+  if(delta == 0.0) {
+    return value;
+  }
+  return delta * floor(0.5 + (value / delta));
+}
+
+shader quantizeSpherical(
+  point A = point(1.0, 0.0, 0.0), 
+  float DeltaTheta = 0.0,
+  float DeltaPhi = 0.0,
+  float DeltaRad = 0.0,
+  output point Value = 0.0) {
+  
+  float azim = 0.0;
+  float incl = 0.0;
+  float rad = 1.0;
+
+  toSpherical(A, azim, incl, rad);
+
+  float qAz = quantize(azim, DeltaTheta);
+  float qIn = quantize(incl, DeltaPhi);
+  float qRd = quantize(rad, DeltaRad);
+
+  Value = fromSpherical(qAz, qIn, qRd);
+}

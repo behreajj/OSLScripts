@@ -1,0 +1,12 @@
+shader mapPoint(
+  point Point = P,
+  point LbOrigin = -1.0,
+  point UbOrigin = 1.0,
+  point LbDest = 0.0,
+  point UbDest = 1.0,
+
+  output point Remapped = P) {
+  
+  point denom = UbOrigin - LbOrigin;
+  Remapped = denom == 0.0 ? LbDest : LbDest + (UbDest - LbDest) * ((Point - LbOrigin) / denom);
+}

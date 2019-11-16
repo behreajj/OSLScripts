@@ -1,0 +1,13 @@
+shader quantizePoint(
+  point Point = P, 
+  point Delta = 0.0, 
+  
+  output point Quantized = P) {
+  
+  if(Delta == 0.0) {
+    Quantized = Point;
+    return;
+  }
+
+  Quantized = Delta * floor(0.5 + (Point / Delta));
+}

@@ -1,0 +1,9 @@
+shader filterScalar(
+  float Value = 0.5,
+  float LowerBound = 0.0,
+  float UpperBound = 1.0,
+  
+  output float Filtered = 0.5) {
+  
+  Filtered = Value * (Value >= LowerBound && Value <= UpperBound);
+}

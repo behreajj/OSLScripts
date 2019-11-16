@@ -1,0 +1,8 @@
+shader scalePoint(
+  point Point = P,
+  point Scale = 1.0,
+
+  output point Scaled = P) {
+  
+  Scaled = Point * Scale;
+}

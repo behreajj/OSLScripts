@@ -1,0 +1,11 @@
+shader toSpherical(
+  point Point = P,
+
+  output float Azimuth = 0.0,
+  output float Inclination = 0.0,
+  output float Radius = 1.0) {
+
+  Azimuth = atan2(Point[1], Point[0]);
+  Radius = length(Point);
+  Inclination = asin(Point[2] / Radius);
+}

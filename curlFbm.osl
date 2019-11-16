@@ -1,0 +1,56 @@
+point fbm3(
+    point v,
+    float w,
+    int octaves,
+    float lacunarity,
+    float gain,
+    float freq,
+    float amp) {
+
+  float f = freq;
+  float a = amp;
+
+  point sum = 0.0;
+  for (int i = 0; i < octaves; ++i) {
+    point n = noise("simplex", v * f, w * f);
+    sum = sum + (n * a);
+    f *= lacunarity;
+    a *= gain;
+  }
+  return sum;
+}
+
+shader curlFbm(
+    point Point = P,
+    float W = 0.0,
+
+    point Offset = 0.0,
+    point Scale = 1.0,
+
+    int Octaves = 8,
+    float Lacunarity = 2.0,
+    float Gain = 0.5,
+    float Freq = 1.0,
+    float Amp = 0.5,
+
+    output point Noise = 0.0,
+    output color Color = 0.0,
+    output float Fac = 0.0) {
+
+  point n = Offset + Point * Scale;
+  float nw = length(Offset) + W * length(Scale);
+
+  point yoff = point(123.456, 789.012, 345.678);
+  point zoff = point(901.234, 567.891, 234.567);
+  
+  point xderiv = fbm3(n, nw, Octaves, Lacunarity, Gain, Freq, Amp);
+  point yderiv = fbm3(n + yoff, nw, Octaves, Lacunarity, Gain, Freq, Amp);
+  point zderiv = fbm3(n + zoff, nw, Octaves, Lacunarity, Gain, Freq, Amp);
+
+  Noise = point(
+      zderiv[2] - yderiv[0],
+      xderiv[0] - zderiv[1],
+      yderiv[1] - xderiv[2]);
+  Color = normalize(Noise) * 0.5 + 0.5;
+  Fac = luminance(Color);
+}

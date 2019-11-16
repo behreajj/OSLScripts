@@ -1,0 +1,10 @@
+shader rotatePoint(
+  point Point = P, 
+  float radians = 0.0, 
+  point Origin = 0.0,
+  point Dest = 1.0, 
+
+  output point Rotated = P) {
+
+  Rotated = rotate(Point, radians, Origin, Dest);
+}

@@ -1,0 +1,13 @@
+shader quantizeScalar(
+  float Value = 0.0, 
+  float Delta = 0.5,
+
+  output float Quantized = 0.0) {
+
+  if(Delta == 0.0) {
+    Quantized = Value;
+    return;
+  }
+  
+  Quantized = Delta * floor(0.5 + (Value / Delta));
+}

@@ -1,0 +1,15 @@
+shader curlNoise(
+    point Point = P, 
+    float W = 0.0, 
+    output point Noise = 0.0) {
+
+   point val = noise("simplex", Point, W);
+   point xderiv = Dx(val);
+   point yderiv = Dy(val);
+   point zderiv = Dz(val);
+  
+    Noise = point(
+      zderiv[1] - val[1],
+      val[0] - zderiv[0],
+      yderiv[0] - xderiv[1]);
+}

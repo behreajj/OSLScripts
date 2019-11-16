@@ -1,0 +1,19 @@
+shader fromSpherical(
+  float Azimuth = 0.0,
+  float Inclination = 0.0,
+  float Radius = 1.0,
+
+  output point Point = P) {
+  
+  float cp;
+  float sp;
+  float ct;
+  float st;
+
+  sincos(Azimuth, st, ct);
+  sincos(Inclination, sp, cp);
+
+  float rcp = Radius * cp;
+  Point = point(
+    rcp * ct, rcp * st, Radius * -sp);
+}
