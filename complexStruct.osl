@@ -1,0 +1,169 @@
+struct Complex {
+  float real;
+  float imag;
+};
+
+Complex __operator__mul__(Complex a, float b) {
+  return Complex(a.real * b, a.imag * b);
+}
+
+Complex __operator__mul__(float a, Complex b) {
+  return Complex(a * b.real, a * b.imag);
+}
+
+Complex __operator__mul__(Complex a, Complex b) {
+  return Complex(
+    a.real * b.real - a.imag * b.imag,
+    a.real * b.imag + a.imag * b.real);
+}
+
+Complex __operator__div__(Complex a, float b) {
+  return Complex(a.real / b, a.imag / b);
+}
+
+Complex conj(Complex z) {
+  return Complex(z.real, -z.imag);
+}
+
+float absSq(Complex z) {
+  return z.real * z.real + z.imag * z.imag;
+}
+
+float abs(Complex z) {
+  return hypot(z.real, z.imag);
+}
+
+Complex inverse(Complex z) {
+  return conj(z) / absSq(z);
+}
+
+Complex __operator__div__(float a, Complex b) {
+  return a * inverse(b);
+}
+
+Complex __operator__div__(Complex a, Complex b) {
+  return a * inverse(b);
+}
+
+Complex __operator__add__(Complex a, float b) {
+  return Complex(a.real + b, a.imag);
+}
+
+Complex __operator__add__(float a, Complex b) {
+  return Complex(a + b.real, b.imag);
+}
+
+Complex __operator__add__(Complex a, Complex b) {
+  return Complex(a.real + b.real, a.imag + b.imag);
+}
+
+Complex __operator__sub__(Complex a, float b) {
+  return Complex(a.real - b, -a.imag);
+}
+
+Complex __operator__sub__(float a, Complex b) {
+  return Complex(a - b.real, -b.imag);
+}
+
+Complex __operator__sub__(Complex a, Complex b) {
+  return Complex(a.real - b.real, a.imag - b.imag);
+}
+
+int __operator__eq__(Complex a, float b) {
+  return a.real == b && a.imag == 0.0;
+}
+
+int __operator__eq__(float a, Complex b) {
+  return a == b.real && 0.0 == b.imag;
+}
+
+int __operator__eq__(Complex a, Complex b) {
+  return a.real == b.real && a.imag == b.imag;
+}
+
+int __operator__ne__(Complex a, float b) {
+  return a.real != b || a.imag != 0.0;
+}
+
+int __operator__ne__(float a, Complex b) {
+  return a != b.real || 0.0 != b.imag;
+}
+
+int __operator__ne__(Complex a, Complex b) {
+  return a.real != b.real || a.imag != b.imag;
+}
+
+Complex mobius(
+  Complex a, Complex b,
+  Complex c, Complex d,
+  Complex z) {
+
+  return ((a * z) + b) / ((c * z) + d);
+}
+
+Complex rect(float r, float phi) {
+  float cp;
+  float sp;
+  sincos(phi, sp, cp);
+  return Complex(r * cp, r * sp);
+}
+
+float phase(Complex z) {
+  return atan2(z.imag, z.real);
+}
+
+Complex exp(Complex z) {
+  return rect(exp(z.real), z.imag);
+}
+
+Complex log(Complex z) {
+  return Complex(log(abs(z)), phase(z));
+}
+
+Complex pow(Complex a, Complex b) {
+  return exp(b * log(a));
+}
+
+Complex pow(Complex a, float b) {
+  return exp(b * log(a));
+}
+
+Complex pow(float a, Complex b) {
+  return exp(b * log(a));
+}
+
+Complex sin(Complex z) {
+  float szr;
+  float czr;
+  sincos(z.real, szr, czr);
+  return Complex(
+    szr * cosh(z.imag),
+    czr * sinh(z.imag));
+}
+
+Complex cos(Complex z) {
+  float szr;
+  float czr;
+  sincos(z.real, szr, czr);
+  return Complex(
+    czr * cosh(z.imag),
+    -szr * sinh(z.imag));
+}
+
+shader complexStruct(
+  point Point = P,
+  point Power = point(2.0, 0.0, 0.0),
+  int Iterations = 32,
+  int Exclude = 0,
+  output float Fac = 0.0) {
+
+  int i = 0;
+  Complex p = Complex(Power[0], Power[1]);
+  Complex z = Complex(Point[0], Point[1]);
+  Complex zn = z;
+  for(; i < Iterations && absSq(zn) < 4.0; i++) {
+    zn = z + pow(zn, p);
+  }
+
+  Fac = Exclude && i >= Iterations ? 0.0 : clamp(i / (float)Iterations, 0.0, 1.0);
+}
