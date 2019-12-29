@@ -1,7 +1,0 @@
-shader simplexNoise(
-  point Point = P,
-  float W = 0.0,
-  output point Noise = 0.0) {
-
-    Noise = noise("simplex", Point, W);
-}

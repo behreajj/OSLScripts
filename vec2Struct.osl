@@ -1,0 +1,158 @@
+struct Vec2 {
+  float x;
+  float y;
+};
+
+Vec2 __operator__neg__(Vec2 a) {
+  return Vec2(-a.x, -a.y);
+}
+
+Vec2 __operator__mul__(Vec2 a, Vec2 b) {
+  return Vec2(a.x * b.x, a.y * b.y);
+}
+
+Vec2 __operator__mul__(Vec2 a, float b) {
+  return Vec2(a.x * b, a.y * b);
+}
+
+Vec2 __operator__mul__(float a, Vec2 b) {
+  return Vec2(a * b.x, a * b.y);
+}
+
+Vec2 __operator__div__(Vec2 a, Vec2 b) {
+  return Vec2(a.x / b.x, a.y / b.y);
+}
+
+Vec2 __operator__div__(Vec2 a, float b) {
+  return Vec2(a.x / b, a.y / b);
+}
+
+Vec2 __operator__div__(float a, Vec2 b) {
+  return Vec2(a / b.x, a / b.y);
+}
+
+Vec2 __operator__add__(Vec2 a, Vec2 b) {
+  return Vec2(a.x + b.x, a.y + b.y);
+}
+
+Vec2 __operator__add__(Vec2 a, float b) {
+  return Vec2(a.x + b, a.y + b);
+}
+
+Vec2 __operator__add__(float a, Vec2 b) {
+  return Vec2(a + b.x, a + b.y);
+}
+
+Vec2 __operator__sub__(Vec2 a, Vec2 b) {
+  return Vec2(a.x - b.x, a.y - b.y);
+}
+
+Vec2 __operator__sub__(Vec2 a, float b) {
+  return Vec2(a.x - b, a.y - b);
+}
+
+Vec2 __operator__sub__(float a, Vec2 b) {
+  return Vec2(a - b.x, a - b.y);
+}
+
+int __operator__eq__(Vec2 a, Vec2 b) {
+  return (a.x == b.x) && (a.y == b.y);
+}
+
+int __operator__ne__(Vec2 a, Vec2 b) {
+  return (a.x != b.x) || (a.y != b.y);
+}
+
+Vec2 abs(Vec2 a) {
+  return Vec2(abs(a.x), abs(a.y));
+}
+
+Vec2 ceil(Vec2 a) {
+  return Vec2(ceil(a.x), ceil(a.y));
+}
+
+Vec2 floor(Vec2 a) {
+  return Vec2(floor(a.x), floor(a.y));
+}
+
+Vec2 round(Vec2 a) {
+  return Vec2(round(a.x), round(a.y));
+}
+
+Vec2 trunc(Vec2 a) {
+  return Vec2(trunc(a.x), trunc(a.y));
+}
+
+Vec2 fract(Vec2 a) {
+  return Vec2(a.x - trunc(a.x), a.y - trunc(a.y));
+}
+
+Vec2 fmod(Vec2 a, Vec2 b) {
+  return Vec2(fmod(a.x, b.x), fmod(a.y, a.y));
+}
+
+Vec2 mod(Vec2 a, Vec2 b) {
+  return Vec2(mod(a.x, b.x), mod(a.y, a.y));
+}
+
+Vec2 max(Vec2 a, Vec2 b) {
+  return Vec2(max(a.x, b.x), max(a.y, a.y));
+}
+
+Vec2 min(Vec2 a, Vec2 b) {
+  return Vec2(min(a.x, b.x), min(a.y, a.y));
+}
+
+Vec2 clamp(Vec2 v, Vec2 lb, Vec2 ub) {
+  return Vec2(
+    clamp(v.x, lb.x, ub.x),
+    clamp(v.y, lb.y, ub.y));
+}
+
+Vec2 mix(Vec2 a, Vec2 b, float t) {
+  return ((1.0 - t) * a) + (t * b);
+}
+
+Vec2 mix(Vec2 a, Vec2 b, Vec2 t) {
+  return Vec2(
+    (1.0 - t.x) * a.x + t.x * b.x,
+    (1.0 - t.y) * a.y + t.y * b.y);
+}
+
+float dot(Vec2 a, Vec2 b) {
+  return a.x * b.x + a.y * b.y;
+}
+
+float length(Vec2 a) {
+  return hypot(a.x, a.y);
+}
+
+float distance(Vec2 a, Vec2 b) {
+  return hypot(b.x - a.x, b.y - a.y);
+}
+
+Vec2 normalize(Vec2 a) {
+  return a / length(a);
+}
+
+Vec2 reflect(Vec2 i, Vec2 n) {
+  return i - ((2.0 * dot(n, i)) * n);
+}
+
+Vec2 refract(Vec2 i, Vec2 n, float eta) {
+  float iDotN = dot(i, n);
+  float k = 1.0 - eta * eta * (1.0 - iDotN * iDotN);
+
+  if (k < 0.0) {
+    return Vec2(0.0, 0.0);
+  }
+  return (eta * i) - (n * (eta * iDotN + sqrt(k)));
+}
+
+shader Vec2Struct(
+  vector Point = P,
+  
+  output vector Result = P) {
+  
+    Result = 0.1 + point(0, 0.5, 1.0);
+}

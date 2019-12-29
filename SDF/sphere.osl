@@ -1,0 +1,8 @@
+shader sphere(
+  vector Point = P,
+  float Bounds = 1.0,
+  
+  output float Fac = 0.0) {
+
+  Fac = length(Point) - Bounds;
+}

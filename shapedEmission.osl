@@ -16,8 +16,6 @@ shader shapedEmission(
   float UpperBound = 1.0,
   float Delta = 0.02,
   float Strength = 1.0,
-  point Center = 0.0,
-  point Point = P,
   color Color = 1.0,
   output closure color Shader = holdout()) {
 

@@ -155,6 +155,7 @@ shader complexStruct(
   point Power = point(2.0, 0.0, 0.0),
   int Iterations = 32,
   int Exclude = 0,
+  
   output float Fac = 0.0) {
 
   int i = 0;

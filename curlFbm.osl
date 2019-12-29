@@ -22,7 +22,7 @@ point fbm3(
 
 shader curlFbm(
     point Point = P,
-    float W = 0.0,
+    float W = time,
 
     point Offset = 0.0,
     point Scale = 1.0,

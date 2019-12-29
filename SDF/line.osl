@@ -1,0 +1,13 @@
+shader line(
+  vector Point = P,
+  vector Origin = -0.5,
+  vector Dest = 0.5,
+  float Rounding = 0.0,
+
+  output float Fac = 0.0) {
+
+  vector pa = Point - Origin;
+  vector ba = Dest - Origin;
+  float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+  Fac = length(pa - ba * h) - Rounding;
+}

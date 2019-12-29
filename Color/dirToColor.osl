@@ -1,3 +1,6 @@
-shader dirToColor(vector Vector = P, output color Color = 0.0) {
+shader dirToColor(
+  vector Vector = P, 
+  output color Color = 0.0) {
+  
   Color = normalize(Vector) * 0.5 + 0.5;
 }

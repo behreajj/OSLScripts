@@ -1,0 +1,19 @@
+struct Vec2 {
+  float x;
+  float y;
+};
+
+float length(Vec2 a) {
+  return hypot(a.x, a.y);
+}
+
+shader torus(
+  vector Point = P,
+  vector Bounds = 1.0,
+
+  output float Fac = 0.0) {
+
+    Vec2 pxz = Vec2(Point[0], Point[1]);
+    Vec2 q = Vec2(length(pxz) - Bounds[0], Point[2]);
+    Fac = length(q) - Bounds[1];
+}

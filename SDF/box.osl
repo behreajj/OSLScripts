@@ -1,0 +1,10 @@
+shader box(
+  vector Point = P,
+  vector Bounds = 1.0,
+  float Rounding = 0.0,
+  
+  output float Fac = 0.0) {
+
+  vector q = abs(Point) - Bounds;
+  Fac = length(max(q, 0.0)) - min(max(q[0], max(q[1], q[2])), 0.0) - Rounding;
+}
