@@ -1,0 +1,257 @@
+struct Vec3 {
+  float x;
+  float y;
+  float z;
+};
+
+Vec3 __operator__neg__(Vec3 a) {
+  return Vec3(-a.x, -a.y, -a.z);
+}
+
+Vec3 __operator__mul__(Vec3 a, Vec3 b) {
+  return Vec3(
+    a.x * b.x,
+    a.y * b.y,
+    a.z * b.z);
+}
+
+Vec3 __operator__mul__(Vec3 a, float b) {
+  return Vec3(
+    a.x * b,
+    a.y * b,
+    a.z * b);
+}
+
+Vec3 __operator__mul__(float a, Vec3 b) {
+  return Vec3(
+    a * b.x,
+    a * b.y,
+    a * b.z);
+}
+
+Vec3 __operator__div__(Vec3 a, Vec3 b) {
+  return Vec3(
+    a.x / b.x,
+    a.y / b.y,
+    a.z / b.z);
+}
+
+Vec3 __operator__div__(Vec3 a, float b) {
+  return Vec3(
+    a.x / b,
+    a.y / b,
+    a.z / b);
+}
+
+Vec3 __operator__div__(float a, Vec3 b) {
+  return Vec3(
+    a / b.x,
+    a / b.y,
+    a / b.z);
+}
+
+Vec3 __operator__add__(Vec3 a, Vec3 b) {
+  return Vec3(
+    a.x + b.x,
+    a.y + b.y,
+    a.z + b.z);
+}
+
+Vec3 __operator__add__(Vec3 a, float b) {
+  return Vec3(
+    a.x + b,
+    a.y + b,
+    a.z + b);
+}
+
+Vec3 __operator__add__(float a, Vec3 b) {
+  return Vec3(
+    a + b.x,
+    a + b.y,
+    a + b.z);
+}
+
+Vec3 __operator__sub__(Vec3 a, Vec3 b) {
+  return Vec3(
+    a.x - b.x,
+    a.y - b.y,
+    a.z - b.z);
+}
+
+Vec3 __operator__sub__(Vec3 a, float b) {
+  return Vec3(
+    a.x - b,
+    a.y - b,
+    a.z - b);
+}
+
+Vec3 __operator__sub__(float a, Vec3 b) {
+  return Vec3(
+    a - b.x,
+    a - b.y,
+    a - b.z);
+}
+
+int __operator__eq__(Vec3 a, Vec3 b) {
+  return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
+}
+
+int __operator__ne__(Vec3 a, Vec3 b) {
+  return (a.x != b.x) || (a.y != b.y) || (a.z != b.z);
+}
+
+Vec3 abs(Vec3 a) {
+  return Vec3(
+    abs(a.x),
+    abs(a.y),
+    abs(a.z));
+}
+
+Vec3 ceil(Vec3 a) {
+  return Vec3(
+    ceil(a.x),
+    ceil(a.y),
+    ceil(a.z));
+}
+
+Vec3 floor(Vec3 a) {
+  return Vec3(
+    floor(a.x),
+    floor(a.y),
+    floor(a.z));
+}
+
+Vec3 round(Vec3 a) {
+  return Vec3(
+    round(a.x),
+    round(a.y),
+    round(a.z));
+}
+
+Vec3 trunc(Vec3 a) {
+  return Vec3(
+    trunc(a.x),
+    trunc(a.y),
+    trunc(a.z));
+}
+
+Vec3 fract(Vec3 a) {
+  return Vec3(
+    a.x - trunc(a.x),
+    a.y - trunc(a.y),
+    a.z - trunc(a.z));
+}
+
+Vec3 fmod(Vec3 a, Vec3 b) {
+  return Vec3(
+    fmod(a.x, b.x),
+    fmod(a.y, b.y),
+    fmod(a.z, b.z));
+}
+
+Vec3 fmod(float a, Vec3 b) {
+  return Vec2(
+    fmod(a, b.x), 
+    fmod(a, b.y), 
+    fmod(a, b.z));
+}
+
+Vec3 fmod(Vec3 a, float b) {
+  return Vec2(
+    fmod(a.x, b), 
+    fmod(a.y, b), 
+    fmod(a.z, b));
+}
+
+Vec3 mod(Vec3 a, Vec3 b) {
+  return Vec3(
+    mod(a.x, b.x),
+    mod(a.y, b.y),
+    mod(a.z, b.z));
+}
+
+Vec3 mod(float a, Vec3 b) {
+  return Vec3(
+    mod(a, b.x), 
+    mod(a, b.y), 
+    mod(a, b.z));
+}
+
+Vec3 mod(Vec3 a, float b) {
+  return Vec3(
+    mod(a.x, b), 
+    mod(a.y, b), 
+    mod(a.z, b));
+}
+
+Vec3 max(Vec3 a, Vec3 b) {
+  return Vec3(
+    max(a.x, b.x),
+    max(a.y, b.y),
+    max(a.z, b.z));
+}
+
+Vec3 min(Vec3 a, Vec3 b) {
+  return Vec3(
+    min(a.x, b.x),
+    min(a.y, b.y),
+    min(a.z, b.z));
+}
+
+Vec3 clamp(Vec3 v, Vec3 lb, Vec3 ub) {
+  return Vec3(
+    clamp(v.x, lb.x, ub.x),
+    clamp(v.y, lb.y, ub.y),
+    clamp(v.z, lb.z, ub.z));
+}
+
+Vec3 mix(Vec3 a, Vec3 b, float t) {
+  return ((1.0 - t) * a) + (t * b);
+}
+
+Vec3 mix(Vec3 a, Vec3 b, Vec3 t) {
+  return Vec3(
+    (1.0 - t.x) * a.x + t.x * b.x,
+    (1.0 - t.y) * a.y + t.y * b.y,
+    (1.0 - t.z) * a.z + t.z * b.z);
+}
+
+float dot(Vec3 a, Vec3 b) {
+  return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+float length(Vec3 a) {
+  return hypot(a.x, a.y, a.z);
+}
+
+float distance(Vec3 a, Vec3 b) {
+  return hypot(
+    b.x - a.x,
+    b.y - a.y,
+    b.z - a.z);
+}
+
+Vec3 normalize(Vec3 a) {
+  return a / length(a);
+}
+
+Vec3 reflect(Vec3 i, Vec3 n) {
+  return i - ((2.0 * dot(n, i)) * n);
+}
+
+Vec3 refract(Vec3 i, Vec3 n, float eta) {
+  float iDotN = dot(i, n);
+  float k = 1.0 - eta * eta * (1.0 - iDotN * iDotN);
+
+  if (k < 0.0) {
+    return Vec3(0.0, 0.0, 0.0);
+  }
+  return (eta * i) - (n * (eta * iDotN + sqrt(k)));
+}
+
+shader Vec3Struct(
+  vector Point = P,
+  
+  output vector Result = P) {
+    
+}

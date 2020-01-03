@@ -58,7 +58,7 @@ Complex __operator__add__(Complex a, Complex b) {
 }
 
 Complex __operator__sub__(Complex a, float b) {
-  return Complex(a.real - b, -a.imag);
+  return Complex(a.real - b, a.imag);
 }
 
 Complex __operator__sub__(float a, Complex b) {

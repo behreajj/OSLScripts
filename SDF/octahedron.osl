@@ -1,0 +1,25 @@
+shader octahedron(
+    vector Point = P,
+    float Bounds = 1.0,
+    float Rounding = 0.0,
+
+    output float Fac = 0.0)
+{
+
+  point p = abs(Point);
+  float m = p[0] + p[1] + p[2] - Bounds;
+  point q = 0.0;
+  if(3.0 * p[0] < m) {
+    q = p;
+  } else if(3.0 * p[1] < m) {
+    q = point(p[1], p[2], p[0]);
+  } else if(3.0 * p[2] < m) {
+    q = point(p[2], p[0], p[1]);
+  } else {
+    Fac = m / sqrt(3.0);
+    return;
+  }
+
+  float k = clamp(0.5 * (q[2] - q[1] + Bounds), 0.0, Bounds);
+  Fac = length(point(q[0], q[1] - Bounds + k, q[2] - k)) - Rounding;
+}

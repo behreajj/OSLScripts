@@ -1,0 +1,8 @@
+shader modScalar(
+  float A = 0.0,
+  float B = 1.0,
+
+  output float Mod = 0.0) {
+
+    Mod = mod(A, B);
+}

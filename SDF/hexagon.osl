@@ -1,0 +1,59 @@
+struct Vec2 {
+  float x;
+  float y;
+};
+
+struct Vec3 {
+  float x;
+  float y;
+  float z;
+};
+
+Vec2 __operator__mul__(float a, Vec2 b) {
+  return Vec2(
+    a * b.x, 
+    a * b.y);
+}
+
+Vec2 __operator__sub__(Vec2 a, Vec2 b) {
+  return Vec2(
+    a.x - b.x, 
+    a.y - b.y);
+}
+
+Vec2 abs(Vec2 a) {
+  return Vec2(
+    abs(a.x), 
+    abs(a.y));
+}
+
+float dot(Vec2 a, Vec2 b) {
+  return a.x * b.x + a.y * b.y;
+}
+
+float length(Vec2 a) {
+  return hypot(a.x, a.y);
+}
+
+Vec2 xy(Vec3 a) {
+  return Vec2(a.x, a.y);
+} 
+
+shader hexagon(
+    vector Point = vector(u, v, 0.0),
+    float Bounds = 1.0,
+    float Rounding = 0.0,
+
+    output float Fac = 0.0) {
+
+  Vec3 k = Vec3(
+    -0.866025404,
+    0.5,
+    0.577350269);
+
+  Vec2 p = Vec2(Point[0], Point[1]);
+  p = abs(p);
+  p = p - (2.0 * min(dot(xy(k), p), 0.0)) * xy(k);
+  p = p - Vec2(clamp(p.x, -k.z * Bounds, k.z * Bounds), Bounds);
+  Fac = length(p) * sign(p.y) - Rounding;
+}

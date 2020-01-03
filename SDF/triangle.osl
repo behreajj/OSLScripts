@@ -3,20 +3,26 @@ struct Vec2 {
   float y;
 };
 
+Vec2 __operator__mul__(Vec2 a, float b) {
+  return Vec2(
+    a.x * b, 
+    a.y * b);
+}
+
 Vec2 __operator__sub__(Vec2 a, Vec2 b) {
-  return Vec2(a.x - b.x, a.y - b.y);
+  return Vec2(
+    a.x - b.x, 
+    a.y - b.y);
 }
 
 float dot(Vec2 a, Vec2 b) {
   return a.x * b.x + a.y * b.y;
 }
 
-Vec2 __operator__mul__(Vec2 a, float b) {
-  return Vec2(a.x * b, a.y * b);
-}
-
 Vec2 min(Vec2 a, Vec2 b) {
-  return Vec2(min(a.x, b.x), min(a.y, a.y));
+  return Vec2(
+    min(a.x, b.x), 
+    min(a.y, b.y));
 }
 
 shader triangle(
