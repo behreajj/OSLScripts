@@ -8,6 +8,20 @@ Vec3 __operator__neg__(Vec3 a) {
   return Vec3(-a.x, -a.y, -a.z);
 }
 
+Vec3 __operator__compl__(Vec3 a) {
+  return Vec3(
+    ~(a.x != 0.0),
+    ~(a.y != 0.0),
+    ~(a.z != 0.0));
+}
+
+Vec3 __operator__not__(Vec3 a) {
+  return Vec3(
+    a.x == 0.0,
+    a.y == 0.0,
+    a.z == 0.0);
+}
+
 Vec3 __operator__mul__(Vec3 a, Vec3 b) {
   return Vec3(
     a.x * b.x,
@@ -93,11 +107,39 @@ Vec3 __operator__sub__(float a, Vec3 b) {
 }
 
 int __operator__eq__(Vec3 a, Vec3 b) {
-  return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
+  return (a.x == b.x) &&
+    (a.y == b.y) &&
+    (a.z == b.z);
 }
 
 int __operator__ne__(Vec3 a, Vec3 b) {
-  return (a.x != b.x) || (a.y != b.y) || (a.z != b.z);
+  return (a.x != b.x) ||
+    (a.y != b.y) ||
+    (a.z != b.z);
+}
+
+Vec3 __operator__bitand__(Vec3 a, Vec3 b) {
+  // AND(A, B) := A * B
+  return Vec3(
+    (a.x != 0.0) & (b.x != 0.0),
+    (a.y != 0.0) & (b.y != 0.0),
+    (a.z != 0.0) & (b.z != 0.0));
+}
+
+Vec3 __operator__xor__(Vec3 a, Vec3 b) {
+  // XOR(A, B) := A + B - 2 * A * B;
+  return Vec3(
+    (a.x != 0.0) ^ (b.x != 0.0),
+    (a.y != 0.0) ^ (b.y != 0.0),
+    (a.z != 0.0) ^ (b.z != 0.0));
+}
+
+Vec3 __operator__bitor__(Vec3 a, Vec3 b) {
+  // OR(A, B) := A + B - A * B
+  return Vec3(
+    (a.x != 0.0) | (b.x != 0.0),
+    (a.y != 0.0) | (b.y != 0.0),
+    (a.z != 0.0) | (b.z != 0.0));
 }
 
 Vec3 abs(Vec3 a) {
@@ -150,14 +192,14 @@ Vec3 fmod(Vec3 a, Vec3 b) {
 }
 
 Vec3 fmod(float a, Vec3 b) {
-  return Vec2(
+  return Vec3(
     fmod(a, b.x), 
     fmod(a, b.y), 
     fmod(a, b.z));
 }
 
 Vec3 fmod(Vec3 a, float b) {
-  return Vec2(
+  return Vec3(
     fmod(a.x, b), 
     fmod(a.y, b), 
     fmod(a.z, b));
@@ -247,6 +289,24 @@ Vec3 refract(Vec3 i, Vec3 n, float eta) {
     return Vec3(0.0, 0.0, 0.0);
   }
   return (eta * i) - (n * (eta * iDotN + sqrt(k)));
+}
+
+int all(Vec3 v) {
+  return v.x != 0.0 &&
+    v.y != 0.0 &&
+    v.z != 0.0;
+}
+
+int any(Vec3 v) {
+  return v.x != 0.0 ||
+    v.y != 0.0 ||
+    v.z != 0.0;
+}
+
+int none(Vec3 v) {
+  return v.x == 0.0 ||
+    v.y == 0.0 ||
+    v.z == 0.0;
 }
 
 shader Vec3Struct(

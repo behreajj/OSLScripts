@@ -1,5 +1,5 @@
 float scalarProj(vector a, vector b) {
-  return clamp(dot(a, b) / dot(b, b), 0.0, 1.0);
+  return dot(a, b) / dot(b, b);
 }
 
 shader linearGradient(
@@ -9,5 +9,5 @@ shader linearGradient(
 
   output float Fac = 0.0) {
   
-  Fac = scalarProj(Origin - Point, Origin - Dest);
+  Fac = clamp(scalarProj(Origin - Point, Origin - Dest), 0.0, 1.0);
 }

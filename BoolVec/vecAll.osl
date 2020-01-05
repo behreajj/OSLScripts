@@ -1,0 +1,7 @@
+shader vecAll(
+  vector A = 0.0, 
+  
+  output float All = 0) {
+  
+  All = (A[0] != 0.0) && (A[1] != 0.0) && (A[0] != 0.0);
+}

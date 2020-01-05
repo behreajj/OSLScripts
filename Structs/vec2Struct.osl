@@ -7,6 +7,14 @@ Vec2 __operator__neg__(Vec2 a) {
   return Vec2(-a.x, -a.y);
 }
 
+Vec2 __operator__compl__(Vec2 a) {
+  return Vec2(~(a.x != 0.0), ~(a.y != 0.0));
+}
+
+Vec2 __operator__not__(Vec2 a) {
+  return Vec2(a.x == 0.0, a.y == 0.0);
+}
+
 Vec2 __operator__mul__(Vec2 a, Vec2 b) {
   return Vec2(
     a.x * b.x, 
@@ -85,6 +93,27 @@ int __operator__eq__(Vec2 a, Vec2 b) {
 
 int __operator__ne__(Vec2 a, Vec2 b) {
   return (a.x != b.x) || (a.y != b.y);
+}
+
+Vec2 __operator__bitand__(Vec2 a, Vec2 b) {
+  // AND(A, B) := A * B
+  return Vec2(
+    (a.x != 0.0) & (b.x != 0.0),
+    (a.y != 0.0) & (b.y != 0.0));
+}
+
+Vec2 __operator__xor__(Vec2 a, Vec2 b) {
+  // XOR(A, B) := A + B - 2 * A * B;
+  return Vec2(
+    (a.x != 0.0) ^ (b.x != 0.0),
+    (a.y != 0.0) ^ (b.y != 0.0));
+}
+
+Vec2 __operator__bitor__(Vec2 a, Vec2 b) {
+  // OR(A, B) := A + B - A * B
+  return Vec2(
+    (a.x != 0.0) | (b.x != 0.0),
+    (a.y != 0.0) | (b.y != 0.0));
 }
 
 Vec2 abs(Vec2 a) {
@@ -217,9 +246,22 @@ Vec2 refract(Vec2 i, Vec2 n, float eta) {
   return (eta * i) - (n * (eta * iDotN + sqrt(k)));
 }
 
+int all(Vec2 v) {
+  return v.x != 0.0 && v.y != 0.0;
+}
+
+int any(Vec2 v) {
+  return v.x != 0.0 || v.y != 0.0;
+}
+
+int none(Vec2 v) {
+  return v.x == 0.0 || v.y == 0.0;
+}
+
 shader Vec2Struct(
   vector Point = vector(u, v, 0.0),
   
   output vector Result = P) {
 
+    
 }

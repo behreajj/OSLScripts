@@ -1,0 +1,7 @@
+shader vecAny(
+  vector A = 0.0, 
+  
+  output float Any = 0) {
+  
+  Any = (A[0] != 0.0) || (A[1] != 0.0) || (A[0] != 0.0);
+}

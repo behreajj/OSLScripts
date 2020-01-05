@@ -1,0 +1,7 @@
+shader vecNone(
+  vector A = 0.0, 
+  
+  output float None = 0) {
+  
+  None = (A[0] == 0.0) && (A[1] == 0.0) && (A[0] == 0.0);
+}

@@ -1,0 +1,11 @@
+shader vecOr(
+  vector A = 0.0,
+  vector B = 0.0,
+
+  output vector Vector = 0.0) {
+
+    Vector = vector(
+      (A[0] != 0.0) | (B[0] != 0.0),
+      (A[1] != 0.0) | (B[1] != 0.0),
+      (A[2] != 0.0) | (B[2] != 0.0));
+}
