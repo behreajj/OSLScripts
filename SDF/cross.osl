@@ -1,0 +1,70 @@
+struct Vec2 {
+  float x;
+  float y;
+};
+
+Vec2 __operator__mul__(float a, Vec2 b) {
+  return Vec2(
+    a * b.x, 
+    a * b.y);
+}
+
+Vec2 __operator__add__(Vec2 a, Vec2 b) {
+  return Vec2(
+    a.x + b.x, 
+    a.y + b.y);
+}
+
+Vec2 __operator__sub__(Vec2 a, Vec2 b) {
+  return Vec2(
+    a.x - b.x, 
+    a.y - b.y);
+}
+
+Vec2 abs(Vec2 a) {
+  return Vec2(
+    abs(a.x), 
+    abs(a.y));
+}
+
+Vec2 max(Vec2 a, float b) {
+  return Vec2(
+    max(a.x, b),
+    max(a.y, b));
+}
+
+Vec2 mix(Vec2 a, Vec2 b, float t) {
+  return ((1.0 - t) * a) + (t * b);
+}
+
+float length(Vec2 a) {
+  return hypot(a.x, a.y);
+}
+
+Vec2 yx(Vec2 v) {
+  return Vec2(v.y, v.x);
+}
+
+shader Cross(
+  point Point = P,
+  vector Ratio = vector(0.707109, 0.25, 0.0),
+  float Rounding = 0.0,
+  
+  output float Fac = 0.0) {
+  
+  /**
+   * Cf. Inigo Quilez
+   * Cross - distance
+   * https://www.shadertoy.com/view/XtGfzw
+   */
+
+    Vec2 p = Vec2(Point[0], Point[1]);
+    Vec2 b = Vec2(Ratio[0], Ratio[1]);
+
+    p = abs(p);
+    p = mix(p, yx(p), p.y > p.x);
+    Vec2 q = p - b;
+    float k = max(q.y, q.x);
+    Vec2 w = mix(Vec2(b.y - p.x, -k), q, k > 0.0);
+    Fac = sign(k) * length(max(w, 0.0)) + Rounding;
+}

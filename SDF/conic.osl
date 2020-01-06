@@ -1,0 +1,12 @@
+float mod1(float a) {
+  return a - floor(a);
+}
+
+shader Conic(
+  point Point = P,
+  float Radians = 0.0,
+
+  output float Fac = 0.0) {
+
+    Fac = mod1((atan2(Point[1], Point[0]) - Radians) / M_2PI);
+}

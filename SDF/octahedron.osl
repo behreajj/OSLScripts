@@ -3,8 +3,13 @@ shader octahedron(
     float Bounds = 1.0,
     float Rounding = 0.0,
 
-    output float Fac = 0.0)
-{
+    output float Fac = 0.0) {
+
+  /**
+   * Cf. Inigo Quilez
+   * Octahedron - distance
+   * https://www.shadertoy.com/view/wsSGDG
+   */
 
   point p = abs(Point);
   float m = p[0] + p[1] + p[2] - Bounds;

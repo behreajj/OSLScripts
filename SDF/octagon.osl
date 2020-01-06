@@ -36,11 +36,17 @@ float length(Vec2 a) {
 }
 
 shader octagon(
-    vector Point = vector(u, v, 0.0),
+    vector Point = P,
     float Bounds = 1.0,
     float Rounding = 0.0,
 
     output float Fac = 0.0) {
+
+  /**
+   * Cf. Inigo Quilez
+   * Octagon - distance
+   * https://www.shadertoy.com/view/llGfDG
+   */
 
   Vec3 k = Vec3(
       -0.9238795325,

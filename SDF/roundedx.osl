@@ -1,0 +1,38 @@
+struct Vec2 {
+    float x;
+    float y;
+};
+
+Vec2 __operator__sub__(Vec2 a, float b) {
+    return Vec2(
+        a.x - b,
+        a.y - b);
+}
+
+Vec2 abs(Vec2 a) {
+    return Vec2(
+        abs(a.x),
+        abs(a.y));
+}
+
+float length(Vec2 a) {
+    return hypot(a.x, a.y);
+}
+
+shader RoundedX(
+    point Point = P,
+    float Bounds = 1.0,
+    float Rounding = 0.0,
+
+    output float Fac = 0.0) {
+
+  /**
+   * Cf. Inigo Quilez
+   * Rounded X - distance
+   * https://www.shadertoy.com/view/3dKSDc
+   */
+
+    Vec2 p = Vec2(Point[0], Point[1]);
+    p = abs(p);
+    Fac = length(p - clamp(p.x + p.y, 0.0, Bounds) * 0.5) - Rounding;
+}

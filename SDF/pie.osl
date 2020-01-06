@@ -1,0 +1,50 @@
+struct Vec2 {
+  float x;
+  float y;
+};
+
+Vec2 __operator__mul__(Vec2 a, float b) {
+  return Vec2(
+      a.x * b,
+      a.y * b);
+}
+
+Vec2 __operator__sub__(Vec2 a, Vec2 b) {
+  return Vec2(
+      a.x - b.x,
+      a.y - b.y);
+}
+
+float dot(Vec2 a, Vec2 b) {
+  return a.x * b.x + a.y * b.y;
+}
+
+float length(Vec2 a) {
+  return hypot(a.x, a.y);
+}
+
+shader pie(
+    point Point = P,
+    float Radians = 0.0,
+    float Bounds = 1.0,
+
+    output float Fac = 0.0) {
+
+  /**
+   * Cf. Inigo Quilez
+   * Pie - distance
+   * https://www.shadertoy.com/view/3l23RK
+   */
+
+  float sina;
+  float cosa;
+  sincos(Radians * 0.5, sina, cosa);
+
+  Vec2 p = Vec2(Point[0], Point[1]);
+  Vec2 c = Vec2(sina, cosa);
+
+  p.x = abs(p.x);
+  float l = length(p) - Bounds;
+  float m = length(p - c * clamp(dot(p, c), 0.0, Bounds));
+  Fac = max(l, m * sign(c.y * p.x - c.x * p.y));
+}

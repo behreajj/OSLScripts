@@ -26,11 +26,17 @@ Vec2 min(Vec2 a, Vec2 b) {
 }
 
 shader triangle(
-    vector Point = vector(u, v, 0.0),
+    vector Point = P,
     vector Corner0 = vector(0.0, 0.5, 0.0),
     vector Corner1 = vector(-0.4330127, -0.25, 0.0),
     vector Corner2 = vector(0.4330127, -0.25, 0.0),
     output float Fac = 0.0) {
+
+  /**
+   * Cf. Inigo Quilez
+   * Triangle - distance
+   * https://www.shadertoy.com/view/XsXSz4
+   */
 
   Vec2 p = Vec2(Point[0], Point[1]);
   Vec2 p0 = Vec2(Corner0[0], Corner0[1]);

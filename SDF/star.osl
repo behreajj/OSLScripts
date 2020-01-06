@@ -1,0 +1,74 @@
+struct Vec2 {
+  float x;
+  float y;
+};
+
+Vec2 __operator__mul__(float a, Vec2 b) {
+  return Vec2(
+      a * b.x,
+      a * b.y);
+}
+
+Vec2 __operator__add__(Vec2 a, Vec2 b) {
+  return Vec2(
+      a.x + b.x,
+      a.y + b.y);
+}
+
+Vec2 __operator__sub__(Vec2 a, Vec2 b) {
+  return Vec2(
+      a.x - b.x,
+      a.y - b.y);
+}
+
+float length(Vec2 a) {
+  return hypot(a.x, a.y);
+}
+
+float dot(Vec2 a, Vec2 b) {
+  return a.x * b.x + a.y * b.y;
+}
+
+shader star(
+    point Point = P,
+    float Bounds = 1.0,
+    float Count = 5,
+    float Inset = mix(2.0, Count, 0.5),
+
+    output float Fac = 0.0) {
+
+  /**
+   * Cf. Inigo Quilez
+   * Star - distance
+   * https://www.shadertoy.com/view/3tSGDy
+   */
+
+  /* Validate inputs. */
+  int n = max(int(Count), 3);
+  float m = clamp(Inset, 2.0, n);
+
+  float an = M_PI / float(n);
+  float en = M_PI / m;
+
+  float sinan;
+  float cosan;
+  sincos(an, sinan, cosan);
+  Vec2 acs = Vec2(cosan, sinan);
+
+  float sinen;
+  float cosen;
+  sincos(en, sinen, cosen);
+  Vec2 ecs = Vec2(cosen, sinen);
+
+  Vec2 p = Vec2(Point[0], Point[1]);
+  float bn = mod(atan2(p.x, p.y), an + an) - an;
+
+  float sinbn;
+  float cosbn;
+  sincos(bn, sinbn, cosbn);
+
+  p = length(p) * Vec2(cosbn, abs(sinbn));
+  p = p - Bounds * acs;
+  p = p + clamp(-dot(p, ecs), 0.0, Bounds * acs.y / ecs.y) * ecs;
+  Fac = length(p) * sign(p.x);
+}
