@@ -34,7 +34,6 @@ shader Arc(
    * https://www.shadertoy.com/view/wl23RK
    */
 
-
   float a = mod(StartAngle, M_2PI);
   float b = mod(StopAngle, M_2PI);
   float arcLength = 0.5 * mod(b - a, M_2PI);

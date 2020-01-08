@@ -1,0 +1,11 @@
+shader matFromScale(
+  vector Scale = 1.0,
+
+  output vector Right = vector(1.0, 0.0, 0.0),
+  output vector Forward = vector(0.0, 1.0, 0.0),
+  output vector Up = vector(0.0, 0.0, 1.0)) {
+
+  Right = vector(Scale[0], 0.0, 0.0);
+  Forward = vector(0.0, Scale[1], 0.0);
+  Up = vector(0.0, 0.0, Scale[2]);
+}

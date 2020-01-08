@@ -1,0 +1,35 @@
+matrix fromAxes(vector i, vector j, vector k, point t) {
+    return matrix(
+        i[0], j[0], k[0], t[0],
+        i[1], j[1], k[1], t[1],
+        i[2], j[2], k[2], t[2],
+        0.0, 0.0, 0.0, 1.0);
+}
+
+vector getColumn(matrix m, int i) {
+  return vector(m[i][0], m[i][1], m[i][2]);
+}
+
+shader matMul(
+    vector ARight = vector(1.0, 0.0, 0.0),
+    vector AForward = vector(0.0, 1.0, 0.0),
+    vector AUp = vector(0.0, 0.0, 1.0),
+    point ATranslation = 0.0,
+
+    vector BRight = vector(1.0, 0.0, 0.0),
+    vector BForward = vector(0.0, 1.0, 0.0),
+    vector BUp = vector(0.0, 0.0, 1.0),
+    point BTranslation = 0.0,
+
+    output vector CRight = vector(1.0, 0.0, 0.0),
+    output vector CForward = vector(0.0, 1.0, 0.0),
+    output vector CUp = vector(0.0, 0.0, 1.0),
+    output point CTranslation = 0.0) {
+
+    matrix c = fromAxes(ARight, AForward, AUp, ATranslation) * fromAxes(ARight, AForward, AUp, ATranslation);
+
+    CRight = getColumn(c, 0);
+    CForward = getColumn(c, 1);
+    CUp = getColumn(c, 2);
+    CTranslation = getColumn(c, 3);
+}

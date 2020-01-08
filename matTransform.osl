@@ -1,0 +1,19 @@
+matrix fromAxes(vector i, vector j, vector k, point t) {
+    return matrix(
+        i[0], j[0], k[0], t[0],
+        i[1], j[1], k[1], t[1],
+        i[2], j[2], k[2], t[2],
+        0.0, 0.0, 0.0, 1.0);
+}
+
+shader matTransform(
+    vector Right = vector(1.0, 0.0, 0.0),
+    vector Forward = vector(0.0, 1.0, 0.0),
+    vector Up = vector(0.0, 0.0, 1.0),
+    point Translation = 0.0,
+    point Point = P,
+
+    output point Transformed = P) {
+    
+    Transformed = transform(fromAxes(Right, Forward, Up, Translation), Point);
+}
