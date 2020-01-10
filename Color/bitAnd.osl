@@ -1,0 +1,22 @@
+color fromHex(int hex) {
+    return color(
+        (hex >> 16 & 255) * 0.00392156862745098,
+        (hex >> 8 & 255) * 0.00392156862745098,
+        (hex & 255) * 0.00392156862745098);
+}
+
+int toHex(color c) {
+    return 0xff000000 |
+           int(c[0] * 255 + 0.5) << 16 |
+           int(c[1] * 255 + 0.5) << 8 |
+           int(c[2] * 255 + 0.5);
+}
+
+shader bitAnd(
+    color A = 0.0,
+    color B = 0.0,
+
+    output color Color = 0.0) {
+
+    Color = fromHex(toHex(A) & toHex(B));
+}
