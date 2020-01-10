@@ -128,11 +128,39 @@ int __operator__eq__(Vec4 a, Vec4 b) {
     (a.w == b.w);
 }
 
-int __operator__ne__(Vec4 a, Vec4 b) {
+int __operator__eq__(Vec4 a, float b) {
+  return (a.x == b) &&
+    (a.y == b) &&
+    (a.z == b) &&
+    (a.w == b);
+}
+
+int __operator__eq__(float a, Vec4 b) {
+  return (a == b.x) &&
+    (a == b.y) &&
+    (a == b.z) &&
+    (a == b.w);
+}
+
+int __operator__neq__(Vec4 a, Vec4 b) {
   return (a.x != b.x) ||
     (a.y != b.y) ||
     (a.z != b.z) ||
     (a.w != b.w);
+}
+
+int __operator__neq__(float a, Vec4 b) {
+  return (a != b.x) ||
+    (a != b.y) ||
+    (a != b.z) ||
+    (a != b.w);
+}
+
+int __operator__neq__(Vec4 a, float b) {
+  return (a.x != b) ||
+    (a.y != b) ||
+    (a.z != b) ||
+    (a.w != b);
 }
 
 Vec4 __operator__bitand__(Vec4 a, Vec4 b) {
@@ -144,6 +172,24 @@ Vec4 __operator__bitand__(Vec4 a, Vec4 b) {
     (a.w != 0.0) & (b.w != 0.0));
 }
 
+Vec4 __operator__bitand__(Vec4 a, float b) {
+  int btrue = b != 0.0;
+  return Vec4(
+    (a.x != 0.0) & btrue,
+    (a.y != 0.0) & btrue,
+    (a.z != 0.0) & btrue,
+    (a.w != 0.0) & btrue);
+}
+
+Vec4 __operator__bitand__(float a, Vec4 b) {
+  int atrue = a != 0.0;
+  return Vec4(
+    atrue & (b.x != 0.0),
+    atrue & (b.y != 0.0),
+    atrue & (b.z != 0.0),
+    atrue & (b.w != 0.0));
+}
+
 Vec4 __operator__xor__(Vec4 a, Vec4 b) {
   // XOR(A, B) := A + B - 2 * A * B;
   return Vec4(
@@ -153,6 +199,24 @@ Vec4 __operator__xor__(Vec4 a, Vec4 b) {
     (a.w != 0.0) ^ (b.w != 0.0));
 }
 
+Vec4 __operator__xor__(Vec4 a, float b) {
+  int btrue = b != 0.0;
+  return Vec4(
+    (a.x != 0.0) ^ btrue,
+    (a.y != 0.0) ^ btrue,
+    (a.z != 0.0) ^ btrue,
+    (a.w != 0.0) ^ btrue);
+}
+
+Vec4 __operator__xor__(float a, Vec4 b) {
+  int atrue = a != 0.0;
+  return Vec4(
+    atrue ^ (b.x != 0.0),
+    atrue ^ (b.y != 0.0),
+    atrue ^ (b.z != 0.0),
+    atrue ^ (b.w != 0.0));
+}
+
 Vec4 __operator__bitor__(Vec4 a, Vec4 b) {
   // OR(A, B) := A + B - A * B
   return Vec4(
@@ -160,6 +224,24 @@ Vec4 __operator__bitor__(Vec4 a, Vec4 b) {
     (a.y != 0.0) | (b.y != 0.0),
     (a.z != 0.0) | (b.z != 0.0),
     (a.w != 0.0) | (b.w != 0.0));
+}
+
+Vec4 __operator__bitor__(Vec4 a, float b) {
+  int btrue = b != 0.0;
+  return Vec4(
+    (a.x != 0.0) | btrue,
+    (a.y != 0.0) | btrue,
+    (a.z != 0.0) | btrue,
+    (a.w != 0.0) | btrue);
+}
+
+Vec4 __operator__bitor__(float a, Vec4 b) {
+  int atrue = a != 0.0;
+  return Vec4(
+    atrue | (b.x != 0.0),
+    atrue | (b.y != 0.0),
+    atrue | (b.z != 0.0),
+    atrue | (b.w != 0.0));
 }
 
 Vec4 abs(Vec4 a) {
@@ -282,6 +364,31 @@ Vec4 clamp(Vec4 v, Vec4 lb, Vec4 ub) {
     clamp(v.w, lb.w, ub.w));
 }
 
+Vec4 clamp(Vec4 v, float lb, float ub) {
+  return Vec4(
+    clamp(v.x, lb, ub),
+    clamp(v.y, lb, ub),
+    clamp(v.z, lb, ub),
+    clamp(v.w, lb, ub));
+}
+
+Vec4 step(Vec4 edge, Vec4 x) {
+  return Vec4(
+    x.x < edge.x ? 0.0 : 1.0,
+    x.y < edge.y ? 0.0 : 1.0,
+    x.z < edge.z ? 0.0 : 1.0,
+    x.w < edge.w ? 0.0 : 1.0);
+}
+
+Vec4 linearStep(Vec4 edge0, Vec4 edge1, Vec4 x) {
+  return clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+}
+
+Vec4 smoothStep(Vec4 edge0, Vec4 edge1, Vec4 x) {
+  Vec4 t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+  return t * t * (Vec4(3.0, 3.0, 3.0, 3.0) - (t + t));
+}
+
 Vec4 mix(Vec4 a, Vec4 b, float t) {
   return ((1.0 - t) * a) + (t * b);
 }
@@ -343,6 +450,22 @@ int none(Vec4 v) {
     v.y == 0.0 ||
     v.z == 0.0 ||
     v.w == 0.0;
+}
+
+Vec4 cast(vector v) {
+  return Vec4(v[0], v[1], v[2], 0.0);
+}
+
+Vec4 cast(normal n) {
+  return Vec4(n[0], n[1], n[2], 0.0);
+}
+
+Vec4 cast(point p) {
+  return Vec4(p[0], p[1], p[2], 1.0);
+}
+
+vector cast(Vec4 v) {
+  return vector(v.x, v.y, v.z);
 }
 
 shader Vec4Struct(

@@ -91,8 +91,24 @@ int __operator__eq__(Vec2 a, Vec2 b) {
   return (a.x == b.x) && (a.y == b.y);
 }
 
-int __operator__ne__(Vec2 a, Vec2 b) {
+int __operator__eq__(Vec2 a, float b) {
+  return (a.x == b) && (a.y == b);
+}
+
+int __operator__eq__(float a, Vec2 b) {
+  return (a == b.x) && (a == b.y);
+}
+
+int __operator__neq__(Vec2 a, Vec2 b) {
   return (a.x != b.x) || (a.y != b.y);
+}
+
+int __operator__neq__(Vec2 a, float b) {
+  return (a.x != b) || (a.y != b);
+}
+
+int __operator__neq__(float a, Vec2 b) {
+  return (a != b.x) || (a != b.y);
 }
 
 Vec2 __operator__bitand__(Vec2 a, Vec2 b) {
@@ -102,6 +118,18 @@ Vec2 __operator__bitand__(Vec2 a, Vec2 b) {
     (a.y != 0.0) & (b.y != 0.0));
 }
 
+Vec2 __operator__bitand__(Vec2 a, float b) {
+  return Vec2(
+    (a.x != 0.0) & (b != 0.0),
+    (a.y != 0.0) & (b != 0.0));
+}
+
+Vec2 __operator__bitand__(float a, Vec2 b) {
+  return Vec2(
+    (a != 0.0) & (b.x != 0.0),
+    (a != 0.0) & (b.y != 0.0));
+}
+
 Vec2 __operator__xor__(Vec2 a, Vec2 b) {
   // XOR(A, B) := A + B - 2 * A * B;
   return Vec2(
@@ -109,11 +137,35 @@ Vec2 __operator__xor__(Vec2 a, Vec2 b) {
     (a.y != 0.0) ^ (b.y != 0.0));
 }
 
+Vec2 __operator__xor__(Vec2 a, float b) {
+  return Vec2(
+    (a.x != 0.0) ^ (b != 0.0),
+    (a.y != 0.0) ^ (b != 0.0));
+}
+
+Vec2 __operator__xor__(float a, Vec2 b) {
+  return Vec2(
+    (a != 0.0) ^ (b.x != 0.0),
+    (a != 0.0) ^ (b.y != 0.0));
+}
+
 Vec2 __operator__bitor__(Vec2 a, Vec2 b) {
   // OR(A, B) := A + B - A * B
   return Vec2(
     (a.x != 0.0) | (b.x != 0.0),
     (a.y != 0.0) | (b.y != 0.0));
+}
+
+Vec2 __operator__bitor__(Vec2 a, float b) {
+  return Vec2(
+    (a.x != 0.0) | (b != 0.0),
+    (a.y != 0.0) | (b != 0.0));
+}
+
+Vec2 __operator__bitor__(float a, Vec2 b) {
+  return Vec2(
+    (a != 0.0) | (b.x != 0.0),
+    (a != 0.0) | (b.y != 0.0));
 }
 
 Vec2 abs(Vec2 a) {
@@ -206,6 +258,27 @@ Vec2 clamp(Vec2 v, Vec2 lb, Vec2 ub) {
     clamp(v.y, lb.y, ub.y));
 }
 
+Vec2 clamp(Vec2 v, float lb, float ub) {
+  return Vec2(
+    clamp(v.x, lb, ub),
+    clamp(v.y, lb, ub));
+}
+
+Vec2 step(Vec2 edge, Vec2 x) {
+  return Vec2(
+    x.x < edge.x ? 0.0 : 1.0,
+    x.y < edge.y ? 0.0 : 1.0);
+}
+
+Vec2 linearStep(Vec2 edge0, Vec2 edge1, Vec2 x) {
+  return clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+}
+
+Vec2 smoothStep(Vec2 edge0, Vec2 edge1, Vec2 x) {
+  Vec2 t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+  return t * t * (Vec2(3.0, 3.0) - (t + t));
+}
+
 Vec2 mix(Vec2 a, Vec2 b, float t) {
   return ((1.0 - t) * a) + (t * b);
 }
@@ -256,6 +329,22 @@ int any(Vec2 v) {
 
 int none(Vec2 v) {
   return v.x == 0.0 || v.y == 0.0;
+}
+
+Vec2 cast(vector v) {
+  return Vec2(v[0], v[1]);
+}
+
+Vec2 cast(normal n) {
+  return Vec2(n[0], n[1]);
+}
+
+Vec2 cast(point p) {
+  return Vec2(p[0], p[1]);
+}
+
+vector cast(Vec2 v) {
+  return vector(v.x, v.y, 0.0);
 }
 
 shader Vec2Struct(
