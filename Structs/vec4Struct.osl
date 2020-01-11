@@ -1,476 +1,506 @@
 struct Vec4 {
-  float x;
-  float y;
-  float z;
-  float w;
+    float x;
+    float y;
+    float z;
+    float w;
 };
 
 Vec4 __operator__neg__(Vec4 a) {
-  return Vec4(-a.x, -a.y, -a.z, -a.w);
+    return Vec4(-a.x, -a.y, -a.z, -a.w);
 }
 
 Vec4 __operator__compl__(Vec4 a) {
-  return Vec4(
-    ~(a.x != 0.0),
-    ~(a.y != 0.0),
-    ~(a.z != 0.0),
-    ~(a.w != 0.0));
+    return Vec4(
+        ~(a.x != 0.0),
+        ~(a.y != 0.0),
+        ~(a.z != 0.0),
+        ~(a.w != 0.0));
 }
 
 Vec4 __operator__not__(Vec4 a) {
-  return Vec4(
-    a.x == 0.0,
-    a.y == 0.0,
-    a.z == 0.0,
-    a.w == 0.0);
+    return Vec4(
+        a.x == 0.0,
+        a.y == 0.0,
+        a.z == 0.0,
+        a.w == 0.0);
 }
 
 Vec4 __operator__mul__(Vec4 a, Vec4 b) {
-  return Vec4(
-    a.x * b.x,
-    a.y * b.y,
-    a.z * b.z,
-    a.w * b.w);
+    return Vec4(
+        a.x * b.x,
+        a.y * b.y,
+        a.z * b.z,
+        a.w * b.w);
 }
 
 Vec4 __operator__mul__(Vec4 a, float b) {
-  return Vec4(
-    a.x * b,
-    a.y * b,
-    a.z * b,
-    a.w * b);
+    return Vec4(
+        a.x * b,
+        a.y * b,
+        a.z * b,
+        a.w * b);
 }
 
 Vec4 __operator__mul__(float a, Vec4 b) {
-  return Vec4(
-    a * b.x,
-    a * b.y,
-    a * b.z,
-    a * b.w);
+    return Vec4(
+        a * b.x,
+        a * b.y,
+        a * b.z,
+        a * b.w);
 }
 
 Vec4 __operator__div__(Vec4 a, Vec4 b) {
-  return Vec4(
-    a.x / b.x,
-    a.y / b.y,
-    a.z / b.z,
-    a.w / b.w);
+    return Vec4(
+        a.x / b.x,
+        a.y / b.y,
+        a.z / b.z,
+        a.w / b.w);
 }
 
 Vec4 __operator__div__(Vec4 a, float b) {
-  return Vec4(
-    a.x / b,
-    a.y / b,
-    a.z / b,
-    a.w / b);
+    return Vec4(
+        a.x / b,
+        a.y / b,
+        a.z / b,
+        a.w / b);
 }
 
 Vec4 __operator__div__(float a, Vec4 b) {
-  return Vec4(
-    a / b.x,
-    a / b.y,
-    a / b.z,
-    a / b.w);
+    return Vec4(
+        a / b.x,
+        a / b.y,
+        a / b.z,
+        a / b.w);
 }
 
 Vec4 __operator__add__(Vec4 a, Vec4 b) {
-  return Vec4(
-    a.x + b.x,
-    a.y + b.y,
-    a.z + b.z,
-    a.w + b.w);
+    return Vec4(
+        a.x + b.x,
+        a.y + b.y,
+        a.z + b.z,
+        a.w + b.w);
 }
 
 Vec4 __operator__add__(Vec4 a, float b) {
-  return Vec4(
-    a.x + b,
-    a.y + b,
-    a.z + b,
-    a.w + b);
+    return Vec4(
+        a.x + b,
+        a.y + b,
+        a.z + b,
+        a.w + b);
 }
 
 Vec4 __operator__add__(float a, Vec4 b) {
-  return Vec4(
-    a + b.x,
-    a + b.y,
-    a + b.z,
-    a + b.w);
+    return Vec4(
+        a + b.x,
+        a + b.y,
+        a + b.z,
+        a + b.w);
 }
 
 Vec4 __operator__sub__(Vec4 a, Vec4 b) {
-  return Vec4(
-    a.x - b.x,
-    a.y - b.y,
-    a.z - b.z,
-    a.w - b.w);
+    return Vec4(
+        a.x - b.x,
+        a.y - b.y,
+        a.z - b.z,
+        a.w - b.w);
 }
 
 Vec4 __operator__sub__(Vec4 a, float b) {
-  return Vec4(
-    a.x - b,
-    a.y - b,
-    a.z - b,
-    a.w - b);
+    return Vec4(
+        a.x - b,
+        a.y - b,
+        a.z - b,
+        a.w - b);
 }
 
 Vec4 __operator__sub__(float a, Vec4 b) {
-  return Vec4(
-    a - b.x,
-    a - b.y,
-    a - b.z,
-    a - b.w);
+    return Vec4(
+        a - b.x,
+        a - b.y,
+        a - b.z,
+        a - b.w);
 }
 
 int __operator__eq__(Vec4 a, Vec4 b) {
-  return (a.x == b.x) &&
-    (a.y == b.y) &&
-    (a.z == b.z) &&
-    (a.w == b.w);
+    return (a.x == b.x) &&
+           (a.y == b.y) &&
+           (a.z == b.z) &&
+           (a.w == b.w);
 }
 
 int __operator__eq__(Vec4 a, float b) {
-  return (a.x == b) &&
-    (a.y == b) &&
-    (a.z == b) &&
-    (a.w == b);
+    return (a.x == b) &&
+           (a.y == b) &&
+           (a.z == b) &&
+           (a.w == b);
 }
 
 int __operator__eq__(float a, Vec4 b) {
-  return (a == b.x) &&
-    (a == b.y) &&
-    (a == b.z) &&
-    (a == b.w);
+    return (a == b.x) &&
+           (a == b.y) &&
+           (a == b.z) &&
+           (a == b.w);
 }
 
 int __operator__neq__(Vec4 a, Vec4 b) {
-  return (a.x != b.x) ||
-    (a.y != b.y) ||
-    (a.z != b.z) ||
-    (a.w != b.w);
+    return (a.x != b.x) ||
+           (a.y != b.y) ||
+           (a.z != b.z) ||
+           (a.w != b.w);
 }
 
 int __operator__neq__(float a, Vec4 b) {
-  return (a != b.x) ||
-    (a != b.y) ||
-    (a != b.z) ||
-    (a != b.w);
+    return (a != b.x) ||
+           (a != b.y) ||
+           (a != b.z) ||
+           (a != b.w);
 }
 
 int __operator__neq__(Vec4 a, float b) {
-  return (a.x != b) ||
-    (a.y != b) ||
-    (a.z != b) ||
-    (a.w != b);
+    return (a.x != b) ||
+           (a.y != b) ||
+           (a.z != b) ||
+           (a.w != b);
 }
 
 Vec4 __operator__bitand__(Vec4 a, Vec4 b) {
-  // AND(A, B) := A * B
-  return Vec4(
-    (a.x != 0.0) & (b.x != 0.0),
-    (a.y != 0.0) & (b.y != 0.0),
-    (a.z != 0.0) & (b.z != 0.0),
-    (a.w != 0.0) & (b.w != 0.0));
+    // AND(A, B) := A * B
+    return Vec4(
+        (a.x != 0.0) & (b.x != 0.0),
+        (a.y != 0.0) & (b.y != 0.0),
+        (a.z != 0.0) & (b.z != 0.0),
+        (a.w != 0.0) & (b.w != 0.0));
 }
 
 Vec4 __operator__bitand__(Vec4 a, float b) {
-  int btrue = b != 0.0;
-  return Vec4(
-    (a.x != 0.0) & btrue,
-    (a.y != 0.0) & btrue,
-    (a.z != 0.0) & btrue,
-    (a.w != 0.0) & btrue);
+    int btrue = b != 0.0;
+    return Vec4(
+        (a.x != 0.0) & btrue,
+        (a.y != 0.0) & btrue,
+        (a.z != 0.0) & btrue,
+        (a.w != 0.0) & btrue);
 }
 
 Vec4 __operator__bitand__(float a, Vec4 b) {
-  int atrue = a != 0.0;
-  return Vec4(
-    atrue & (b.x != 0.0),
-    atrue & (b.y != 0.0),
-    atrue & (b.z != 0.0),
-    atrue & (b.w != 0.0));
+    int atrue = a != 0.0;
+    return Vec4(
+        atrue & (b.x != 0.0),
+        atrue & (b.y != 0.0),
+        atrue & (b.z != 0.0),
+        atrue & (b.w != 0.0));
 }
 
 Vec4 __operator__xor__(Vec4 a, Vec4 b) {
-  // XOR(A, B) := A + B - 2 * A * B;
-  return Vec4(
-    (a.x != 0.0) ^ (b.x != 0.0),
-    (a.y != 0.0) ^ (b.y != 0.0),
-    (a.z != 0.0) ^ (b.z != 0.0),
-    (a.w != 0.0) ^ (b.w != 0.0));
+    // XOR(A, B) := A + B - 2 * A * B;
+    return Vec4(
+        (a.x != 0.0) ^ (b.x != 0.0),
+        (a.y != 0.0) ^ (b.y != 0.0),
+        (a.z != 0.0) ^ (b.z != 0.0),
+        (a.w != 0.0) ^ (b.w != 0.0));
 }
 
 Vec4 __operator__xor__(Vec4 a, float b) {
-  int btrue = b != 0.0;
-  return Vec4(
-    (a.x != 0.0) ^ btrue,
-    (a.y != 0.0) ^ btrue,
-    (a.z != 0.0) ^ btrue,
-    (a.w != 0.0) ^ btrue);
+    int btrue = b != 0.0;
+    return Vec4(
+        (a.x != 0.0) ^ btrue,
+        (a.y != 0.0) ^ btrue,
+        (a.z != 0.0) ^ btrue,
+        (a.w != 0.0) ^ btrue);
 }
 
 Vec4 __operator__xor__(float a, Vec4 b) {
-  int atrue = a != 0.0;
-  return Vec4(
-    atrue ^ (b.x != 0.0),
-    atrue ^ (b.y != 0.0),
-    atrue ^ (b.z != 0.0),
-    atrue ^ (b.w != 0.0));
+    int atrue = a != 0.0;
+    return Vec4(
+        atrue ^ (b.x != 0.0),
+        atrue ^ (b.y != 0.0),
+        atrue ^ (b.z != 0.0),
+        atrue ^ (b.w != 0.0));
 }
 
 Vec4 __operator__bitor__(Vec4 a, Vec4 b) {
-  // OR(A, B) := A + B - A * B
-  return Vec4(
-    (a.x != 0.0) | (b.x != 0.0),
-    (a.y != 0.0) | (b.y != 0.0),
-    (a.z != 0.0) | (b.z != 0.0),
-    (a.w != 0.0) | (b.w != 0.0));
+    // OR(A, B) := A + B - A * B
+    return Vec4(
+        (a.x != 0.0) | (b.x != 0.0),
+        (a.y != 0.0) | (b.y != 0.0),
+        (a.z != 0.0) | (b.z != 0.0),
+        (a.w != 0.0) | (b.w != 0.0));
 }
 
 Vec4 __operator__bitor__(Vec4 a, float b) {
-  int btrue = b != 0.0;
-  return Vec4(
-    (a.x != 0.0) | btrue,
-    (a.y != 0.0) | btrue,
-    (a.z != 0.0) | btrue,
-    (a.w != 0.0) | btrue);
+    int btrue = b != 0.0;
+    return Vec4(
+        (a.x != 0.0) | btrue,
+        (a.y != 0.0) | btrue,
+        (a.z != 0.0) | btrue,
+        (a.w != 0.0) | btrue);
 }
 
 Vec4 __operator__bitor__(float a, Vec4 b) {
-  int atrue = a != 0.0;
-  return Vec4(
-    atrue | (b.x != 0.0),
-    atrue | (b.y != 0.0),
-    atrue | (b.z != 0.0),
-    atrue | (b.w != 0.0));
+    int atrue = a != 0.0;
+    return Vec4(
+        atrue | (b.x != 0.0),
+        atrue | (b.y != 0.0),
+        atrue | (b.z != 0.0),
+        atrue | (b.w != 0.0));
 }
 
 Vec4 abs(Vec4 a) {
-  return Vec4(
-    abs(a.x),
-    abs(a.y),
-    abs(a.z),
-    abs(a.w));
+    return Vec4(
+        abs(a.x),
+        abs(a.y),
+        abs(a.z),
+        abs(a.w));
 }
 
 Vec4 ceil(Vec4 a) {
-  return Vec4(
-    ceil(a.x),
-    ceil(a.y),
-    ceil(a.z),
-    ceil(a.w));
+    return Vec4(
+        ceil(a.x),
+        ceil(a.y),
+        ceil(a.z),
+        ceil(a.w));
 }
 
 Vec4 floor(Vec4 a) {
-  return Vec4(
-    floor(a.x),
-    floor(a.y),
-    floor(a.z),
-    floor(a.w));
+    return Vec4(
+        floor(a.x),
+        floor(a.y),
+        floor(a.z),
+        floor(a.w));
 }
 
 Vec4 round(Vec4 a) {
-  return Vec4(
-    round(a.x),
-    round(a.y),
-    round(a.z),
-    round(a.w));
+    return Vec4(
+        round(a.x),
+        round(a.y),
+        round(a.z),
+        round(a.w));
 }
 
 Vec4 trunc(Vec4 a) {
-  return Vec4(
-    trunc(a.x),
-    trunc(a.y),
-    trunc(a.z),
-    trunc(a.w));
+    return Vec4(
+        trunc(a.x),
+        trunc(a.y),
+        trunc(a.z),
+        trunc(a.w));
 }
 
 Vec4 fract(Vec4 a) {
-  return Vec4(
-    a.x - trunc(a.x),
-    a.y - trunc(a.y),
-    a.z - trunc(a.z),
-    a.w - trunc(a.w));
+    return Vec4(
+        a.x - trunc(a.x),
+        a.y - trunc(a.y),
+        a.z - trunc(a.z),
+        a.w - trunc(a.w));
 }
 
 Vec4 fmod(Vec4 a, Vec4 b) {
-  return Vec4(
-    fmod(a.x, b.x),
-    fmod(a.y, b.y),
-    fmod(a.z, b.z),
-    fmod(a.w, b.w));
+    return Vec4(
+        fmod(a.x, b.x),
+        fmod(a.y, b.y),
+        fmod(a.z, b.z),
+        fmod(a.w, b.w));
 }
 
 Vec4 fmod(float a, Vec4 b) {
-  return Vec4(
-    fmod(a, b.x), 
-    fmod(a, b.y), 
-    fmod(a, b.z), 
-    fmod(a, b.w));
+    return Vec4(
+        fmod(a, b.x),
+        fmod(a, b.y),
+        fmod(a, b.z),
+        fmod(a, b.w));
 }
 
 Vec4 fmod(Vec4 a, float b) {
-  return Vec4(
-    fmod(a.x, b), 
-    fmod(a.y, b), 
-    fmod(a.z, b), 
-    fmod(a.w, b));
+    return Vec4(
+        fmod(a.x, b),
+        fmod(a.y, b),
+        fmod(a.z, b),
+        fmod(a.w, b));
 }
 
 Vec4 mod(Vec4 a, Vec4 b) {
-  return Vec4(
-    mod(a.x, b.x),
-    mod(a.y, b.y),
-    mod(a.z, b.z),
-    mod(a.w, b.w));
+    return Vec4(
+        mod(a.x, b.x),
+        mod(a.y, b.y),
+        mod(a.z, b.z),
+        mod(a.w, b.w));
 }
 
 Vec4 mod(float a, Vec4 b) {
-  return Vec4(
-    mod(a, b.x), 
-    mod(a, b.y), 
-    mod(a, b.z), 
-    mod(a, b.w));
+    return Vec4(
+        mod(a, b.x),
+        mod(a, b.y),
+        mod(a, b.z),
+        mod(a, b.w));
 }
 
 Vec4 mod(Vec4 a, float b) {
-  return Vec4(
-    mod(a.x, b), 
-    mod(a.y, b), 
-    mod(a.z, b), 
-    mod(a.w, b));
+    return Vec4(
+        mod(a.x, b),
+        mod(a.y, b),
+        mod(a.z, b),
+        mod(a.w, b));
 }
 
 Vec4 max(Vec4 a, Vec4 b) {
-  return Vec4(
-    max(a.x, b.x),
-    max(a.y, b.y),
-    max(a.z, b.z),
-    max(a.w, b.w));
+    return Vec4(
+        max(a.x, b.x),
+        max(a.y, b.y),
+        max(a.z, b.z),
+        max(a.w, b.w));
 }
 
 Vec4 min(Vec4 a, Vec4 b) {
-  return Vec4(
-    min(a.x, b.x),
-    min(a.y, b.y),
-    min(a.z, b.z),
-    min(a.w, b.w));
+    return Vec4(
+        min(a.x, b.x),
+        min(a.y, b.y),
+        min(a.z, b.z),
+        min(a.w, b.w));
 }
 
 Vec4 clamp(Vec4 v, Vec4 lb, Vec4 ub) {
-  return Vec4(
-    clamp(v.x, lb.x, ub.x),
-    clamp(v.y, lb.y, ub.y),
-    clamp(v.z, lb.z, ub.z),
-    clamp(v.w, lb.w, ub.w));
+    return Vec4(
+        clamp(v.x, lb.x, ub.x),
+        clamp(v.y, lb.y, ub.y),
+        clamp(v.z, lb.z, ub.z),
+        clamp(v.w, lb.w, ub.w));
 }
 
 Vec4 clamp(Vec4 v, float lb, float ub) {
-  return Vec4(
-    clamp(v.x, lb, ub),
-    clamp(v.y, lb, ub),
-    clamp(v.z, lb, ub),
-    clamp(v.w, lb, ub));
+    return Vec4(
+        clamp(v.x, lb, ub),
+        clamp(v.y, lb, ub),
+        clamp(v.z, lb, ub),
+        clamp(v.w, lb, ub));
 }
 
 Vec4 step(Vec4 edge, Vec4 x) {
-  return Vec4(
-    x.x < edge.x ? 0.0 : 1.0,
-    x.y < edge.y ? 0.0 : 1.0,
-    x.z < edge.z ? 0.0 : 1.0,
-    x.w < edge.w ? 0.0 : 1.0);
+    return Vec4(
+        step(edge.x, x.x),
+        step(edge.y, x.y),
+        step(edge.z, x.z),
+        step(edge.w, x.w));
 }
 
-Vec4 linearStep(Vec4 edge0, Vec4 edge1, Vec4 x) {
-  return clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+Vec4 linearstep(Vec4 edge0, Vec4 edge1, Vec4 x) {
+    return Vec4(
+        linearstep(edge0.x, edge1.x, x.x),
+        linearstep(edge0.y, edge1.y, x.y),
+        linearstep(edge0.z, edge1.z, x.z),
+        linearstep(edge0.w, edge1.w, x.w));
 }
 
-Vec4 smoothStep(Vec4 edge0, Vec4 edge1, Vec4 x) {
-  Vec4 t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
-  return t * t * (Vec4(3.0, 3.0, 3.0, 3.0) - (t + t));
+Vec4 smoothstep(Vec4 edge0, Vec4 edge1, Vec4 x) {
+    return Vec4(
+        smoothstep(edge0.x, edge1.x, x.x),
+        smoothstep(edge0.y, edge1.y, x.y),
+        smoothstep(edge0.z, edge1.z, x.z),
+        smoothstep(edge0.w, edge1.w, x.w));
 }
 
 Vec4 mix(Vec4 a, Vec4 b, float t) {
-  return ((1.0 - t) * a) + (t * b);
+    return ((1.0 - t) * a) + (t * b);
 }
 
 Vec4 mix(Vec4 a, Vec4 b, Vec4 t) {
-  return Vec4(
-    (1.0 - t.x) * a.x + t.x * b.x,
-    (1.0 - t.y) * a.y + t.y * b.y,
-    (1.0 - t.z) * a.z + t.z * b.z,
-    (1.0 - t.w) * a.w + t.w * b.w);
+    return Vec4(
+        mix(a.x, b.x, t.x),
+        mix(a.y, b.y, t.y),
+        mix(a.z, b.z, t.z),
+        mix(a.w, b.w, t.w));
 }
 
 float dot(Vec4 a, Vec4 b) {
-  return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+    return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
 float length(Vec4 a) {
-  return sqrt(dot(a, a));
+    return sqrt(dot(a, a));
 }
 
 float distance(Vec4 a, Vec4 b) {
-  return length(b - a);
+    return length(b - a);
 }
 
 Vec4 normalize(Vec4 a) {
-  return a / length(a);
+    return a / length(a);
 }
 
 Vec4 reflect(Vec4 i, Vec4 n) {
-  return i - ((2.0 * dot(n, i)) * n);
+    return i - ((2.0 * dot(n, i)) * n);
 }
 
 Vec4 refract(Vec4 i, Vec4 n, float eta) {
-  float iDotN = dot(i, n);
-  float k = 1.0 - eta * eta * (1.0 - iDotN * iDotN);
+    float iDotN = dot(i, n);
+    float k = 1.0 - eta * eta * (1.0 - iDotN * iDotN);
 
-  if (k < 0.0) {
-    return Vec4(0.0, 0.0, 0.0, 0.0);
-  }
-  return (eta * i) - (n * (eta * iDotN + sqrt(k)));
+    if (k < 0.0) {
+        return Vec4(0.0, 0.0, 0.0, 0.0);
+    }
+    return (eta * i) - (n * (eta * iDotN + sqrt(k)));
+}
+
+Vec4 back() {
+    return Vec4(0.0, -1.0, 0.0, 0.0);
+}
+
+Vec4 down() {
+    return Vec4(0.0, 0.0, -1.0, 0.0);
+}
+
+Vec4 forward() {
+    return Vec4(0.0, 1.0, 0.0, 0.0);
+}
+
+Vec4 left() {
+    return Vec4(-1.0, 0.0, 0.0, 0.0);
+}
+
+Vec4 right() {
+    return Vec4(1.0, 0.0, 0.0, 0.0);
+}
+
+Vec4 up() {
+    return Vec4(0.0, 0.0, 1.0, 0.0);
 }
 
 int all(Vec4 v) {
-  return v.x != 0.0 &&
-    v.y != 0.0 &&
-    v.z != 0.0 &&
-    v.w != 0.0;
+    return v.x != 0.0 &&
+           v.y != 0.0 &&
+           v.z != 0.0 &&
+           v.w != 0.0;
 }
 
 int any(Vec4 v) {
-  return v.x != 0.0 ||
-    v.y != 0.0 ||
-    v.z != 0.0 ||
-    v.w != 0.0;
+    return v.x != 0.0 ||
+           v.y != 0.0 ||
+           v.z != 0.0 ||
+           v.w != 0.0;
 }
 
 int none(Vec4 v) {
-  return v.x == 0.0 ||
-    v.y == 0.0 ||
-    v.z == 0.0 ||
-    v.w == 0.0;
+    return v.x == 0.0 ||
+           v.y == 0.0 ||
+           v.z == 0.0 ||
+           v.w == 0.0;
 }
 
 Vec4 cast(vector v) {
-  return Vec4(v[0], v[1], v[2], 0.0);
+    return Vec4(v[0], v[1], v[2], 0.0);
 }
 
 Vec4 cast(normal n) {
-  return Vec4(n[0], n[1], n[2], 0.0);
+    return Vec4(n[0], n[1], n[2], 0.0);
 }
 
 Vec4 cast(point p) {
-  return Vec4(p[0], p[1], p[2], 1.0);
+    return Vec4(p[0], p[1], p[2], 1.0);
 }
 
 vector cast(Vec4 v) {
-  return vector(v.x, v.y, v.z);
+    return vector(v.x, v.y, v.z);
 }
 
 shader Vec4Struct(
-  vector Point = P,
-  
-  output vector Result = P) {
-    
+    vector Point = P,
+
+    output vector Result = P) {
 }

@@ -1,268 +1,268 @@
 struct Vec3 {
-  float x;
-  float y;
-  float z;
+    float x;
+    float y;
+    float z;
 };
 
 Vec3 __operator__neg__(Vec3 a) {
-  return Vec3(-a.x, -a.y, -a.z);
+    return Vec3(-a.x, -a.y, -a.z);
 }
 
 Vec3 __operator__mul__(Vec3 a, float b) {
-  return Vec3(
-    a.x * b,
-    a.y * b,
-    a.z * b);
+    return Vec3(
+        a.x * b,
+        a.y * b,
+        a.z * b);
 }
 
 Vec3 __operator__mul__(float a, Vec3 b) {
-  return Vec3(
-    a * b.x,
-    a * b.y,
-    a * b.z);
+    return Vec3(
+        a * b.x,
+        a * b.y,
+        a * b.z);
 }
 
 Vec3 __operator__div__(Vec3 a, float b) {
-  return Vec3(
-    a.x / b,
-    a.y / b,
-    a.z / b);
+    return Vec3(
+        a.x / b,
+        a.y / b,
+        a.z / b);
 }
 
 Vec3 __operator__add__(Vec3 a, Vec3 b) {
-  return Vec3(
-    a.x + b.x,
-    a.y + b.y,
-    a.z + b.z);
+    return Vec3(
+        a.x + b.x,
+        a.y + b.y,
+        a.z + b.z);
 }
 
 Vec3 __operator__sub__(Vec3 a, Vec3 b) {
-  return Vec3(
-    a.x - b.x,
-    a.y - b.y,
-    a.z - b.z);
+    return Vec3(
+        a.x - b.x,
+        a.y - b.y,
+        a.z - b.z);
 }
 
 int __operator__eq__(Vec3 a, Vec3 b) {
-  return (a.x == b.x) &&
-    (a.y == b.y) &&
-    (a.z == b.z);
+    return (a.x == b.x) &&
+           (a.y == b.y) &&
+           (a.z == b.z);
 }
 
 int __operator__eq__(Vec3 a, float b) {
-  return (a.x == b) &&
-    (a.y == b) &&
-    (a.z == b);
+    return (a.x == b) &&
+           (a.y == b) &&
+           (a.z == b);
 }
 
 int __operator__eq__(float a, Vec3 b) {
-  return (a == b.x) &&
-    (a == b.y) &&
-    (a == b.z);
+    return (a == b.x) &&
+           (a == b.y) &&
+           (a == b.z);
 }
 
 int __operator__neq__(Vec3 a, Vec3 b) {
-  return (a.x != b.x) ||
-    (a.y != b.y) ||
-    (a.z != b.z);
+    return (a.x != b.x) ||
+           (a.y != b.y) ||
+           (a.z != b.z);
 }
 
 int __operator__neq__(Vec3 a, float b) {
-  return (a.x != b) ||
-    (a.y != b) ||
-    (a.z != b);
+    return (a.x != b) ||
+           (a.y != b) ||
+           (a.z != b);
 }
 
 int __operator__neq__(float a, Vec3 b) {
-  return (a != b.x) ||
-    (a != b.y) ||
-    (a != b.z);
+    return (a != b.x) ||
+           (a != b.y) ||
+           (a != b.z);
 }
 
 Vec3 cross(Vec3 a, Vec3 b) {
-  return Vec3(
-    a.y * b.z - a.z * b.y,
-    a.z * b.x - a.x * b.z,
-    a.x * b.y - a.y * b.x);
+    return Vec3(
+        a.y * b.z - a.z * b.y,
+        a.z * b.x - a.x * b.z,
+        a.x * b.y - a.y * b.x);
 }
 
 float dot(Vec3 a, Vec3 b) {
-  return a.x * b.x + a.y * b.y + a.z * b.z;
+    return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
 float length(Vec3 a) {
-  return hypot(a.x, a.y, a.z);
+    return hypot(a.x, a.y, a.z);
 }
 
 Vec3 normalize(Vec3 a) {
-  return a / length(a);
+    return a / length(a);
 }
 
 struct Quaternion {
-  float real;
-  Vec3 imag;
+    float real;
+    Vec3 imag;
 };
 
 Quaternion __operator__mul__(Quaternion a, float b) {
-  return Quaternion(a.real * b, a.imag * b);
+    return Quaternion(a.real * b, a.imag * b);
 }
 
 Quaternion __operator__mul__(float a, Quaternion b) {
-  return Quaternion(a * b.real, a * b.imag);
+    return Quaternion(a * b.real, a * b.imag);
 }
 
 Quaternion __operator__mul__(Quaternion a, Quaternion b) {
-  return Quaternion(
-      (a.real * b.real) -
-        dot(a.imag, b.imag),
+    return Quaternion(
+        (a.real * b.real) -
+            dot(a.imag, b.imag),
 
-      cross(a.imag, b.imag) +
-        (a.real * b.imag) +
-        (b.real * a.imag));
+        cross(a.imag, b.imag) +
+            (a.real * b.imag) +
+            (b.real * a.imag));
 }
 
 Quaternion __operator__mul__(Quaternion a, Vec3 b) {
-  return Quaternion(
-      -dot(a.imag, b),
-      cross(a.imag, b) +
-      (a.real * b));
+    return Quaternion(
+        -dot(a.imag, b),
+        cross(a.imag, b) +
+            (a.real * b));
 }
 
 Quaternion __operator__mul__(Vec3 a, Quaternion b) {
-  return Quaternion(
-      -dot(a, b.imag),
-      cross(a, b.imag) +
-      (b.real * a));
+    return Quaternion(
+        -dot(a, b.imag),
+        cross(a, b.imag) +
+            (b.real * a));
 }
 
 Quaternion __operator__div__(Quaternion a, float b) {
-  return Quaternion(a.real / b, a.imag / b);
+    return Quaternion(a.real / b, a.imag / b);
 }
 
 Quaternion conj(Quaternion q) {
-  return Quaternion(q.real, -q.imag);
+    return Quaternion(q.real, -q.imag);
 }
 
 float dot(Quaternion a, Quaternion b) {
-  return (a.real * b.real) + dot(a.imag, b.imag);
+    return (a.real * b.real) + dot(a.imag, b.imag);
 }
 
 Quaternion inverse(Quaternion q) {
-  return conj(q) / dot(q, q);
+    return conj(q) / dot(q, q);
 }
 
 Quaternion __operator__div__(float a, Quaternion b) {
-  return a * inverse(b);
+    return a * inverse(b);
 }
 
 Quaternion __operator__div__(Quaternion a, Quaternion b) {
-  return a * inverse(b);
+    return a * inverse(b);
 }
 
 Quaternion __operator__div__(Quaternion a, Vec3 b) {
-  return a * (-b / dot(b, b));
+    return a * (-b / dot(b, b));
 }
 
 Quaternion __operator__div__(Vec3 a, Quaternion b) {
-  return a * inverse(b);
+    return a * inverse(b);
 }
 
 Quaternion __operator__add__(Quaternion a, float b) {
-  return Quaternion(a.real + b, a.imag);
+    return Quaternion(a.real + b, a.imag);
 }
 
 Quaternion __operator__add__(float a, Quaternion b) {
-  return Quaternion(a + b.real, b.imag);
+    return Quaternion(a + b.real, b.imag);
 }
 
 Quaternion __operator__add__(Quaternion a, Quaternion b) {
-  return Quaternion(a.real + b.real, a.imag + b.imag);
+    return Quaternion(a.real + b.real, a.imag + b.imag);
 }
 
 Quaternion __operator__add__(Quaternion a, Vec3 b) {
-  return Quaternion(a.real, a.imag + b);
+    return Quaternion(a.real, a.imag + b);
 }
 
 Quaternion __operator__add__(Vec3 a, Quaternion b) {
-  return Quaternion(b.real, a + b.imag);
+    return Quaternion(b.real, a + b.imag);
 }
 
 Quaternion __operator__sub__(Quaternion a, float b) {
-  return Quaternion(a.real - b, a.imag);
+    return Quaternion(a.real - b, a.imag);
 }
 
 Quaternion __operator__sub__(float a, Quaternion b) {
-  return Quaternion(a - b.real, -b.imag);
+    return Quaternion(a - b.real, -b.imag);
 }
 
 Quaternion __operator__sub__(Quaternion a, Quaternion b) {
-  return Quaternion(a.real - b.real, a.imag - b.imag);
+    return Quaternion(a.real - b.real, a.imag - b.imag);
 }
 
 Quaternion __operator__sub__(Quaternion a, Vec3 b) {
-  return Quaternion(a.real, a.imag - b);
+    return Quaternion(a.real, a.imag - b);
 }
 
 Quaternion __operator__sub__(Vec3 a, Quaternion b) {
-  return Quaternion(-b.real, a - b.imag);
+    return Quaternion(-b.real, a - b.imag);
 }
 
 int __operator__eq__(Quaternion a, Quaternion b) {
-  return a.real == b.real && a.imag == b.imag;
+    return a.real == b.real && a.imag == b.imag;
 }
 
 int __operator__eq__(Quaternion a, float b) {
-  return a.real == b && a.imag == 0.0;
+    return a.real == b && a.imag == 0.0;
 }
 
 int __operator__eq__(float a, Quaternion b) {
-  return a == b.real && 0.0 == b.imag;
+    return a == b.real && 0.0 == b.imag;
 }
 
 int __operator__eq__(Quaternion a, Vec3 b) {
-  return a.real == 0.0 && a.imag == b;
+    return a.real == 0.0 && a.imag == b;
 }
 
 int __operator__eq__(Vec3 a, Quaternion b) {
-  return 0.0 == b.real && a == b.imag;
+    return 0.0 == b.real && a == b.imag;
 }
 
 int __operator__neq__(Quaternion a, Quaternion b) {
-  return a.real != b.real || a.imag != b.imag;
+    return a.real != b.real || a.imag != b.imag;
 }
 
 int __operator__neq__(Quaternion a, float b) {
-  return a.real != b || a.imag != 0.0;
+    return a.real != b || a.imag != 0.0;
 }
 
 int __operator__neq__(float a, Quaternion b) {
-  return a != b.real || 0.0 != b.imag;
+    return a != b.real || 0.0 != b.imag;
 }
 
 int __operator__neq__(Quaternion a, Vec3 b) {
-  return a.real != 0.0 || a.imag != b;
+    return a.real != 0.0 || a.imag != b;
 }
 
 int __operator__neq__(Vec3 a, Quaternion b) {
-  return 0.0 != b.real || a != b.imag;
+    return 0.0 != b.real || a != b.imag;
 }
 
 Quaternion identity() {
-  return Quaternion(1.0, Vec3(0.0, 0.0, 0.0));
+    return Quaternion(1.0, Vec3(0.0, 0.0, 0.0));
 }
 
 float length(Quaternion q) {
-  return sqrt(dot(q, q));
+    return sqrt(dot(q, q));
 }
 
 Quaternion normalize(Quaternion q) {
-  return q / length(q);
+    return q / length(q);
 }
 
 Vec3 applyTo(Quaternion r, Vec3 p) {
-  Quaternion nr = normalize(r);
-  Quaternion rpr = (nr * p) * inverse(nr);
-  return rpr.imag;
+    Quaternion nr = normalize(r);
+    Quaternion rpr = (nr * p) * inverse(nr);
+    return rpr.imag;
 }
 
 Quaternion fromAxisAngle(float radians, Vec3 axis) {
@@ -271,124 +271,120 @@ Quaternion fromAxisAngle(float radians, Vec3 axis) {
     sincos(radians * 0.5, sinah, cosah);
 
     return Quaternion(
-      cosah, sinah * normalize(axis));
+        cosah, sinah * normalize(axis));
 }
 
 Quaternion rotateX(Quaternion q, float radians) {
-  float cosah;
-  float sinah;
-  sincos(radians * 0.5, sinah, cosah);
+    float cosah;
+    float sinah;
+    sincos(radians * 0.5, sinah, cosah);
 
-  return Quaternion(
-      cosah * q.real - sinah * q.imag.x,
-      Vec3(
-          cosah * q.imag.x + sinah * q.real,
-          cosah * q.imag.y + sinah * q.imag.z,
-          cosah * q.imag.z - sinah * q.imag.y));
+    return Quaternion(
+        cosah * q.real - sinah * q.imag.x,
+        Vec3(
+            cosah * q.imag.x + sinah * q.real,
+            cosah * q.imag.y + sinah * q.imag.z,
+            cosah * q.imag.z - sinah * q.imag.y));
 }
 
 Quaternion rotateY(Quaternion q, float radians) {
-  float cosah;
-  float sinah;
-  sincos(radians * 0.5, sinah, cosah);
+    float cosah;
+    float sinah;
+    sincos(radians * 0.5, sinah, cosah);
 
-  return Quaternion(
-      cosah * q.real - sinah * q.imag.y,
-      Vec3(
-          cosah * q.imag.x - sinah * q.imag.z,
-          cosah * q.imag.y + sinah * q.real,
-          cosah * q.imag.z + sinah * q.imag.x));
+    return Quaternion(
+        cosah * q.real - sinah * q.imag.y,
+        Vec3(
+            cosah * q.imag.x - sinah * q.imag.z,
+            cosah * q.imag.y + sinah * q.real,
+            cosah * q.imag.z + sinah * q.imag.x));
 }
 
 Quaternion rotateZ(Quaternion q, float radians) {
-  float cosah;
-  float sinah;
-  sincos(radians * 0.5, sinah, cosah);
+    float cosah;
+    float sinah;
+    sincos(radians * 0.5, sinah, cosah);
 
-  return Quaternion(
-      cosah * q.real - sinah * q.imag.z,
-      Vec3(
-          cosah * q.imag.x + sinah * q.imag.y,
-          cosah * q.imag.y - sinah * q.imag.x,
-          cosah * q.imag.z + sinah * q.real));
+    return Quaternion(
+        cosah * q.real - sinah * q.imag.z,
+        Vec3(
+            cosah * q.imag.x + sinah * q.imag.y,
+            cosah * q.imag.y - sinah * q.imag.x,
+            cosah * q.imag.z + sinah * q.real));
 }
 
 Quaternion rotate(Quaternion q, float radians, Vec3 axis) {
-  float wnorm = q.real / length(q);
-  float angle0 = 2.0 * acos(wnorm);
-  float angle1 = mod(angle0 + radians, M_2PI);
-  return fromAxisAngle(angle1, normalize(axis));
+    float wnorm = q.real / length(q);
+    float angle0 = 2.0 * acos(wnorm);
+    float angle1 = mod(angle0 + radians, M_2PI);
+    return fromAxisAngle(angle1, normalize(axis));
 }
 
 Quaternion exp(Quaternion q) {
-  float cim;
-  float sim;
-  sincos(length(q.imag), sim, cim);
-  return exp(q.real) * Quaternion(
-    cim, sim * normalize(q.imag));
+    float cim;
+    float sim;
+    sincos(length(q.imag), sim, cim);
+    return exp(q.real) * Quaternion(
+                             cim, sim * normalize(q.imag));
 }
 
 Quaternion log(Quaternion q) {
-  float lenq = length(q);
-  float wnorm = q.real / lenq;
-  return Quaternion(
-    log(lenq),
-    acos(wnorm) * normalize(q.imag));
+    float lenq = length(q);
+    float wnorm = q.real / lenq;
+    return Quaternion(
+        log(lenq),
+        acos(wnorm) * normalize(q.imag));
 }
 
 Quaternion pow(Quaternion a, float b) {
-  float lena = length(a);
-  Quaternion anorm = a / lena;
-  float theta = 2.0 * acos(anorm.real);
-  Vec3 axis = normalize(anorm.imag / (M_2PI - theta));
-  float btheta = b * theta;
+    float lena = length(a);
+    Quaternion anorm = a / lena;
+    float theta = 2.0 * acos(anorm.real);
+    Vec3 axis = normalize(anorm.imag / (M_2PI - theta));
+    float btheta = b * theta;
 
-  float cbt;
-  float sbt;
-  sincos(btheta, sbt, cbt);
+    float cbt;
+    float sbt;
+    sincos(btheta, sbt, cbt);
 
-  return pow(lena, b) * Quaternion(
-    cbt, sbt * axis);
+    return pow(lena, b) * Quaternion(
+                              cbt, sbt * axis);
 }
 
 float angle(Quaternion q) {
-  return 2.0 * acos(q.real / length(q));
+    return 2.0 * acos(q.real / length(q));
 }
 
 Vec3 axis(Quaternion q) {
-  Quaternion qnorm = normalize(q);
-  float theta = 2.0 * acos(qnorm.real);
-  return normalize(qnorm.imag / (M_2PI - theta));
+    Quaternion qnorm = normalize(q);
+    float theta = 2.0 * acos(qnorm.real);
+    return normalize(qnorm.imag / (M_2PI - theta));
 }
 
 Quaternion fromAxes(Vec3 right, Vec3 forward, Vec3 up) {
-  //TODO: Needs testing....
-  float rx = right.x;
-  float fy = forward.y;
-  float uz = up.z;
+    //TODO: Needs testing....
+    float rx = right.x;
+    float fy = forward.y;
+    float uz = up.z;
 
-  float w = sqrt(max(0.0, 1.0 + rx + fy + uz)) * 0.5;
-  float x = sqrt(max(0.0, 1.0 + rx - fy - uz)) * 0.5;
-  float y = sqrt(max(0.0, 1.0 - rx + fy - uz)) * 0.5;
-  float z = sqrt(max(0.0, 1.0 - rx - fy + uz)) * 0.5;
+    float w = sqrt(max(0.0, 1.0 + rx + fy + uz)) * 0.5;
+    float x = sqrt(max(0.0, 1.0 + rx - fy - uz)) * 0.5;
+    float y = sqrt(max(0.0, 1.0 - rx + fy - uz)) * 0.5;
+    float z = sqrt(max(0.0, 1.0 - rx - fy + uz)) * 0.5;
 
-  x *= sign(forward.z - up.y);
-  y *= sign(up.x - right.z);
-  z *= sign(right.y - forward.x);
+    x *= sign(forward.z - up.y);
+    y *= sign(up.x - right.z);
+    z *= sign(right.y - forward.x);
 
-  return Quaternion(w, Vec3(x, y, z));
+    return Quaternion(w, Vec3(x, y, z));
 }
 
 Quaternion lookAt(Vec3 dir, Vec3 ref) {
-  //TODO: Needs testing....
-  Vec3 k = normalize(dir);
-  Vec3 i = normalize(cross(normalize(ref), k));
-  Vec3 j = normalize(cross(k, i));
-  return fromAxes(i, j, k);
-}
-
-Quaternion cast(vector v) {
-  return Quaternion(0.0, Vec3(v[0], v[1], v[2]));
+    //TODO: Needs testing....
+    Vec3 k = normalize(dir);
+    Vec3 i = normalize(cross(normalize(ref), k));
+    Vec3 j = normalize(cross(k, i));
+    return fromAxes(i, j, k);
 }
 
 shader quatStruct(
@@ -401,5 +397,4 @@ shader quatStruct(
     output float Real = 1.0,
     output vector Imag = 0.0,
     output point Rotated = P) {
-
 }

@@ -1,0 +1,207 @@
+struct Color {
+    float r;
+    float g;
+    float b;
+    float a;
+};
+
+Color __operator__neg__(Color a) {
+    return Color(
+        max(0.0, 1.0 - a.r),
+        max(0.0, 1.0 - a.g),
+        max(0.0, 1.0 - a.b),
+        clamp(a.a, 0.0, 1.0));
+}
+
+Color fromHex(int hex) {
+    return Color(
+        (hex >> 0x10 & 0xff) * 0.003921569,
+        (hex >> 0x8 & 0xff) * 0.003921569,
+        (hex & 0xff) * 0.003921569,
+        (hex >> 0x18 & 0xff) * 0.003921569);
+}
+
+int toHex(Color c) {
+    return int(c.a * 0xff + 0.5) << 0x18 | int(c.r * 0xff + 0.5) << 0x10 | int(c.g * 0xff + 0.5) << 0x8 | int(c.b * 0xff + 0.5);
+}
+
+Color __operator__compl__(Color a) {
+    return fromHex(~toHex(a));
+}
+
+Color __operator__shl__(Color a, Color b) {
+    return fromHex(toHex(a) << toHex(b));
+}
+
+Color __operator__shl__(Color a, int b) {
+    return fromHex(toHex(a) << b);
+}
+
+Color __operator__shl__(int a, Color b) {
+    return fromHex(a << toHex(b));
+}
+
+Color __operator__shr__(Color a, Color b) {
+    return fromHex(toHex(a) >> toHex(b));
+}
+
+Color __operator__shr__(Color a, int b) {
+    return fromHex(toHex(a) >> b);
+}
+
+Color __operator__shr__(int a, Color b) {
+    return fromHex(a >> toHex(b));
+}
+
+Color __operator__bitand__(Color a, Color b) {
+    return fromHex(toHex(a) & toHex(b));
+}
+
+Color __operator__bitand__(int a, Color b) {
+    return fromHex(a & toHex(b));
+}
+
+Color __operator__bitand__(Color a, int b) {
+    return fromHex(toHex(a) & b);
+}
+
+Color __operator__xor__(Color a, Color b) {
+    return fromHex(toHex(a) ^ toHex(b));
+}
+
+Color __operator__xor__(int a, Color b) {
+    return fromHex(a ^ toHex(b));
+}
+
+Color __operator__xor__(Color a, int b) {
+    return fromHex(toHex(a) ^ b);
+}
+
+Color __operator__bitor__(Color a, Color b) {
+    return fromHex(toHex(a) | toHex(b));
+}
+
+Color __operator__bitor__(int a, Color b) {
+    return fromHex(a | toHex(b));
+}
+
+Color __operator__bitor__(Color a, int b) {
+    return fromHex(toHex(a) | b);
+}
+
+Color step(Color edge, Color x) {
+    return Color(
+        step(edge.r, x.r),
+        step(edge.g, x.g),
+        step(edge.b, x.b),
+        step(edge.a, x.a));
+}
+
+Color linearstep(Color edge0, Color edge1, Color x) {
+    return Color(
+        linearstep(edge0.r, edge1.r, x.r),
+        linearstep(edge0.g, edge1.g, x.g),
+        linearstep(edge0.b, edge1.b, x.b),
+        linearstep(edge0.a, edge1.a, x.a));
+}
+
+Color smoothstep(Color edge0, Color edge1, Color x) {
+    return Color(
+        smoothstep(edge0.r, edge1.r, x.r),
+        smoothstep(edge0.g, edge1.g, x.g),
+        smoothstep(edge0.b, edge1.b, x.b),
+        smoothstep(edge0.a, edge1.a, x.a));
+}
+
+Color mix(Color a, Color b, float t) {
+    float u = 1.0 - t;
+    return Color(
+        u * a.r + t * b.r,
+        u * a.g + t * b.g,
+        u * a.b + t * b.b,
+        u * a.a + t * b.a);
+}
+
+Color mix(Color a, Color b, Color t) {
+    return Color(
+        mix(a.r, b.r, t.r),
+        mix(a.g, b.g, t.g),
+        mix(a.b, b.b, t.b),
+        mix(a.a, b.a, t.a));
+}
+
+int all(Color c) {
+    return c.r != 0.0 &&
+           c.g != 0.0 &&
+           c.b != 0.0 &&
+           c.a != 0.0;
+}
+
+int any(Color c) {
+    return c.r != 0.0 ||
+           c.g != 0.0 ||
+           c.b != 0.0 ||
+           c.a != 0.0;
+}
+
+int none(Color c) {
+    return c.r == 0.0 ||
+           c.g == 0.0 ||
+           c.b == 0.0 ||
+           c.a == 0.0;
+}
+
+Color blue() {
+    return Color(0.0, 0.0, 1.0, 1.0);
+}
+
+Color clearBlack() {
+    return Color(0.0, 0.0, 0.0, 0.0);
+}
+
+Color clearWhite() {
+    return Color(1.0, 1.0, 1.0, 0.0);
+}
+
+Color cyan() {
+    return Color(0.0, 1.0, 1.0, 1.0);
+}
+
+Color green() {
+    return Color(0.0, 1.0, 0.0, 1.0);
+}
+
+Color magenta() {
+    return Color(1.0, 0.0, 1.0, 1.0);
+}
+
+Color red() {
+    return Color(1.0, 0.0, 0.0, 1.0);
+}
+
+Color yellow() {
+    return Color(1.0, 1.0, 0.0, 1.0);
+}
+
+Color white() {
+    return Color(1.0, 1.0, 1.0, 1.0);
+}
+
+color cast(Color c) {
+    return color(c.r, c.g, c.b);
+}
+
+Color cast(color c) {
+    return Color(c[0], c[1], c[2], 1.0);
+}
+
+shader colorStruct(
+    color A = 0.0,
+    color B = 0.0,
+
+    output color C = 0.0) {
+    Color x = cast(A);
+    Color y = cast(B);
+
+    C = cast(x << y);
+}

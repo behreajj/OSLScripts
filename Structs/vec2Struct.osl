@@ -1,356 +1,410 @@
 struct Vec2 {
-  float x;
-  float y;
+    float x;
+    float y;
 };
 
 Vec2 __operator__neg__(Vec2 a) {
-  return Vec2(-a.x, -a.y);
+    return Vec2(-a.x, -a.y);
 }
 
 Vec2 __operator__compl__(Vec2 a) {
-  return Vec2(~(a.x != 0.0), ~(a.y != 0.0));
+    return Vec2(~(a.x != 0.0), ~(a.y != 0.0));
 }
 
 Vec2 __operator__not__(Vec2 a) {
-  return Vec2(a.x == 0.0, a.y == 0.0);
+    return Vec2(a.x == 0.0, a.y == 0.0);
 }
 
 Vec2 __operator__mul__(Vec2 a, Vec2 b) {
-  return Vec2(
-    a.x * b.x, 
-    a.y * b.y);
+    return Vec2(
+        a.x * b.x,
+        a.y * b.y);
 }
 
 Vec2 __operator__mul__(Vec2 a, float b) {
-  return Vec2(
-    a.x * b, 
-    a.y * b);
+    return Vec2(
+        a.x * b,
+        a.y * b);
 }
 
 Vec2 __operator__mul__(float a, Vec2 b) {
-  return Vec2(
-    a * b.x, 
-    a * b.y);
+    return Vec2(
+        a * b.x,
+        a * b.y);
 }
 
 Vec2 __operator__div__(Vec2 a, Vec2 b) {
-  return Vec2(
-    a.x / b.x, 
-    a.y / b.y);
+    return Vec2(
+        a.x / b.x,
+        a.y / b.y);
 }
 
 Vec2 __operator__div__(Vec2 a, float b) {
-  return Vec2(
-    a.x / b, 
-    a.y / b);
+    return Vec2(
+        a.x / b,
+        a.y / b);
 }
 
 Vec2 __operator__div__(float a, Vec2 b) {
-  return Vec2(
-    a / b.x, 
-    a / b.y);
+    return Vec2(
+        a / b.x,
+        a / b.y);
 }
 
 Vec2 __operator__add__(Vec2 a, Vec2 b) {
-  return Vec2(
-    a.x + b.x, 
-    a.y + b.y);
+    return Vec2(
+        a.x + b.x,
+        a.y + b.y);
 }
 
 Vec2 __operator__add__(Vec2 a, float b) {
-  return Vec2(
-    a.x + b, 
-    a.y + b);
+    return Vec2(
+        a.x + b,
+        a.y + b);
 }
 
 Vec2 __operator__add__(float a, Vec2 b) {
-  return Vec2(
-    a + b.x, 
-    a + b.y);
+    return Vec2(
+        a + b.x,
+        a + b.y);
 }
 
 Vec2 __operator__sub__(Vec2 a, Vec2 b) {
-  return Vec2(
-    a.x - b.x, 
-    a.y - b.y);
+    return Vec2(
+        a.x - b.x,
+        a.y - b.y);
 }
 
 Vec2 __operator__sub__(Vec2 a, float b) {
-  return Vec2(
-    a.x - b, 
-    a.y - b);
+    return Vec2(
+        a.x - b,
+        a.y - b);
 }
 
 Vec2 __operator__sub__(float a, Vec2 b) {
-  return Vec2(
-    a - b.x, 
-    a - b.y);
+    return Vec2(
+        a - b.x,
+        a - b.y);
 }
 
 int __operator__eq__(Vec2 a, Vec2 b) {
-  return (a.x == b.x) && (a.y == b.y);
+    return (a.x == b.x) && (a.y == b.y);
 }
 
 int __operator__eq__(Vec2 a, float b) {
-  return (a.x == b) && (a.y == b);
+    return (a.x == b) && (a.y == b);
 }
 
 int __operator__eq__(float a, Vec2 b) {
-  return (a == b.x) && (a == b.y);
+    return (a == b.x) && (a == b.y);
 }
 
 int __operator__neq__(Vec2 a, Vec2 b) {
-  return (a.x != b.x) || (a.y != b.y);
+    return (a.x != b.x) || (a.y != b.y);
 }
 
 int __operator__neq__(Vec2 a, float b) {
-  return (a.x != b) || (a.y != b);
+    return (a.x != b) || (a.y != b);
 }
 
 int __operator__neq__(float a, Vec2 b) {
-  return (a != b.x) || (a != b.y);
+    return (a != b.x) || (a != b.y);
 }
 
 Vec2 __operator__bitand__(Vec2 a, Vec2 b) {
-  // AND(A, B) := A * B
-  return Vec2(
-    (a.x != 0.0) & (b.x != 0.0),
-    (a.y != 0.0) & (b.y != 0.0));
+    // AND(A, B) := A * B
+    return Vec2(
+        (a.x != 0.0) & (b.x != 0.0),
+        (a.y != 0.0) & (b.y != 0.0));
 }
 
 Vec2 __operator__bitand__(Vec2 a, float b) {
-  return Vec2(
-    (a.x != 0.0) & (b != 0.0),
-    (a.y != 0.0) & (b != 0.0));
+    return Vec2(
+        (a.x != 0.0) & (b != 0.0),
+        (a.y != 0.0) & (b != 0.0));
 }
 
 Vec2 __operator__bitand__(float a, Vec2 b) {
-  return Vec2(
-    (a != 0.0) & (b.x != 0.0),
-    (a != 0.0) & (b.y != 0.0));
+    return Vec2(
+        (a != 0.0) & (b.x != 0.0),
+        (a != 0.0) & (b.y != 0.0));
 }
 
 Vec2 __operator__xor__(Vec2 a, Vec2 b) {
-  // XOR(A, B) := A + B - 2 * A * B;
-  return Vec2(
-    (a.x != 0.0) ^ (b.x != 0.0),
-    (a.y != 0.0) ^ (b.y != 0.0));
+    // XOR(A, B) := A + B - 2 * A * B;
+    return Vec2(
+        (a.x != 0.0) ^ (b.x != 0.0),
+        (a.y != 0.0) ^ (b.y != 0.0));
 }
 
 Vec2 __operator__xor__(Vec2 a, float b) {
-  return Vec2(
-    (a.x != 0.0) ^ (b != 0.0),
-    (a.y != 0.0) ^ (b != 0.0));
+    return Vec2(
+        (a.x != 0.0) ^ (b != 0.0),
+        (a.y != 0.0) ^ (b != 0.0));
 }
 
 Vec2 __operator__xor__(float a, Vec2 b) {
-  return Vec2(
-    (a != 0.0) ^ (b.x != 0.0),
-    (a != 0.0) ^ (b.y != 0.0));
+    return Vec2(
+        (a != 0.0) ^ (b.x != 0.0),
+        (a != 0.0) ^ (b.y != 0.0));
 }
 
 Vec2 __operator__bitor__(Vec2 a, Vec2 b) {
-  // OR(A, B) := A + B - A * B
-  return Vec2(
-    (a.x != 0.0) | (b.x != 0.0),
-    (a.y != 0.0) | (b.y != 0.0));
+    // OR(A, B) := A + B - A * B
+    return Vec2(
+        (a.x != 0.0) | (b.x != 0.0),
+        (a.y != 0.0) | (b.y != 0.0));
 }
 
 Vec2 __operator__bitor__(Vec2 a, float b) {
-  return Vec2(
-    (a.x != 0.0) | (b != 0.0),
-    (a.y != 0.0) | (b != 0.0));
+    return Vec2(
+        (a.x != 0.0) | (b != 0.0),
+        (a.y != 0.0) | (b != 0.0));
 }
 
 Vec2 __operator__bitor__(float a, Vec2 b) {
-  return Vec2(
-    (a != 0.0) | (b.x != 0.0),
-    (a != 0.0) | (b.y != 0.0));
+    return Vec2(
+        (a != 0.0) | (b.x != 0.0),
+        (a != 0.0) | (b.y != 0.0));
 }
 
 Vec2 abs(Vec2 a) {
-  return Vec2(
-    abs(a.x), 
-    abs(a.y));
+    return Vec2(
+        abs(a.x),
+        abs(a.y));
 }
 
 Vec2 ceil(Vec2 a) {
-  return Vec2(
-    ceil(a.x), 
-    ceil(a.y));
+    return Vec2(
+        ceil(a.x),
+        ceil(a.y));
 }
 
 Vec2 floor(Vec2 a) {
-  return Vec2(
-    floor(a.x), 
-    floor(a.y));
+    return Vec2(
+        floor(a.x),
+        floor(a.y));
 }
 
 Vec2 round(Vec2 a) {
-  return Vec2(
-    round(a.x), 
-    round(a.y));
+    return Vec2(
+        round(a.x),
+        round(a.y));
 }
 
 Vec2 trunc(Vec2 a) {
-  return Vec2(
-    trunc(a.x), 
-    trunc(a.y));
+    return Vec2(
+        trunc(a.x),
+        trunc(a.y));
 }
 
 Vec2 fract(Vec2 a) {
-  return Vec2(
-    a.x - trunc(a.x), 
-    a.y - trunc(a.y));
+    return Vec2(
+        a.x - trunc(a.x),
+        a.y - trunc(a.y));
 }
 
 Vec2 fmod(Vec2 a, Vec2 b) {
-  return Vec2(
-    fmod(a.x, b.x), 
-    fmod(a.y, b.y));
+    return Vec2(
+        fmod(a.x, b.x),
+        fmod(a.y, b.y));
 }
 
 Vec2 fmod(float a, Vec2 b) {
-  return Vec2(
-    fmod(a, b.x), 
-    fmod(a, b.y));
+    return Vec2(
+        fmod(a, b.x),
+        fmod(a, b.y));
 }
 
 Vec2 fmod(Vec2 a, float b) {
-  return Vec2(
-    fmod(a.x, b), 
-    fmod(a.y, b));
+    return Vec2(
+        fmod(a.x, b),
+        fmod(a.y, b));
 }
 
 Vec2 mod(Vec2 a, Vec2 b) {
-  return Vec2(
-    mod(a.x, b.x), 
-    mod(a.y, b.y));
+    return Vec2(
+        mod(a.x, b.x),
+        mod(a.y, b.y));
 }
 
 Vec2 mod(float a, Vec2 b) {
-  return Vec2(
-    mod(a, b.x), 
-    mod(a, b.y));
+    return Vec2(
+        mod(a, b.x),
+        mod(a, b.y));
 }
 
 Vec2 mod(Vec2 a, float b) {
-  return Vec2(
-    mod(a.x, b), 
-    mod(a.y, b));
+    return Vec2(
+        mod(a.x, b),
+        mod(a.y, b));
 }
 
 Vec2 max(Vec2 a, Vec2 b) {
-  return Vec2(
-    max(a.x, b.x), 
-    max(a.y, b.y));
+    return Vec2(
+        max(a.x, b.x),
+        max(a.y, b.y));
 }
 
 Vec2 min(Vec2 a, Vec2 b) {
-  return Vec2(
-    min(a.x, b.x), 
-    min(a.y, b.y));
+    return Vec2(
+        min(a.x, b.x),
+        min(a.y, b.y));
 }
 
 Vec2 clamp(Vec2 v, Vec2 lb, Vec2 ub) {
-  return Vec2(
-    clamp(v.x, lb.x, ub.x),
-    clamp(v.y, lb.y, ub.y));
+    return Vec2(
+        clamp(v.x, lb.x, ub.x),
+        clamp(v.y, lb.y, ub.y));
 }
 
 Vec2 clamp(Vec2 v, float lb, float ub) {
-  return Vec2(
-    clamp(v.x, lb, ub),
-    clamp(v.y, lb, ub));
+    return Vec2(
+        clamp(v.x, lb, ub),
+        clamp(v.y, lb, ub));
 }
 
 Vec2 step(Vec2 edge, Vec2 x) {
-  return Vec2(
-    x.x < edge.x ? 0.0 : 1.0,
-    x.y < edge.y ? 0.0 : 1.0);
+    // return Vec2(
+    //     x.x < edge.x ? 0.0 : 1.0,
+    //     x.y < edge.y ? 0.0 : 1.0);
+
+    return Vec2(
+        step(edge.x, x.x),
+        step(edge.y, x.y));
 }
 
-Vec2 linearStep(Vec2 edge0, Vec2 edge1, Vec2 x) {
-  return clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+Vec2 linearstep(Vec2 edge0, Vec2 edge1, Vec2 x) {
+    // return clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+
+    return Vec2(
+        linearstep(edge0.x, edge1.x, x.x),
+        linearstep(edge0.y, edge1.y, x.y));
 }
 
-Vec2 smoothStep(Vec2 edge0, Vec2 edge1, Vec2 x) {
-  Vec2 t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
-  return t * t * (Vec2(3.0, 3.0) - (t + t));
+Vec2 smoothstep(Vec2 edge0, Vec2 edge1, Vec2 x) {
+    // Vec2 t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+    // return t * t * (Vec2(3.0, 3.0) - (t + t));
+
+    return Vec2(
+        smoothstep(edge0.x, edge1.x, x.x),
+        smoothstep(edge0.y, edge1.y, x.y));
 }
 
 Vec2 mix(Vec2 a, Vec2 b, float t) {
-  return ((1.0 - t) * a) + (t * b);
+    return ((1.0 - t) * a) + (t * b);
 }
 
 Vec2 mix(Vec2 a, Vec2 b, Vec2 t) {
-  return Vec2(
-    (1.0 - t.x) * a.x + t.x * b.x,
-    (1.0 - t.y) * a.y + t.y * b.y);
+    // return Vec2(
+    //     (1.0 - t.x) * a.x + t.x * b.x,
+    //     (1.0 - t.y) * a.y + t.y * b.y);
+
+    return Vec2(
+        mix(a.x, b.x, t.x),
+        mix(a.y, b.y, t.y));
 }
 
 float dot(Vec2 a, Vec2 b) {
-  return a.x * b.x + a.y * b.y;
+    return a.x * b.x + a.y * b.y;
 }
 
 float length(Vec2 a) {
-  return hypot(a.x, a.y);
+    return hypot(a.x, a.y);
 }
 
 float distance(Vec2 a, Vec2 b) {
-  return hypot(b.x - a.x, b.y - a.y);
+    return hypot(b.x - a.x, b.y - a.y);
 }
 
 Vec2 normalize(Vec2 a) {
-  return a / length(a);
+    return a / length(a);
 }
 
 Vec2 reflect(Vec2 i, Vec2 n) {
-  return i - ((2.0 * dot(n, i)) * n);
+    return i - ((2.0 * dot(n, i)) * n);
 }
 
 Vec2 refract(Vec2 i, Vec2 n, float eta) {
-  float iDotN = dot(i, n);
-  float k = 1.0 - eta * eta * (1.0 - iDotN * iDotN);
+    float iDotN = dot(i, n);
+    float k = 1.0 - eta * eta * (1.0 - iDotN * iDotN);
 
-  if (k < 0.0) {
-    return Vec2(0.0, 0.0);
-  }
-  return (eta * i) - (n * (eta * iDotN + sqrt(k)));
+    if (k < 0.0) {
+        return Vec2(0.0, 0.0);
+    }
+    return (eta * i) - (n * (eta * iDotN + sqrt(k)));
+}
+
+Vec2 fromPolar(float r, float phi) {
+    float sina;
+    float cosa;
+    sincos(phi, sina, cosa);
+    return Vec2(r * cosa, r * sina);
+}
+
+float heading(Vec2 v) {
+    return atan2(v.y, v.x);
+}
+
+Vec2 perpendicular(Vec2 v) {
+    return Vec2(-v.y, v.x);
+}
+
+Vec2 rotateZ(Vec2 v, float radians) {
+    float sina;
+    float cosa;
+    sincos(radians, sina, cosa);
+    return Vec2(
+        cosa * v.x - sina * v.y,
+        cosa * v.y + sina * v.x);
+}
+
+Vec2 back() {
+    return Vec2(0.0, -1.0);
+}
+
+Vec2 forward() {
+    return Vec2(0.0, 1.0);
+}
+
+Vec2 left() {
+    return Vec2(-1.0, 0.0);
+}
+
+Vec2 right() {
+    return Vec2(1.0, 0.0);
 }
 
 int all(Vec2 v) {
-  return v.x != 0.0 && v.y != 0.0;
+    return v.x != 0.0 && v.y != 0.0;
 }
 
 int any(Vec2 v) {
-  return v.x != 0.0 || v.y != 0.0;
+    return v.x != 0.0 || v.y != 0.0;
 }
 
 int none(Vec2 v) {
-  return v.x == 0.0 || v.y == 0.0;
+    return v.x == 0.0 || v.y == 0.0;
 }
 
 Vec2 cast(vector v) {
-  return Vec2(v[0], v[1]);
+    return Vec2(v[0], v[1]);
 }
 
 Vec2 cast(normal n) {
-  return Vec2(n[0], n[1]);
+    return Vec2(n[0], n[1]);
 }
 
 Vec2 cast(point p) {
-  return Vec2(p[0], p[1]);
+    return Vec2(p[0], p[1]);
 }
 
 vector cast(Vec2 v) {
-  return vector(v.x, v.y, 0.0);
+    return vector(v.x, v.y, 0.0);
 }
 
 shader Vec2Struct(
-  vector Point = vector(u, v, 0.0),
-  
-  output vector Result = P) {
+    vector Point = P,
 
-    
+    output vector Result = P) {
 }
