@@ -438,6 +438,18 @@ Vec4 refract(Vec4 i, Vec4 n, float eta) {
     return (eta * i) - (n * (eta * iDotN + sqrt(k)));
 }
 
+float projectScalar(Vec4 a, Vec4 b) {
+    return dot(a, b) / dot(b, b);
+}
+
+Vec4 projectVector(Vec4 a, Vec4 b) {
+    return b * projectScalar(a, b);
+}
+
+Vec4 reject(Vec4 a, Vec4 b) {
+    return a - projectVector(a, b);
+}
+
 Vec4 back() {
     return Vec4(0.0, -1.0, 0.0, 0.0);
 }
@@ -477,9 +489,9 @@ int any(Vec4 v) {
 }
 
 int none(Vec4 v) {
-    return v.x == 0.0 ||
-           v.y == 0.0 ||
-           v.z == 0.0 ||
+    return v.x == 0.0 &&
+           v.y == 0.0 &&
+           v.z == 0.0 &&
            v.w == 0.0;
 }
 

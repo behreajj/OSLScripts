@@ -1,0 +1,52 @@
+int all(point p) {
+    return p[0] != 0.0 && p[1] != 0.0 && p[2] != 0.0;
+}
+
+int none(point p) {
+    return p[0] == 0.0 && p[1] == 0.0 && p[2] == 0.0;
+}
+
+shader polygon(
+    point Point = P,
+    point Vert0 = point(0.5, 0.0, 0.0),
+    point Vert1 = point(0.25, 0.433012, 0.0),
+    point Vert2 = point(-0.25, 0.433012, 0.0),
+    point Vert3 = point(-0.5, 0.0, 0.0),
+    point Vert4 = point(-0.25, -0.433012, 0.0),
+    point Vert5 = point(0.25, -0.433012, 0.0),
+    float Rounding = 0.0,
+    
+    output float Fac = 0.0) {
+
+    point vertices[6] = {
+        Vert0, Vert1, Vert2,
+        Vert3, Vert4, Vert5 };
+
+    point curr = vertices[0];
+    point prev = vertices[5];
+
+    float d = 1000000;
+    float s = 1.0;
+
+    for (int i = 0; i < 6; ++i) {
+        curr = vertices[i];
+        point e = prev - curr;
+        point w = Point - curr;
+        float dotp = clamp(dot(w, e) / dot(e, e), 0.0, 1.0);
+
+        point b = w - e * dotp;
+        d = min(d, dot(b, b));
+        point c = point(
+            Point[1] >= curr[1],
+            Point[1] < prev[1],
+            (e[0] * w[1]) > (e[1] * w[0]));
+
+        if (all(c) || none(c)) {
+            s = -s;
+        }
+
+        prev = curr;
+    }
+
+    Fac = s * sqrt(d) - Rounding;
+}

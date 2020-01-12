@@ -176,7 +176,7 @@ int any(Complex z) {
 }
 
 int none(Complex z) {
-    return z.real == 0.0 || z.imag == 0.0;
+    return z.real == 0.0 && z.imag == 0.0;
 }
 
 Complex cast(vector v) {

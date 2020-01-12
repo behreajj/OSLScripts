@@ -89,6 +89,10 @@ Color __operator__bitor__(Color a, int b) {
     return fromHex(toHex(a) | b);
 }
 
+float luminance(Color c) {
+    return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+}
+
 Color step(Color edge, Color x) {
     return Color(
         step(edge.r, x.r),
@@ -145,9 +149,9 @@ int any(Color c) {
 }
 
 int none(Color c) {
-    return c.r == 0.0 ||
-           c.g == 0.0 ||
-           c.b == 0.0 ||
+    return c.r == 0.0 &&
+           c.g == 0.0 &&
+           c.b == 0.0 &&
            c.a == 0.0;
 }
 

@@ -335,6 +335,18 @@ Vec2 refract(Vec2 i, Vec2 n, float eta) {
     return (eta * i) - (n * (eta * iDotN + sqrt(k)));
 }
 
+float projectScalar(Vec2 a, Vec2 b) {
+    return dot(a, b) / dot(b, b);
+}
+
+Vec2 projectVector(Vec2 a, Vec2 b) {
+    return b * projectScalar(a, b);
+}
+
+Vec2 reject(Vec2 a, Vec2 b) {
+    return a - projectVector(a, b);
+}
+
 Vec2 fromPolar(float r, float phi) {
     float sina;
     float cosa;
@@ -344,6 +356,17 @@ Vec2 fromPolar(float r, float phi) {
 
 float heading(Vec2 v) {
     return atan2(v.y, v.x);
+}
+
+Vec2 rescale(Vec2 v, float scalar) {
+    return scalar * normalize(v);
+}
+
+Vec2 limit(Vec2 v, float lmt) {
+    if (dot(v, v) > lmt * lmt) {
+        return rescale(v, lmt);
+    }
+    return v;
 }
 
 Vec2 perpendicular(Vec2 v) {
@@ -384,7 +407,7 @@ int any(Vec2 v) {
 }
 
 int none(Vec2 v) {
-    return v.x == 0.0 || v.y == 0.0;
+    return v.x == 0.0 && v.y == 0.0;
 }
 
 Vec2 cast(vector v) {

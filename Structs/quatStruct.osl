@@ -324,8 +324,7 @@ Quaternion exp(Quaternion q) {
     float cim;
     float sim;
     sincos(length(q.imag), sim, cim);
-    return exp(q.real) * Quaternion(
-                             cim, sim * normalize(q.imag));
+    return exp(q.real) * Quaternion(cim, sim * normalize(q.imag));
 }
 
 Quaternion log(Quaternion q) {
@@ -347,8 +346,7 @@ Quaternion pow(Quaternion a, float b) {
     float sbt;
     sincos(btheta, sbt, cbt);
 
-    return pow(lena, b) * Quaternion(
-                              cbt, sbt * axis);
+    return pow(lena, b) * Quaternion(cbt, sbt * axis);
 }
 
 float angle(Quaternion q) {

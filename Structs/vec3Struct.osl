@@ -398,6 +398,29 @@ Vec3 refract(Vec3 i, Vec3 n, float eta) {
     return (eta * i) - (n * (eta * iDotN + sqrt(k)));
 }
 
+float projectScalar(Vec3 a, Vec3 b) {
+    return dot(a, b) / dot(b, b);
+}
+
+Vec3 projectVector(Vec3 a, Vec3 b) {
+    return b * projectScalar(a, b);
+}
+
+Vec3 reject(Vec3 a, Vec3 b) {
+    return a - projectVector(a, b);
+}
+
+Vec3 rescale(Vec3 v, float scalar) {
+    return scalar * normalize(v);
+}
+
+Vec3 limit(Vec3 v, float lmt) {
+    if (dot(v, v) > lmt * lmt) {
+        return rescale(v, lmt);
+    }
+    return v;
+}
+
 Vec3 back() {
     return Vec3(0.0, -1.0, 0.0);
 }
@@ -435,8 +458,8 @@ int any(Vec3 v) {
 }
 
 int none(Vec3 v) {
-    return v.x == 0.0 ||
-           v.y == 0.0 ||
+    return v.x == 0.0 &&
+           v.y == 0.0 &&
            v.z == 0.0;
 }
 
