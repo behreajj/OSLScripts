@@ -3,6 +3,10 @@ struct Complex {
     float imag;
 };
 
+Complex __operator__neg__(Complex z) {
+    return Complex(-z.real, -z.imag);
+}
+
 Complex __operator__mul__(Complex a, float b) {
     return Complex(
         a.real * b,

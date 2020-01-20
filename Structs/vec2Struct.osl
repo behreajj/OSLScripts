@@ -382,6 +382,23 @@ Vec2 rotateZ(Vec2 v, float radians) {
         cosa * v.y + sina * v.x);
 }
 
+Vec2 copySign(Vec2 m, Vec2 s) {
+    return Vec2(
+        abs(m.x) * sign(s.x),
+        abs(m.y) * sign(s.y));
+}
+
+Vec2 sign(Vec2 v) {
+    return Vec2(sign(v.x), sign(v.y));
+}
+
+Vec2 quantize(Vec2 v, Vec2 delta) {
+    if(delta == 0.0) {
+        return v;
+    }
+    return delta * floor(0.5 + (v / delta));
+}
+
 Vec2 back() {
     return Vec2(0.0, -1.0);
 }

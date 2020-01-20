@@ -421,6 +421,27 @@ Vec3 limit(Vec3 v, float lmt) {
     return v;
 }
 
+Vec3 copySign(Vec3 m, Vec3 s) {
+    return Vec3(
+        abs(m.x) * sign(s.x),
+        abs(m.y) * sign(s.y),
+        abs(m.z) * sign(s.z));
+}
+
+Vec3 sign(Vec3 v) {
+    return Vec3(
+        sign(v.x),
+        sign(v.y),
+        sign(v.z));
+}
+
+Vec3 quantize(Vec3 v, Vec3 delta) {
+    if(delta == 0.0) {
+        return v;
+    }
+    return delta * floor(0.5 + (v / delta));
+}
+
 Vec3 back() {
     return Vec3(0.0, -1.0, 0.0);
 }

@@ -450,6 +450,29 @@ Vec4 reject(Vec4 a, Vec4 b) {
     return a - projectVector(a, b);
 }
 
+Vec4 copySign(Vec4 m, Vec4 s) {
+    return Vec4(
+        abs(m.x) * sign(s.x),
+        abs(m.y) * sign(s.y),
+        abs(m.z) * sign(s.z),
+        abs(m.w) * sign(s.w));
+}
+
+Vec4 sign(Vec4 v) {
+    return Vec4(
+        sign(v.x),
+        sign(v.y),
+        sign(v.z),
+        sign(v.w));
+}
+
+Vec4 quantize(Vec4 v, Vec4 delta) {
+    if(delta == 0.0) {
+        return v;
+    }
+    return delta * floor(0.5 + (v / delta));
+}
+
 Vec4 back() {
     return Vec4(0.0, -1.0, 0.0, 0.0);
 }

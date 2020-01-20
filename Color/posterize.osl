@@ -1,0 +1,16 @@
+shader posterize(
+    color Color = 0.0,
+    vector Delta = 0.247059,
+
+    output color Posterized = 0.0) {
+
+    float dx = Delta[0];
+    float dy = Delta[1];
+    float dz = Delta[2];
+
+    float r = ((dx < 0.003922) || (dx > 1.99608)) ? Color[0] : (dx * floor(0.5 + (Color[0] / dx)));
+    float g = ((dy < 0.003922) || (dy > 1.99608)) ? Color[1] : (dy * floor(0.5 + (Color[1] / dy)));
+    float b = ((dz < 0.003922) || (dz > 1.99608)) ? Color[2] : (dz * floor(0.5 + (Color[2] / dz)));
+
+    Posterized = color(r, g, b);
+}

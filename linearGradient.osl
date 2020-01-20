@@ -7,7 +7,12 @@ shader linearGradient(
   point Dest = point(1.0, 0.0, 0.0),
   point Point = P,
 
-  output float Fac = 0.0) {
+  output float Fac = 0.0,
+  output float Dot = 0.0,
+  output point Vector = 0.0) {
   
-  Fac = clamp(scalarProj(Origin - Point, Origin - Dest), 0.0, 1.0);
+  point b = Origin - Dest;
+  Dot = scalarProj(Origin - Point, b);
+  Fac = clamp(Dot, 0.0, 1.0);
+  Vector = b * Dot;
 }

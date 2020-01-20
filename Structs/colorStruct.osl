@@ -5,7 +5,7 @@ struct Color {
     float a;
 };
 
-Color __operator__neg__(Color a) {
+Color invert(Color a) {
     return Color(
         max(0.0, 1.0 - a.r),
         max(0.0, 1.0 - a.g),
@@ -25,8 +25,16 @@ int toHex(Color c) {
     return int(c.a * 0xff + 0.5) << 0x18 | int(c.r * 0xff + 0.5) << 0x10 | int(c.g * 0xff + 0.5) << 0x8 | int(c.b * 0xff + 0.5);
 }
 
+Color __operator__neg__(Color a) {
+    return invert(a);
+}
+
 Color __operator__compl__(Color a) {
     return fromHex(~toHex(a));
+}
+
+Color __operator__not__(Color a) {
+    return invert(a);
 }
 
 Color __operator__shl__(Color a, Color b) {
@@ -51,6 +59,94 @@ Color __operator__shr__(Color a, int b) {
 
 Color __operator__shr__(int a, Color b) {
     return fromHex(a >> toHex(b));
+}
+
+Color __operator__mul__(Color a, Color b) {
+    return Color(
+        clamp(a.r * b.r, 0.0, 1.0),
+        clamp(a.g * b.g, 0.0, 1.0),
+        clamp(a.b * b.b, 0.0, 1.0),
+        clamp(a.a, 0.0, 1.0));
+}
+
+Color __operator__mul__(Color a, float b) {
+    return Color(
+        clamp(a.r * b, 0.0, 1.0),
+        clamp(a.g * b, 0.0, 1.0),
+        clamp(a.b * b, 0.0, 1.0),
+        clamp(a.a, 0.0, 1.0));
+}
+
+Color __operator__mul__(float a, Color b) {
+    return Color(
+        clamp(a * b.r, 0.0, 1.0),
+        clamp(a * b.g, 0.0, 1.0),
+        clamp(a * b.b, 0.0, 1.0),
+        clamp(a, 0.0, 1.0));
+}
+
+Color __operator__div__(Color a, Color b) {
+    return Color(
+        clamp(a.r / b.r, 0.0, 1.0),
+        clamp(a.g / b.g, 0.0, 1.0),
+        clamp(a.b / b.b, 0.0, 1.0),
+        clamp(a.a, 0.0, 1.0));
+}
+
+Color __operator__div__(Color a, float b) {
+    return Color(
+        clamp(a.r / b, 0.0, 1.0),
+        clamp(a.g / b, 0.0, 1.0),
+        clamp(a.b / b, 0.0, 1.0),
+        clamp(a.a, 0.0, 1.0));
+}
+
+Color __operator__div__(float a, Color b) {
+    return Color(
+        clamp(a / b.r, 0.0, 1.0),
+        clamp(a / b.g, 0.0, 1.0),
+        clamp(a / b.b, 0.0, 1.0),
+        clamp(a, 0.0, 1.0));
+}
+
+Color __operator__add__(Color a, Color b) {
+    return Color(
+        clamp(a.r + b.r, 0.0, 1.0),
+        clamp(a.g + b.g, 0.0, 1.0),
+        clamp(a.b + b.b, 0.0, 1.0),
+        clamp(a.a, 0.0, 1.0));
+}
+
+Color __operator__sub__(Color a, Color b) {
+    return Color(
+        clamp(a.r - b.r, 0.0, 1.0),
+        clamp(a.g - b.g, 0.0, 1.0),
+        clamp(a.b - b.b, 0.0, 1.0),
+        clamp(a.a, 0.0, 1.0));
+}
+
+int __operator__eq__(Color a, Color b) {
+    return toHex(a) == toHex(b);
+}
+
+int __operator__eq__(int a, Color b) {
+    return a == toHex(b);
+}
+
+int __operator__eq__(Color a, int b) {
+    return toHex(a) == b;
+}
+
+int __operator__neq__(Color a, Color b) {
+    return toHex(a) != toHex(b);
+}
+
+int __operator__neq__(int a, Color b) {
+    return a != toHex(b);
+}
+
+int __operator__neq__(Color a, int b) {
+    return toHex(a) != b;
 }
 
 Color __operator__bitand__(Color a, Color b) {
@@ -135,24 +231,55 @@ Color mix(Color a, Color b, Color t) {
 }
 
 int all(Color c) {
-    return c.r != 0.0 &&
-           c.g != 0.0 &&
-           c.b != 0.0 &&
-           c.a != 0.0;
+    return c.a > 0.0 &&
+        c.r > 0.0 &&
+        c.g > 0.0 &&
+        c.b > 0.0;
 }
 
 int any(Color c) {
-    return c.r != 0.0 ||
-           c.g != 0.0 ||
-           c.b != 0.0 ||
-           c.a != 0.0;
+    return c.a > 0.0;
 }
 
 int none(Color c) {
-    return c.r == 0.0 &&
-           c.g == 0.0 &&
-           c.b == 0.0 &&
-           c.a == 0.0;
+    return c.a <= 0.0;
+}
+
+Color clamp(Color c, float lb, float ub) {
+    return Color(
+        clamp(c.r, lb, ub),
+        clamp(c.g, lb, ub),
+        clamp(c.b, lb, ub),
+        clamp(c.a, lb, ub));
+}
+
+Color clamp(Color c) {
+    return clamp(c, 0.0, 1.0);
+}
+
+Color quantize(Color c, float delta) {
+    if(delta == 0.0) {
+        return c;
+    }
+
+    float n = 1.0 / delta;
+    return Color(
+        delta * floor(0.5 + (c.r * n)),
+        delta * floor(0.5 + (c.g * n)),
+        delta * floor(0.5 + (c.b * n)),
+        delta * floor(0.5 + (c.a * n)));
+}
+
+Color quantize(Color c, Color delta) {
+    if(delta == 0x0) {
+        return c;
+    }
+
+    return Color(
+        delta.r * floor(0.5 + (c.r / delta.r)),
+        delta.g * floor(0.5 + (c.g / delta.g)),
+        delta.b * floor(0.5 + (c.b / delta.b)),
+        delta.a * floor(0.5 + (c.a / delta.a)));
 }
 
 Color blue() {
@@ -204,8 +331,9 @@ shader colorStruct(
     color B = 0.0,
 
     output color C = 0.0) {
-    Color x = cast(A);
-    Color y = cast(B);
-
-    C = cast(x << y);
+   
+    Color a = cast(A);
+    Color b = cast(B);
+    Color c = quantize(a, b);
+    C = cast(c);
 }

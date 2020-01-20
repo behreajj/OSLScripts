@@ -103,6 +103,10 @@ struct Quaternion {
     Vec3 imag;
 };
 
+Quaternion __operator__neg__(Quaternion q) {
+    return Quaternion(-q.real, -q.imag);
+}
+
 Quaternion __operator__mul__(Quaternion a, float b) {
     return Quaternion(a.real * b, a.imag * b);
 }
