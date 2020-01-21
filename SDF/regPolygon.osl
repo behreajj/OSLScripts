@@ -1,0 +1,12 @@
+shader polygon(
+    point Point = P,
+    int Vertices = 3,
+    float Angle = M_PI_2,
+    float Bounds = 0.5,
+
+    output float Fac = 0.0) {
+
+    float a = Angle + atan2(Point[1], -Point[0]);
+    float b = M_2PI / max(3, Vertices);
+    Fac = cos(b * floor(0.5 + a / b) - a) * hypot(Point[0], Point[1]) - Bounds;
+}

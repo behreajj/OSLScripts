@@ -384,6 +384,13 @@ Vec3 normalize(Vec3 a) {
     return a / length(a);
 }
 
+Vec3 faceforward(Vec3 n, Vec3 i, Vec3 nref) {
+    if(dot(i, nref) > 0.0) {
+        return -n;
+    }
+    return n;
+}
+
 Vec3 reflect(Vec3 i, Vec3 n) {
     return i - ((2.0 * dot(n, i)) * n);
 }

@@ -321,6 +321,13 @@ Vec2 normalize(Vec2 a) {
     return a / length(a);
 }
 
+Vec2 faceforward(Vec2 n, Vec2 i, Vec2 nref) {
+    if(dot(i, nref) > 0.0) {
+        return -n;
+    }
+    return n;
+}
+
 Vec2 reflect(Vec2 i, Vec2 n) {
     return i - ((2.0 * dot(n, i)) * n);
 }

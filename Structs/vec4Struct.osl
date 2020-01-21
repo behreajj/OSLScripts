@@ -424,6 +424,13 @@ Vec4 normalize(Vec4 a) {
     return a / length(a);
 }
 
+Vec4 faceforward(Vec4 n, Vec4 i, Vec4 nref) {
+    if(dot(i, nref) > 0.0) {
+        return -n;
+    }
+    return n;
+}
+
 Vec4 reflect(Vec4 i, Vec4 n) {
     return i - ((2.0 * dot(n, i)) * n);
 }
