@@ -1,0 +1,35 @@
+float wrap(float v, float lb, float ub) {
+    float lbc = 0.0;
+    float ubc = 0.0;
+    float span = ub - lb;
+
+    if (span < 0.0) {
+        lbc = ub;
+        ubc = lb;
+    } else if (span > 0.0) {
+        lbc = lb;
+        ubc = ub;
+    } else {
+        return 0.0;
+    }
+
+    if (v < lbc) {
+        return ubc - fmod(lbc - v, span);
+    } else if (v >= ubc) {
+        return lbc + fmod(v - lbc, span);
+    }
+    return v;
+}
+
+shader wrapPoint(
+    point Point = P,
+    point LowerBound = -1.0,
+    point UpperBound = 1.0,
+
+    output point Wrapped = P) {
+
+    Wrapped = point(
+        wrap(Point[0], LowerBound[0], UpperBound[0]),
+        wrap(Point[1], LowerBound[1], UpperBound[1]),
+        wrap(Point[2], LowerBound[2], UpperBound[2]));
+}
