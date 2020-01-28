@@ -1,0 +1,75 @@
+matrix tMat(point p) {
+    return matrix(1.0, 0.0, 0.0, 0.0,
+                  0.0, 1.0, 0.0, 0.0,
+                  0.0, 0.0, 1.0, 0.0,
+                  p[0], p[1], p[2], 1.0);
+}
+
+matrix rMat(float radians, point origin, point destination) {
+    vector axis = destination - origin;
+
+    // 1.0 is shortcut for identity matrix.
+    if (axis == 0.0) {
+        return 1.0;
+    }
+
+    float c = cos(radians);
+    float s = sin(radians);
+
+    float d = 1.0 - c;
+    vector a = normalize(axis);
+    vector da = d * a;
+
+    float axay = da[0] * a[1];
+    float axaz = da[0] * a[2];
+    float ayaz = da[1] * a[2];
+
+    // CW
+    // return matrix(
+    //     c + da[0] * a[0], axay + s * a[2], axaz - s * a[1], 0.0,
+    //     axay - s * a[2], c + da[1] * a[1], ayaz + s * a[0], 0.0,
+    //     axaz + s * a[1], ayaz - s * a[0], c + da[2] * a[2], 0.0,
+    //     origin[0], origin[1], origin[2], 1.0);
+
+    // CCW
+    return matrix(
+        c + da[0] * a[0], axay - s * a[2], axaz + s * a[1], 0.0,
+        axay + s * a[2], c + da[1] * a[1], ayaz - s * a[0], 0.0,
+        axaz - s * a[1], ayaz + s * a[0], c + da[2] * a[2], 0.0,
+        origin[0], origin[1], origin[2], 1.0);
+}
+
+matrix sMat(vector d) {
+    if (d == 0.0) {
+        return 1.0;
+    }
+
+    vector dInv = 1.0 / d;
+    return matrix(dInv[0], 0.0, 0.0, 0.0,
+                  0.0, dInv[1], 0.0, 0.0,
+                  0.0, 0.0, dInv[2], 0.0,
+                  0.0, 0.0, 0.0, 1.0);
+
+    // return matrix(d[0], 0.0, 0.0, 0.0,
+    //               0.0, d[1], 0.0, 0.0,
+    //               0.0, 0.0, d[2], 0.0,
+    //               0.0, 0.0, 0.0, 1.0);
+}
+
+shader pointTransform(
+    point Point = P,
+    point Translation = 0.0,
+    float Radians = 0.0,
+    vector Axis = vector(0.0, 0.0, 1.0),
+    vector Scale = 1.0,
+    
+    output point Transformed = P) {
+
+    // vector ts = Translation / Scale;
+    vector ts = Translation * Scale;
+    matrix t = tMat(ts);
+    matrix r = rMat(Radians, ts, ts + Axis);
+    matrix s = sMat(Scale);
+    Transformed = transform(r * s * t, Point);
+    // Transformed = transform(r * s * t, Point) - (0.5 * Scale);
+}
