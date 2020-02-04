@@ -13,8 +13,9 @@ matrix rMat(float radians, point origin, point destination) {
         return 1.0;
     }
 
-    float c = cos(radians);
-    float s = sin(radians);
+    float c = 0.0;
+    float s = 0.0;
+    sincos(radians, c, s);
 
     float d = 1.0 - c;
     vector a = normalize(axis);
@@ -65,7 +66,6 @@ shader pointTransform(
     
     output point Transformed = P) {
 
-    // vector ts = Translation / Scale;
     vector ts = Translation * Scale;
     matrix t = tMat(ts);
     matrix r = rMat(Radians, ts, ts + Axis);
