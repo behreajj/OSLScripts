@@ -5,5 +5,5 @@ shader filterScalar(
   
   output float Filtered = 0.5) {
   
-  Filtered = Value * (Value >= LowerBound && Value <= UpperBound);
+  Filtered = Value * (Value >= LowerBound && Value < UpperBound);
 }

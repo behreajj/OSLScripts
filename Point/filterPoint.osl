@@ -1,0 +1,16 @@
+float filter(float a, float lb, float ub) {
+  return a * (a >= lb && a < ub);
+}
+
+shader filterPoint(
+  point Point = P,
+  point LowerBound = -1.0,
+  point UpperBound = 1.0,
+  
+  output point Filtered = 0.0) {
+
+  Filtered = point(
+    filter(Point[0], LowerBound[0], UpperBound[0]),
+    filter(Point[1], LowerBound[1], UpperBound[1]),
+    filter(Point[2], LowerBound[2], UpperBound[2]));
+}
