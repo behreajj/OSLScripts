@@ -1,0 +1,119 @@
+struct Vec2 {
+    float x;
+    float y;
+};
+
+Vec2 floor(Vec2 a) {
+    return Vec2(
+        floor(a.x),
+        floor(a.y));
+}
+
+Vec2 fract(Vec2 a) {
+    return Vec2(
+        a.x - trunc(a.x),
+        a.y - trunc(a.y));
+}
+
+Vec2 step(Vec2 edge, Vec2 x) {
+    return Vec2(
+        step(edge.x, x.x),
+        step(edge.y, x.y));
+}
+
+Vec2 yx(Vec2 a) {
+    return Vec2(a.y, a.x);
+}
+
+float dot(Vec2 a, Vec2 b) {
+    return a.x * b.x + a.y * b.y;
+}
+
+float length(Vec2 a) {
+    return hypot(a.x, a.y);
+}
+
+Vec2 __operator__mul__(Vec2 a, Vec2 b) {
+    return Vec2(
+        a.x * b.x,
+        a.y * b.y);
+}
+
+Vec2 __operator__mul__(Vec2 a, float b) {
+    return Vec2(
+        a.x * b,
+        a.y * b);
+}
+
+Vec2 __operator__mul__(float a, Vec2 b) {
+    return Vec2(
+        a * b.x,
+        a * b.y);
+}
+
+Vec2 __operator__add__(Vec2 a, Vec2 b) {
+    return Vec2(
+        a.x + b.x,
+        a.y + b.y);
+}
+
+Vec2 __operator__add__(Vec2 a, float b) {
+    return Vec2(
+        a.x + b,
+        a.y + b);
+}
+
+Vec2 __operator__add__(float a, Vec2 b) {
+    return Vec2(
+        a + b.x,
+        a + b.y);
+}
+
+Vec2 __operator__sub__(Vec2 a, Vec2 b) {
+    return Vec2(
+        a.x - b.x,
+        a.y - b.y);
+}
+
+Vec2 __operator__sub__(Vec2 a, float b) {
+    return Vec2(
+        a.x - b,
+        a.y - b);
+}
+
+Vec2 __operator__sub__(float a, Vec2 b) {
+    return Vec2(
+        a - b.x,
+        a - b.y);
+}
+
+shader hexGrid(
+  point Point = point(u, v, 0.0),
+  float Scale = 1.0,
+
+  output point Cell = 0.0,
+  output float Borders = 0.0,
+  output float Center = 0.0) {
+
+    Vec2 p = Scale * Vec2(Point[0], Point[1]);
+
+    float sqrt3 = sqrt(3.0);
+    Vec2 q = Vec2(p.x * 2.0 / sqrt3, p.y + p.x / sqrt3);
+    Vec2 pi = floor(q);
+    Vec2 pf = fract(q);
+    float vv = mod(pi.x + pi.y, 3.0);
+    float ca = step(1.0, vv);
+    float cb = step(2.0, vv);
+    Vec2 pfyx = yx(pf);
+    Vec2 ma = step(pf, pfyx);
+    
+    Vec2 cell = pi + ca - cb * ma;
+    Cell = point(cell.x, cell.y, 0.0);
+
+    Borders = dot(ma, 1.0 - pfyx + ca * (pf.x + pf.y - 1.0) + cb * (pfyx - 2.0 * pf));
+
+    Vec2 pp = 0.5 + 0.5 * Vec2(
+      q.x + floor(0.5 + p.y / 1.5),
+      4.0 * p.y / 3.0);
+    Center = length((fract(pp) - 0.5) * Vec2(1.0, 0.85));
+}

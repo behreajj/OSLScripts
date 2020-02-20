@@ -396,7 +396,9 @@ Vec2 copySign(Vec2 m, Vec2 s) {
 }
 
 Vec2 sign(Vec2 v) {
-    return Vec2(sign(v.x), sign(v.y));
+    return Vec2(
+        sign(v.x),
+        sign(v.y));
 }
 
 Vec2 quantize(Vec2 v, Vec2 delta) {
