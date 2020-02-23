@@ -1,0 +1,9 @@
+shader MixScalar(
+  float A = 0.0, 
+  float B = 1.0,
+  float T = 0.5,
+
+  output float Value = 0.5) {
+
+  Value = mix(A, B, T);
+}

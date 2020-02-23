@@ -10,9 +10,10 @@ shader linearGradient(
   output float Fac = 0.0,
   output float Dot = 0.0,
   output point Vector = 0.0) {
-  
-  point b = Origin - Dest;
-  Dot = scalarProj(Origin - Point, b);
+
+  point a = Point - Origin;
+  point b = Dest - Origin;
+  Dot = scalarProj(a, b);
   Fac = clamp(Dot, 0.0, 1.0);
-  Vector = b * Dot;
+  Vector = Origin + b * Fac;
 }

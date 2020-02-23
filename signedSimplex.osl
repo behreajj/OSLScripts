@@ -1,0 +1,9 @@
+shader signedSimplex(
+    point Point = P,
+
+    output point Noise = 0.0,
+    output float Fac = 0.0) {
+      
+    Noise = noise("simplex", Point);
+    Fac = noise("simplex", Point);
+}
