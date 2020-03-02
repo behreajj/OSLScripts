@@ -348,7 +348,10 @@ Vec3 smoothstep(Vec3 edge0, Vec3 edge1, Vec3 x) {
 }
 
 Vec3 mix(Vec3 a, Vec3 b, float t) {
-    return ((1.0 - t) * a) + (t * b);
+    return Vec3(
+        mix(a.x, b.x, t),
+        mix(a.y, b.y, t),
+        mix(a.z, b.z, t));
 }
 
 Vec3 mix(Vec3 a, Vec3 b, Vec3 t) {

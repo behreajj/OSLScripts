@@ -5,14 +5,6 @@ struct Color {
     float a;
 };
 
-Color invert(Color a) {
-    return Color(
-        max(0.0, 1.0 - a.r),
-        max(0.0, 1.0 - a.g),
-        max(0.0, 1.0 - a.b),
-        clamp(a.a, 0.0, 1.0));
-}
-
 Color fromHex(int hex) {
     return Color(
         (hex >> 0x10 & 0xff) * 0.003921569,
@@ -21,8 +13,19 @@ Color fromHex(int hex) {
         (hex >> 0x18 & 0xff) * 0.003921569);
 }
 
+Color invert(Color a) {
+    return Color(
+        max(0.0, 1.0 - a.r),
+        max(0.0, 1.0 - a.g),
+        max(0.0, 1.0 - a.b),
+        clamp(a.a, 0.0, 1.0));
+}
+
 int toHex(Color c) {
-    return int(c.a * 0xff + 0.5) << 0x18 | int(c.r * 0xff + 0.5) << 0x10 | int(c.g * 0xff + 0.5) << 0x8 | int(c.b * 0xff + 0.5);
+    return int(c.a * 0xff + 0.5) << 0x18 |
+           int(c.r * 0xff + 0.5) << 0x10 |
+           int(c.g * 0xff + 0.5) << 0x8 |
+           int(c.b * 0xff + 0.5);
 }
 
 Color __operator__neg__(Color a) {

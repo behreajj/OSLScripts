@@ -397,7 +397,11 @@ Vec4 smoothstep(Vec4 edge0, Vec4 edge1, Vec4 x) {
 }
 
 Vec4 mix(Vec4 a, Vec4 b, float t) {
-    return ((1.0 - t) * a) + (t * b);
+    return Vec4(
+        mix(a.x, b.x, t),
+        mix(a.y, b.y, t),
+        mix(a.z, b.z, t),
+        mix(a.w, b.w, t));
 }
 
 Vec4 mix(Vec4 a, Vec4 b, Vec4 t) {

@@ -1,5 +1,4 @@
 float distMinkowski(point a, point b, float c) {
-    if (c == 0.0) return 0.0;
     point diff = pow(abs(b - a), c);
     return pow(diff[0] + diff[1] + diff[2], 1.0 / c);
 }
@@ -19,7 +18,7 @@ shader voronoi3(
     output color Color = 0.0,
     output point Position = 0.0) {
       
-    point scaledCoord = Coord * Scale;
+    point scaledCoord = Coord / Scale;
     point cellPosition = floor(scaledCoord);
     point localPosition = scaledCoord - cellPosition;
 
@@ -47,5 +46,5 @@ shader voronoi3(
 
     Distance = minDistance;
     Color = noise("hash", cellPosition + targetOffset);
-    Position = (targetPosition + cellPosition) / Scale;
+    Position = (targetPosition + cellPosition) * Scale;
 }

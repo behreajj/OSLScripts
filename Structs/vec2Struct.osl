@@ -292,7 +292,9 @@ Vec2 smoothstep(Vec2 edge0, Vec2 edge1, Vec2 x) {
 }
 
 Vec2 mix(Vec2 a, Vec2 b, float t) {
-    return ((1.0 - t) * a) + (t * b);
+    return Vec2(
+        mix(a.x, b.x, t),
+        mix(a.y, b.y, t));
 }
 
 Vec2 mix(Vec2 a, Vec2 b, Vec2 t) {
