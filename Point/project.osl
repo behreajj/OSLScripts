@@ -1,0 +1,10 @@
+shader project(
+    point A = 0.0, 
+    point B = 0.0, 
+
+    output point Projected = 0.0,
+    output float Scalar = 0.0) {
+
+    Scalar = dot(A, B) / dot(B, B);
+    Projected = B * Scalar;
+}

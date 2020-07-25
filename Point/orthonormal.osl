@@ -1,0 +1,9 @@
+shader orthonormal(
+    output vector Right = vector(1.0, 0.0, 0.0),
+    output vector Forward = vector(0.0, 1.0, 0.0),
+    output vector Up = vector(0.0, 0.0, 1.0),
+    output vector Left = vector(-1.0, 0.0, 0.0),
+    output vector Backward = vector(0.0, -1.0, 0.0),
+    output vector Down = vector(0.0, 0.0, -1.0)) {
+
+}

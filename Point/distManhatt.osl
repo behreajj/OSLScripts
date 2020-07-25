@@ -1,0 +1,9 @@
+shader DistanceManhattan(
+    point A = 0.0,
+    point B = 0.0,
+
+    output float Distance = 0.0) {
+
+    point diff = abs(B - A);
+    Distance = diff[0] + diff[1] + diff[2];
+}

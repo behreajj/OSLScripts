@@ -383,6 +383,26 @@ float distance(Vec3 a, Vec3 b) {
         b.z - a.z);
 }
 
+float distChebyshev(Vec3 a, Vec3 b) {
+    return max(max(
+        abs(b.x - a.x), abs(b.y - a.y)), 
+        abs(b.z - a.z));
+}
+
+float distManhattan(Vec3 a, Vec3 b) {
+    return abs(b.x - a.x) +
+        abs(b.y - a.y) +
+        abs(b.z - a.z);
+}
+
+float distMinkowski(Vec3 a, Vec3 b, float c) {
+    return pow(
+        pow(abs(b.x - a.x), c) +
+        pow(abs(b.y - a.y), c) +
+        pow(abs(b.z - a.z), c),
+        1.0 / c);
+}
+
 Vec3 normalize(Vec3 a) {
     return a / length(a);
 }
@@ -492,22 +512,6 @@ int none(Vec3 v) {
     return v.x == 0.0 &&
            v.y == 0.0 &&
            v.z == 0.0;
-}
-
-Vec3 cast(vector v) {
-    return Vec3(v[0], v[1], v[2]);
-}
-
-Vec3 cast(normal n) {
-    return Vec3(n[0], n[1], n[2]);
-}
-
-Vec3 cast(point p) {
-    return Vec3(p[0], p[1], p[2]);
-}
-
-vector cast(Vec3 v) {
-    return vector(v.x, v.y, v.z);
 }
 
 shader Vec3Struct(

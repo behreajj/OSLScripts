@@ -1,0 +1,21 @@
+shader reflect(
+    vector Axis = vector(0.0, 0.0, 1.0),
+
+    output vector Right = vector(1.0, 0.0, 0.0),
+    output vector Forward = vector(0.0, 1.0, 0.0),
+    output vector Up = vector(0.0, 0.0, 1.0)) {
+    
+    vector a = normalize(Axis);
+
+    float x = a[0] * -2.0;
+    float y = a[1] * -2.0;
+    float z = a[2] * -2.0;
+
+    float axay = x * a[1];
+    float axaz = x * a[2];
+    float ayaz = y * a[2];
+
+    Right = vector(x * a[0] + 1.0, axay, axaz);
+    Forward = vector(axay, y * a[1] + 1.0, ayaz);
+    Up = vector(axaz, ayaz, z * a[2] + 1.0);
+}

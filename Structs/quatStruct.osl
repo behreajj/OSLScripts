@@ -98,10 +98,31 @@ Vec3 normalize(Vec3 a) {
     return a / length(a);
 }
 
+int none(Vec3 v) {
+    return v.x == 0.0 &&
+           v.y == 0.0 &&
+           v.z == 0.0;
+}
+
+Vec3 mix(Vec3 a, Vec3 b, float t) {
+    return Vec3(
+        mix(a.x, b.x, t),
+        mix(a.y, b.y, t),
+        mix(a.z, b.z, t));
+}
+
 struct Quaternion {
     float real;
     Vec3 imag;
 };
+
+float dot(Quaternion a, Quaternion b) {
+    return (a.real * b.real) + dot(a.imag, b.imag);
+}
+
+float length(Quaternion q) {
+    return sqrt(dot(q, q));
+}
 
 Quaternion __operator__neg__(Quaternion q) {
     return Quaternion(-q.real, -q.imag);
@@ -145,10 +166,6 @@ Quaternion __operator__div__(Quaternion a, float b) {
 
 Quaternion conj(Quaternion q) {
     return Quaternion(q.real, -q.imag);
-}
-
-float dot(Quaternion a, Quaternion b) {
-    return (a.real * b.real) + dot(a.imag, b.imag);
 }
 
 Quaternion inverse(Quaternion q) {
@@ -255,10 +272,6 @@ Quaternion identity() {
     return Quaternion(1.0, Vec3(0.0, 0.0, 0.0));
 }
 
-float length(Quaternion q) {
-    return sqrt(dot(q, q));
-}
-
 Quaternion normalize(Quaternion q) {
     return q / length(q);
 }
@@ -272,7 +285,7 @@ Vec3 applyTo(Quaternion r, Vec3 p) {
 Quaternion fromAxisAngle(float radians, Vec3 axis) {
     float cosah;
     float sinah;
-    sincos(radians * 0.5, sinah, cosah);
+    sincos(mod(radians, M_2PI) * 0.5, sinah, cosah);
 
     return Quaternion(
         cosah, sinah * normalize(axis));
@@ -281,7 +294,7 @@ Quaternion fromAxisAngle(float radians, Vec3 axis) {
 Quaternion rotateX(Quaternion q, float radians) {
     float cosah;
     float sinah;
-    sincos(radians * 0.5, sinah, cosah);
+    sincos(mod(radians, M_2PI) * 0.5, sinah, cosah);
 
     return Quaternion(
         cosah * q.real - sinah * q.imag.x,
@@ -294,7 +307,7 @@ Quaternion rotateX(Quaternion q, float radians) {
 Quaternion rotateY(Quaternion q, float radians) {
     float cosah;
     float sinah;
-    sincos(radians * 0.5, sinah, cosah);
+    sincos(mod(radians, M_2PI) * 0.5, sinah, cosah);
 
     return Quaternion(
         cosah * q.real - sinah * q.imag.y,
@@ -307,7 +320,7 @@ Quaternion rotateY(Quaternion q, float radians) {
 Quaternion rotateZ(Quaternion q, float radians) {
     float cosah;
     float sinah;
-    sincos(radians * 0.5, sinah, cosah);
+    sincos(mod(radians, M_2PI) * 0.5, sinah, cosah);
 
     return Quaternion(
         cosah * q.real - sinah * q.imag.z,
@@ -315,13 +328,6 @@ Quaternion rotateZ(Quaternion q, float radians) {
             cosah * q.imag.x + sinah * q.imag.y,
             cosah * q.imag.y - sinah * q.imag.x,
             cosah * q.imag.z + sinah * q.real));
-}
-
-Quaternion rotate(Quaternion q, float radians, Vec3 axis) {
-    float wnorm = q.real / length(q);
-    float angle0 = 2.0 * acos(wnorm);
-    float angle1 = mod(angle0 + radians, M_2PI);
-    return fromAxisAngle(angle1, normalize(axis));
 }
 
 Quaternion exp(Quaternion q) {
@@ -381,22 +387,37 @@ Quaternion fromAxes(Vec3 right, Vec3 forward, Vec3 up) {
     return Quaternion(w, Vec3(x, y, z));
 }
 
-Quaternion lookAt(Vec3 dir, Vec3 ref) {
-    //TODO: Needs testing....
-    Vec3 k = normalize(dir);
-    Vec3 i = normalize(cross(normalize(ref), k));
-    Vec3 j = normalize(cross(k, i));
-    return fromAxes(i, j, k);
-}
-
 shader quatStruct(
-    float QReal = 1.0,
-    vector QImag = 0.0,
-    float Radians = 0.0,
-    vector Axis = vector(1.0, 0.0, 0.0),
-    point Point = P,
+    float SeedReal = 1.0,
+    vector SeedImag = vector(0.0, 0.0, 0.0),
 
-    output float Real = 1.0,
-    output vector Imag = 0.0,
-    output point Rotated = P) {
+    float ZReal = 1.0,
+    vector ZImag = vector(0.0, 0.0, 0.0),
+
+    float Exp = 2.0,
+    int itr = 32,
+
+    output float Fac = 0.0,
+    output float QReal = 1.0,
+    output vector QImag = vector(0.0, 0.0, 0.0)) {
+
+    Quaternion seed = Quaternion(
+        SeedReal,
+        Vec3(SeedImag[0], SeedImag[1], SeedImag[2]));
+
+    Quaternion z = Quaternion(
+        ZReal,
+        Vec3(ZImag[0], ZImag[1], ZImag[2]));
+
+    Quaternion target = z;
+
+    int i = 0;
+    for(; i < itr && length(target) < 2.0; ++i) {
+        target = pow(target, Exp);
+        target = target + seed;
+    }
+    Fac = i >= itr ? 0.0 : clamp(i / (float)itr, 0.0, 1.0);
+    target = normalize(target);
+    QReal = target.real;
+    QImag = vector(target.imag.x, target.imag.y, target.imag.z);
 }

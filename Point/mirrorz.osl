@@ -1,0 +1,9 @@
+shader mirrorz(
+    point Point = P,
+    float Origin = 0.0,
+
+    output point Mirrored = P) {
+
+    float vz = Point[2];
+    Mirrored = vz < Origin ? point(Point[0], Point[1], Origin - (vz - Origin)) : Point;
+}

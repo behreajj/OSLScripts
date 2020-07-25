@@ -1,0 +1,14 @@
+shader DistanceMinkowski(
+    point A = 0.0,
+    point B = 0.0,
+    float C = 2.0,
+
+    output float Distance = 0.0) {
+
+    point diff = abs(B - A);
+    Distance = pow(
+        pow(diff[0], C) +
+        pow(diff[1], C) +
+        pow(diff[2], C),
+        1.0 / C);
+}

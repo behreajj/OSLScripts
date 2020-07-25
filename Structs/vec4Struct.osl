@@ -424,6 +424,28 @@ float distance(Vec4 a, Vec4 b) {
     return length(b - a);
 }
 
+float distChebyshev(Vec4 a, Vec4 b) {
+    return max(max(max(
+        abs(b.x - a.x), abs(b.y - a.y)),
+        abs(b.z - a.z)), abs(b.w - a.w));
+}
+
+float distManhattan(Vec4 a, Vec4 b) {
+    return abs(b.x - a.x) +
+        abs(b.y - a.y) +
+        abs(b.z - a.z) +
+        abs(b.w - a.w);
+}
+
+float distMinkowski(Vec4 a, Vec4 b, float c) {
+    return pow(
+        pow(abs(b.x - a.x), c) +
+        pow(abs(b.y - a.y), c) +
+        pow(abs(b.z - a.z), c) +
+        pow(abs(b.w - a.w), c),
+        1.0 / c);
+}
+
 Vec4 normalize(Vec4 a) {
     return a / length(a);
 }
@@ -527,22 +549,6 @@ int none(Vec4 v) {
            v.y == 0.0 &&
            v.z == 0.0 &&
            v.w == 0.0;
-}
-
-Vec4 cast(vector v) {
-    return Vec4(v[0], v[1], v[2], 0.0);
-}
-
-Vec4 cast(normal n) {
-    return Vec4(n[0], n[1], n[2], 0.0);
-}
-
-Vec4 cast(point p) {
-    return Vec4(p[0], p[1], p[2], 1.0);
-}
-
-vector cast(Vec4 v) {
-    return vector(v.x, v.y, v.z);
 }
 
 shader Vec4Struct(

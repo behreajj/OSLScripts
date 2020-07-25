@@ -307,6 +307,10 @@ Vec2 mix(Vec2 a, Vec2 b, Vec2 t) {
         mix(a.y, b.y, t.y));
 }
 
+float cross(Vec2 a, Vec2 b) {
+    return a.x * b.y - a.y * b.x;
+}
+
 float dot(Vec2 a, Vec2 b) {
     return a.x * b.x + a.y * b.y;
 }
@@ -317,6 +321,22 @@ float length(Vec2 a) {
 
 float distance(Vec2 a, Vec2 b) {
     return hypot(b.x - a.x, b.y - a.y);
+}
+
+float distChebyshev(Vec2 a, Vec2 b) {
+    return max(abs(b.x - a.x), abs(b.y - a.y));
+}
+
+float distManhattan(Vec2 a, Vec2 b) {
+    return abs(b.x - a.x) +
+        abs(b.y - a.y);
+}
+
+float distMinkowski(Vec2 a, Vec2 b, float c) {
+    return pow(
+        pow(abs(b.x - a.x), c) +
+        pow(abs(b.y - a.y), c),
+        1.0 / c);
 }
 
 Vec2 normalize(Vec2 a) {
@@ -436,22 +456,6 @@ int any(Vec2 v) {
 
 int none(Vec2 v) {
     return v.x == 0.0 && v.y == 0.0;
-}
-
-Vec2 cast(vector v) {
-    return Vec2(v[0], v[1]);
-}
-
-Vec2 cast(normal n) {
-    return Vec2(n[0], n[1]);
-}
-
-Vec2 cast(point p) {
-    return Vec2(p[0], p[1]);
-}
-
-vector cast(Vec2 v) {
-    return vector(v.x, v.y, 0.0);
 }
 
 shader Vec2Struct(

@@ -1,0 +1,10 @@
+shader cellNoise(
+  point Point = P, 
+  float W = 0.0, 
+  
+  output float Fac = 0.0,
+  output point Cell = P) {
+
+  Fac = noise("cell", Point, W);
+  Cell = noise("cell", Point, W);
+}
