@@ -7,6 +7,5 @@ shader mapPoint(
 
   output point Remapped = P) {
   
-  point denom = UbOrigin - LbOrigin;
-  Remapped = denom == 0.0 ? LbDest : LbDest + (UbDest - LbDest) * ((Point - LbOrigin) / denom);
+  Remapped = LbDest + (UbDest - LbDest) * ((Point - LbOrigin) / (UbOrigin - LbOrigin));
 }

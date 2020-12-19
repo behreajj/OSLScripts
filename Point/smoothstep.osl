@@ -1,0 +1,9 @@
+shader smoothStep(
+    point Edge0 = 0.0,
+    point Edge1 = 1.0,
+    point X = 0.5,
+
+    output point Step = 0.5) {
+
+    Step = smoothstep(Edge0, Edge1, X);
+}

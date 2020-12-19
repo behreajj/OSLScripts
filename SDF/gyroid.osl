@@ -1,0 +1,29 @@
+shader Gyroid(
+    point Point = P,
+    float Scale = 1.0,
+    float Thickness = 0.01,
+    float Bias = 0.0,
+
+    output float Fac = 0.0) {
+
+    /**
+     * Cf. Art of Code
+     * Playing with Gyroids - Part 1
+     * https://youtu.be/-adHIyjIYgk
+     */
+    point p = Point * Scale;
+
+    // If you introduce a separate scalar for sine(t * a) and cosine(t * b), might have to do this separately... Would then have to adjust Fac to
+    // dist / (Scale * max(a, b))
+    float cosx, sinx, cosy, siny, cosz, sinz;
+    sincos(p[0], sinx, cosx);
+    sincos(p[1], siny, cosy);
+    sincos(p[2], sinz, cosz);
+
+    point a = point(sinx, siny, sinz);
+    point b = point(cosz, cosx, cosy);
+    float dist = dot(a, b);
+
+    float sfac = (dist / Scale) - Thickness;
+    Fac = abs(sfac - Bias);
+}
