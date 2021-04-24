@@ -13,7 +13,9 @@ shader fromSpherical(
   sincos(Azimuth, st, ct);
   sincos(Inclination, sp, cp);
 
-  float rcp = Radius * cp;
+  float rsp = Radius * sp;
   Point = point(
-    rcp * ct, rcp * st, Radius * -sp);
+    rsp * ct,
+    rsp * st,
+    Radius * cp);
 }

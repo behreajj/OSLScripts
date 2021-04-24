@@ -1,0 +1,31 @@
+color sRgbTolRgb(color standard) {
+    float sr = standard[0];
+    float sg = standard[1];
+    float sb = standard[2];
+
+    return color(
+        sr <= 0.04045 ? sr / 12.92 : pow((sr + 0.055) / 1.055, 2.4),
+        sg <= 0.04045 ? sg / 12.92 : pow((sg + 0.055) / 1.055, 2.4),
+        sb <= 0.04045 ? sb / 12.92 : pow((sb + 0.055) / 1.055, 2.4));
+}
+
+color lRgbTosRgb(color linear) {
+    float lr = linear[0];
+    float lg = linear[1];
+    float lb = linear[2];
+
+    return color(
+        lr <= 0.0031308 ? lr * 12.92 : pow(lr, 1.0 / 2.4) * 1.055 - 0.055,
+        lg <= 0.0031308 ? lg * 12.92 : pow(lg, 1.0 / 2.4) * 1.055 - 0.055,
+        lb <= 0.0031308 ? lb * 12.92 : pow(lb, 1.0 / 2.4) * 1.055 - 0.055);
+}
+
+shader mixLinear(
+    color A = 0.0,
+    color B = 1.0,
+    float T = 0.5,
+
+    output color Color = 0.5) {
+
+    Color = lRgbTosRgb(mix(sRgbTolRgb(A), sRgbTolRgb(B), T));
+}

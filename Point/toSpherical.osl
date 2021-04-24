@@ -7,5 +7,5 @@ shader toSpherical(
 
   Azimuth = atan2(Point[1], Point[0]);
   Radius = length(Point);
-  Inclination = asin(Point[2] / Radius);
+  Inclination = acos(Point[2] / Radius);
 }

@@ -331,32 +331,31 @@ Quaternion rotateZ(Quaternion q, float radians) {
 }
 
 Quaternion exp(Quaternion q) {
-    float cim;
-    float sim;
-    sincos(length(q.imag), sim, cim);
-    return exp(q.real) * Quaternion(cim, sim * normalize(q.imag));
+    float mgimsq = dot(q.imag, q.imag);
+    if(mgimsq > 0.0){
+        float wexp = exp(q.real);
+        float mgim = sqrt(mgimsq);
+        float s = wexp * sin(mgim) / mgim;
+        return Quaternion(
+            wexp * cos(mgim),
+            q.imag * s);
+    }
+    return Quaternion(1.0, Vec3(0.0, 0.0, 0.0));
 }
 
 Quaternion log(Quaternion q) {
-    float lenq = length(q);
-    float wnorm = q.real / lenq;
-    return Quaternion(
-        log(lenq),
-        acos(wnorm) * normalize(q.imag));
+    float mgimsq = dot(q.imag, q.imag);
+    float w = 0.5 * log(q.real * q.real + mgimsq);
+    if(mgimsq > 0.0) {
+        float mgim = sqrt(mgimsq);
+        float t = atan2(mgim, w) / mgim;
+        return Quaternion(w, q.imag * t);
+    }
+    return Quaternion(w, Vec3(0.0, 0.0, 0.0));
 }
 
 Quaternion pow(Quaternion a, float b) {
-    float lena = length(a);
-    Quaternion anorm = a / lena;
-    float theta = 2.0 * acos(anorm.real);
-    Vec3 axis = normalize(anorm.imag / (M_2PI - theta));
-    float btheta = b * theta;
-
-    float cbt;
-    float sbt;
-    sincos(btheta, sbt, cbt);
-
-    return pow(lena, b) * Quaternion(cbt, sbt * axis);
+    return exp(log(a) * b);
 }
 
 float angle(Quaternion q) {

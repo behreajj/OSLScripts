@@ -1,0 +1,14 @@
+shader lRgbTosRgb(
+    color Linear = 0.0,
+
+    output color Standard = 0.0) {
+
+    float lr = Linear[0];
+    float lg = Linear[1];
+    float lb = Linear[2];
+
+    Standard = color(
+        lr <= 0.0031308 ? lr * 12.92 : pow(lr, 1.0 / 2.4) * 1.055 - 0.055,
+        lg <= 0.0031308 ? lg * 12.92 : pow(lg, 1.0 / 2.4) * 1.055 - 0.055,
+        lb <= 0.0031308 ? lb * 12.92 : pow(lb, 1.0 / 2.4) * 1.055 - 0.055);
+}

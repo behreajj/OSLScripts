@@ -1,0 +1,11 @@
+shader pingPongScalar(
+    float A = 0.0,
+    float B = 1.0,
+    float T = 0.5,
+    float Pause = 1.0,
+
+    output float Value = 0.5) {
+
+    float x = 0.5 + 0.5 * Pause * cos(T * M_2PI);
+    Value = mix(A, B, clamp(x, 0.0, 1.0));
+}
