@@ -6,6 +6,6 @@ shader pingPongPoint(
 
     output point Point = 0.5) {
 
-    point x = 0.5 + 0.5 * Pause * cos(T * M_2PI);
+    point x = 0.5 + 0.5 * Pause * cos(T * M_2PI - M_PI);
     Point = mix(A, B, clamp(x, 0.0, 1.0));
 }

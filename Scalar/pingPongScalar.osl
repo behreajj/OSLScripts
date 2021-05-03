@@ -6,6 +6,6 @@ shader pingPongScalar(
 
     output float Value = 0.5) {
 
-    float x = 0.5 + 0.5 * Pause * cos(T * M_2PI);
+    float x = 0.5 + 0.5 * Pause * cos(T * M_2PI - M_PI);
     Value = mix(A, B, clamp(x, 0.0, 1.0));
 }

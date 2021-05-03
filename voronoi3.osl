@@ -10,7 +10,7 @@ float distChebyshev(point a, point b) {
 
 shader voronoi3(
     point Coord = P,
-    float Scale = 8.0,
+    float Scale = 0.125,
     float Exponent = 2.0,
     float Randomness = 1.0,
 
@@ -22,29 +22,30 @@ shader voronoi3(
     point cellPosition = floor(scaledCoord);
     point localPosition = scaledCoord - cellPosition;
 
-    float minDistance = 8.0;
+    float minDistance = 999999.0;
     point targetOffset = 0.0;
     point targetPosition = 0.0;
     float rnd = clamp(Randomness, 0.0, 1.0);
 
-    for (int k = -1; k < 2; ++k) {
-        for (int j = -1; j < 2; ++j) {
-            for (int i = -1; i < 2; ++i) {
-                point cellOffset = point(i, j, k);
-                point pointPosition = cellOffset + noise("hash", cellPosition + cellOffset) * rnd;
-                float distanceToPoint = distMinkowski(pointPosition, localPosition, Exponent);
-                // float distanceToPoint = distChebyshev(pointPosition, localPosition);
+    for(int k = 0; k < 27; ++k) {
+        int h = k / 9;
+        int m = k - h * 9;
 
-                if (distanceToPoint < minDistance) {
-                    targetOffset = cellOffset;
-                    minDistance = distanceToPoint;
-                    targetPosition = pointPosition;
-                }
-            }
+        point cellOffset = point(m % 3, m / 3, h) - 1.0;
+        point pointPosition = cellOffset
+            + noise("hash", cellPosition + cellOffset) * rnd;
+        float distanceToPoint = distMinkowski(
+            pointPosition, localPosition, Exponent);
+
+        if (distanceToPoint < minDistance) {
+            targetOffset = cellOffset;
+            minDistance = distanceToPoint;
+            targetPosition = pointPosition;
         }
     }
 
     Distance = minDistance;
-    Color = noise("hash", cellPosition + targetOffset);
+    Color = noise("hash", cellPosition
+        + targetOffset);
     Position = (targetPosition + cellPosition) * Scale;
 }

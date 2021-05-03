@@ -5,63 +5,38 @@ struct Color {
     float a;
 };
 
-Color fromHex(int hex) {
+Color fromHexArgb(int hex) {
     return Color(
-        (hex >> 0x10 & 0xff) * 0.003921569,
-        (hex >> 0x8 & 0xff) * 0.003921569,
-        (hex & 0xff) * 0.003921569,
-        (hex >> 0x18 & 0xff) * 0.003921569);
+        0.003921569 * (hex >> 0x10 & 0xff),
+        0.003921569 * (hex >> 0x08 & 0xff),
+        0.003921569 * (hex         & 0xff),
+        0.003921569 * (hex >> 0x18 & 0xff));
 }
 
 Color invert(Color a) {
     return Color(
-        max(0.0, 1.0 - a.r),
-        max(0.0, 1.0 - a.g),
-        max(0.0, 1.0 - a.b),
+        clamp(1.0 - a.r, 0.0, 1.0),
+        clamp(1.0 - a.g, 0.0, 1.0),
+        clamp(1.0 - a.b, 0.0, 1.0),
         clamp(a.a, 0.0, 1.0));
 }
 
-int toHex(Color c) {
-    return int(c.a * 0xff + 0.5) << 0x18 |
-           int(c.r * 0xff + 0.5) << 0x10 |
-           int(c.g * 0xff + 0.5) << 0x8 |
-           int(c.b * 0xff + 0.5);
-}
-
-Color __operator__neg__(Color a) {
-    return invert(a);
+int toHexArgb(Color c) {
+    return int(c.a * 0xff + 0.5) << 0x18
+         | int(c.r * 0xff + 0.5) << 0x10
+         | int(c.g * 0xff + 0.5) << 0x08
+         | int(c.b * 0xff + 0.5);
 }
 
 Color __operator__compl__(Color a) {
-    return fromHex(~toHex(a));
-}
-
-Color __operator__not__(Color a) {
-    return invert(a);
-}
-
-Color __operator__shl__(Color a, Color b) {
-    return fromHex(toHex(a) << toHex(b));
+    return fromHexArgb(~toHexArgb(a));
 }
 
 Color __operator__shl__(Color a, int b) {
-    return fromHex(toHex(a) << b);
+    return fromHexArgb(toHexArgb(a) << b);
 }
-
-Color __operator__shl__(int a, Color b) {
-    return fromHex(a << toHex(b));
-}
-
-Color __operator__shr__(Color a, Color b) {
-    return fromHex(toHex(a) >> toHex(b));
-}
-
 Color __operator__shr__(Color a, int b) {
-    return fromHex(toHex(a) >> b);
-}
-
-Color __operator__shr__(int a, Color b) {
-    return fromHex(a >> toHex(b));
+    return fromHexArgb(toHexArgb(a) >> b);
 }
 
 Color __operator__mul__(Color a, Color b) {
@@ -129,67 +104,23 @@ Color __operator__sub__(Color a, Color b) {
 }
 
 int __operator__eq__(Color a, Color b) {
-    return toHex(a) == toHex(b);
-}
-
-int __operator__eq__(int a, Color b) {
-    return a == toHex(b);
-}
-
-int __operator__eq__(Color a, int b) {
-    return toHex(a) == b;
+    return toHexArgb(a) == toHexArgb(b);
 }
 
 int __operator__neq__(Color a, Color b) {
-    return toHex(a) != toHex(b);
-}
-
-int __operator__neq__(int a, Color b) {
-    return a != toHex(b);
-}
-
-int __operator__neq__(Color a, int b) {
-    return toHex(a) != b;
+    return toHexArgb(a) != toHexArgb(b);
 }
 
 Color __operator__bitand__(Color a, Color b) {
-    return fromHex(toHex(a) & toHex(b));
-}
-
-Color __operator__bitand__(int a, Color b) {
-    return fromHex(a & toHex(b));
-}
-
-Color __operator__bitand__(Color a, int b) {
-    return fromHex(toHex(a) & b);
+    return fromHexArgb(toHexArgb(a) & toHexArgb(b));
 }
 
 Color __operator__xor__(Color a, Color b) {
-    return fromHex(toHex(a) ^ toHex(b));
-}
-
-Color __operator__xor__(int a, Color b) {
-    return fromHex(a ^ toHex(b));
-}
-
-Color __operator__xor__(Color a, int b) {
-    return fromHex(toHex(a) ^ b);
+    return fromHexArgb(toHexArgb(a) ^ toHexArgb(b));
 }
 
 Color __operator__bitor__(Color a, Color b) {
-    return fromHex(toHex(a) | toHex(b));
-}
-
-Color __operator__bitor__(int a, Color b) {
-    return fromHex(a | toHex(b));
-}
-
-Color __operator__bitor__(Color a, int b) {
-    return fromHex(toHex(a) | b);
-}
-
-float luminance(Color c) {
-    return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+    return fromHexArgb(toHexArgb(a) | toHexArgb(b));
 }
 
 Color step(Color edge, Color x) {
