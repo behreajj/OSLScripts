@@ -2,10 +2,17 @@ float scalarProj(vector a, vector b) {
   return dot(a, b) / dot(b, b);
 }
 
+float uquantize(float x, int levels) {
+    return select(
+        max(0.0, (ceil(x * levels) - 1.0) / (levels - 1.0)),
+        x, levels < 2);
+}
+
 shader linearGradient(
   point Origin = point(-1.0, 0.0, 0.0),
   point Dest = point(1.0, 0.0, 0.0),
   point Point = P,
+  int Quantize = 0,
 
   output float Fac = 0.0,
   output float Dot = 0.0,
@@ -14,6 +21,6 @@ shader linearGradient(
   point a = Point - Origin;
   point b = Dest - Origin;
   Dot = scalarProj(a, b);
-  Fac = clamp(Dot, 0.0, 1.0);
+  Fac = uquantize(clamp(Dot, 0.0, 1.0), Quantize);
   Vector = Origin + b * Fac;
 }

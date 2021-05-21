@@ -16,7 +16,7 @@ shader sRgbLuminance(
     output color Grayscale = 0.0) {
 
     color c = sRgbTolRgb(Color);
-    Luminance = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    Luminance = 0.21264935 * c[0] + 0.71516913 * c[1] + 0.07218152 * c[2];
     float gray = Luminance <= 0.0031308 ? Luminance * 12.92 : pow(Luminance, 1.0 / 2.4) * 1.055 - 0.055;
     Grayscale = color(gray, gray, gray);
 }

@@ -1,0 +1,31 @@
+color lRgbTosRgb(color linear) {
+    float lr = linear[0];
+    float lg = linear[1];
+    float lb = linear[2];
+
+    return color(
+        lr <= 0.0031308 ? lr * 12.92 : pow(lr, 1.0 / 2.4) * 1.055 - 0.055,
+        lg <= 0.0031308 ? lg * 12.92 : pow(lg, 1.0 / 2.4) * 1.055 - 0.055,
+        lb <= 0.0031308 ? lb * 12.92 : pow(lb, 1.0 / 2.4) * 1.055 - 0.055);
+}
+
+color xyzTolRgb(vector xyz) {
+    // Could be refactored to use a matrix.
+
+    float x = xyz[0];
+    float y = xyz[1];
+    float z = xyz[2];
+
+    return color(
+         3.2408123 * x - 1.5373085  * y - 0.49858654  * z,
+        -0.969243  * x + 1.8759663  * y + 0.041555032 * z,
+         0.0556384 * x - 0.20400746 * y + 1.0571296   * z);
+}
+
+shader xyzTosRgb(
+    vector Xyz = 0.0,
+
+    output color Standard = 0.0) {
+
+    Standard = lRgbTosRgb(xyzTolRgb(Xyz));
+}
