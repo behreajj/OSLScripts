@@ -1,11 +1,27 @@
+point zigzag(point t) {
+    point a = t * 0.5;
+    point b = a - floor(a);
+    return 1.0 - abs(b + b - 1.0);
+}
+
+point oscillate(point t) {
+    return 0.5 + 0.5 * sin(M_PI * (t - 0.5));
+}
+
+point bounce(point t) {
+    return abs(sin(M_PI_2 * t));
+}
+
 shader pingPongPoint(
     point A = 0.0,
     point B = 1.0,
     point T = 0.5,
-    point Pause = 1.0,
-
-    output point Point = 0.5) {
-
-    point x = 0.5 + 0.5 * Pause * cos(T * M_2PI - M_PI);
-    Point = mix(A, B, clamp(x, 0.0, 1.0));
+    
+    output point ZigZag = 0.5,
+    output point Oscillate = 0.5,
+    output point Bounce = 0.5) {
+    
+    ZigZag = mix(A, B, zigzag(T));
+    Oscillate = mix(A, B, oscillate(T));
+    Bounce = mix(A, B, bounce(T));
 }

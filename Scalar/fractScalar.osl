@@ -1,0 +1,11 @@
+shader fractScalar(
+    float A = 0.0,
+    
+    output float Fract = 0.0,
+    output int Trunc = 0.0,
+    output float Floor = 1.0) {
+    
+    Trunc = trunc(A);
+    Fract = A - Trunc;
+    Floor = 1.0 - Fract;
+}

@@ -1,11 +1,27 @@
+float zigzag(float t) {
+    float a = t * 0.5;
+    float b = a - floor(a);
+    return 1.0 - abs(b + b - 1.0);
+}
+
+float oscillate(float t) {
+    return 0.5 + 0.5 * sin(M_PI * (t - 0.5));
+}
+
+float bounce(float t) {
+    return abs(sin(M_PI_2 * t));
+}
+
 shader pingPongScalar(
     float A = 0.0,
     float B = 1.0,
     float T = 0.5,
-    float Pause = 1.0,
-
-    output float Value = 0.5) {
-
-    float x = 0.5 + 0.5 * Pause * cos(T * M_2PI - M_PI);
-    Value = mix(A, B, clamp(x, 0.0, 1.0));
+    
+    output float ZigZag = 0.5,
+    output float Oscillate = 0.5,
+    output float Bounce = 0.5) {
+    
+    ZigZag = mix(A, B, zigzag(T));
+    Oscillate = mix(A, B, oscillate(T));
+    Bounce = mix(A, B, bounce(T));
 }

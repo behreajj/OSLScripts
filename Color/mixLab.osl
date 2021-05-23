@@ -1,3 +1,56 @@
+vector le(vector a, float b) {
+    return vector(a[0] <= b, a[1] <= b, a[2] <= b);
+}
+
+vector gt(vector a, float b) {
+    return vector(a[0] > b, a[1] > b, a[2] > b);
+}
+
+color sRgbTolRgb(color standard) {
+    return select(pow((standard + 0.055) / 1.055, 2.4),
+                  standard / 12.92,
+                  le(standard, 0.04045));
+}
+
+color lRgbTosRgb(color linear) {
+    return select(pow(linear, 1.0 / 2.4) * 1.055 - 0.055,
+                  linear * 12.92,
+                  le(linear, 0.0031308));
+}
+
+vector lRgbToXyz(color linear) {
+    return transform(matrix(
+        0.41241086, 0.21264935, 0.019331759, 0.0,
+        0.35758457, 0.71516913, 0.11919486, 0.0,
+        0.1804538, 0.07218152, 0.95039004, 0.0,
+        0.0, 0.0, 0.0, 1.0),
+        linear);
+}
+
+color xyzTolRgb(vector xyz) {
+    return transform(matrix(
+        3.2408123, -0.969243, 0.0556384, 0.0,
+        -1.5373085, 1.8759663, -0.20400746, 0.0,
+        -0.49858654, 0.041555032, 1.0571296, 0.0,
+        0.0, 0.0, 0.0, 1.0),
+        xyz);
+}
+
+vector xyzToLab(vector xyz) {
+    float vx = xyz[0] / 0.95047;
+    float vy = xyz[1];
+    float vz = xyz[2] / 1.08883;
+
+    vx = select(7.787 * vx + 16.0 / 116.0, pow(vx, 1.0 / 3.0), vx > 0.008856);
+    vy = select(7.787 * vy + 16.0 / 116.0, pow(vy, 1.0 / 3.0), vy > 0.008856);
+    vz = select(7.787 * vz + 16.0 / 116.0, pow(vz, 1.0 / 3.0), vz > 0.008856);
+
+    return vector(
+        116.0 * vy - 16.0,
+        500.0 * (vx - vy),
+        200.0 * (vy - vz));
+}
+
 vector labToXyz(vector lab) {
     float vy = (lab[0] + 16.0) / 116.0;
     float vx = lab[1] / 500.0 + vy;
@@ -7,90 +60,11 @@ vector labToXyz(vector lab) {
     float vxe3 = vx * vx * vx;
     float vze3 = vz * vz * vz;
 
-    vy = vye3 > 0.008856 ? vye3 : (vy - 16.0 / 116.0) / 7.787;
-    vx = vxe3 > 0.008856 ? vxe3 : (vx - 16.0 / 116.0) / 7.787;
-    vz = vze3 > 0.008856 ? vze3 : (vz - 16.0 / 116.0) / 7.787;
+    vy = select((vy - 16.0 / 116.0) / 7.787, vye3, vye3 > 0.008856);
+    vx = select((vx - 16.0 / 116.0) / 7.787, vxe3, vxe3 > 0.008856);
+    vz = select((vz - 16.0 / 116.0) / 7.787, vze3, vze3 > 0.008856);
 
     return vector(vx * 0.95047, vy, vz * 1.08883);
-}
-
-color lRgbTosRgb(color linear) {
-    float lr = linear[0];
-    float lg = linear[1];
-    float lb = linear[2];
-
-    return color(
-        lr <= 0.0031308 ?
-            lr * 12.92 :
-            pow(lr, 1.0 / 2.4) * 1.055 - 0.055,
-        lg <= 0.0031308 ?
-            lg * 12.92 :
-            pow(lg, 1.0 / 2.4) * 1.055 - 0.055,
-        lb <= 0.0031308 ?
-            lb * 12.92 :
-            pow(lb, 1.0 / 2.4) * 1.055 - 0.055);
-}
-
-vector lRgbToXyz(color linear) {
-    float lr = linear[0];
-    float lg = linear[1];
-    float lb = linear[2];
-
-    return vector(
-        0.41241086  * lr + 0.35758457 * lg + 0.1804538  * lb,
-        0.21264935  * lr + 0.71516913 * lg + 0.07218152 * lb,
-        0.019331759 * lr + 0.11919486 * lg + 0.95039004 * lb);
-}
-
-color sRgbTolRgb(color standard) {
-    float sr = standard[0];
-    float sg = standard[1];
-    float sb = standard[2];
-
-    return color(
-        sr <= 0.04045 ?
-            sr / 12.92 :
-            pow((sr + 0.055) / 1.055, 2.4),
-        sg <= 0.04045 ?
-            sg / 12.92 :
-            pow((sg + 0.055) / 1.055, 2.4),
-        sb <= 0.04045 ?
-            sb / 12.92 :
-            pow((sb + 0.055) / 1.055, 2.4));
-}
-
-vector xyzToLab(vector xyz) {
-    float vx = xyz[0] / 0.95047;
-    float vy = xyz[1];
-    float vz = xyz[2] / 1.08883;
-
-    vx = vx > 0.008856 ?
-        pow(vx, 1.0 / 3.0) :
-        7.787 * vx + 16.0 / 116.0;
-
-    vy = vy > 0.008856 ?
-        pow(vy, 1.0 / 3.0) :
-        7.787 * vy + 16.0 / 116.0;
-
-    vz = vz > 0.008856 ?
-        pow(vz, 1.0 / 3.0) :
-        7.787 * vz + 16.0 / 116.0;
-
-    return vector(
-        116.0 * vy - 16.0,
-        500.0 * (vx - vy),
-        200.0 * (vy - vz));   
-}
-
-color xyzTolRgb(vector xyz) {
-    float x = xyz[0];
-    float y = xyz[1];
-    float z = xyz[2];
-
-    return color(
-         3.2408123 * x - 1.5373085  * y - 0.49858654  * z,
-        -0.969243  * x + 1.8759663  * y + 0.041555032 * z,
-         0.0556384 * x - 0.20400746 * y + 1.0571296   * z);
 }
 
 shader mixLab(
@@ -101,7 +75,6 @@ shader mixLab(
     color UB = 1.0,
 
     output color Color = 0.5) {
-
     color aLinear = sRgbTolRgb(A);
     vector aXyz = lRgbToXyz(aLinear);
     vector aLab = xyzToLab(aXyz);

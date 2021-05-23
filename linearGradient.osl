@@ -5,7 +5,8 @@ float scalarProj(vector a, vector b) {
 float uquantize(float x, int levels) {
     return select(
         max(0.0, (ceil(x * levels) - 1.0) / (levels - 1.0)),
-        x, levels < 2);
+        x,
+        levels < 2);
 }
 
 shader linearGradient(

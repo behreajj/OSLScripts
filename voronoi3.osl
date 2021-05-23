@@ -3,21 +3,24 @@ float distMinkowski(point a, point b, float c) {
     return pow(diff[0] + diff[1] + diff[2], 1.0 / c);
 }
 
-float distChebyshev(point a, point b) {
-    point diff = abs(b - a);
-    return max(max(diff[0], diff[1]), diff[2]);
+float uquantize(float x, int levels) {
+    return select(
+        max(0.0, (ceil(x * levels) - 1.0) / (levels - 1.0)),
+        x, levels < 2);
 }
 
-shader voronoi3(
+shader voronoi(
     point Coord = P,
     float Scale = 0.125,
     float Exponent = 2.0,
     float Randomness = 1.0,
+    int Quantize = 0,
 
     output float Distance = 0.0,
+    output float Fac = 0.0,
     output color Color = 0.0,
     output point Position = 0.0) {
-      
+
     point scaledCoord = Coord / Scale;
     point cellPosition = floor(scaledCoord);
     point localPosition = scaledCoord - cellPosition;
@@ -27,13 +30,14 @@ shader voronoi3(
     point targetPosition = 0.0;
     float rnd = clamp(Randomness, 0.0, 1.0);
 
-    for(int k = 0; k < 27; ++k) {
+    for (int k = 0; k < 27; ++k) {
         int h = k / 9;
-        int m = k - h * 9;
+        int temp = k - h * 9;
+        int i = temp / 3;
+        int j = temp % 3;
 
-        point cellOffset = point(m % 3, m / 3, h) - 1.0;
-        point pointPosition = cellOffset
-            + noise("hash", cellPosition + cellOffset) * rnd;
+        point cellOffset = point(j, i, h) - 1.0;
+        point pointPosition = cellOffset + noise("hash", cellPosition + cellOffset) * rnd;
         float distanceToPoint = distMinkowski(
             pointPosition, localPosition, Exponent);
 
@@ -45,7 +49,7 @@ shader voronoi3(
     }
 
     Distance = minDistance;
-    Color = noise("hash", cellPosition
-        + targetOffset);
+    Fac = uquantize(Distance - floor(Distance), Quantize);
+    Color = noise("hash", cellPosition + targetOffset);
     Position = (targetPosition + cellPosition) * Scale;
 }
