@@ -5,26 +5,10 @@ shader wrapScalar(
 
     output float Wrapped = Value) {
 
-    float lbc = 0.0;
-    float ubc = 0.0;
-    float span = UpperBound - LowerBound;
-
-    if (span < 0.0) {
-        lbc = UpperBound;
-        ubc = LowerBound;
-    } else if (span > 0.0) {
-        lbc = LowerBound;
-        ubc = UpperBound;
-    } else {
-        Wrapped = 0.0;
-        return;
-    }
-
-    if (Value < lbc) {
-        Wrapped = ubc - fmod(lbc - Value, span);
-    } else if (Value >= ubc) {
-        Wrapped = lbc + fmod(Value - lbc, span);
-    } else {
-        Wrapped = Value;
-    }
+    float range = UpperBound - LowerBound;
+    float b = (Value - LowerBound) / range;
+    Wrapped = select(
+        Value,
+        Value - range * floor(b),
+        range != 0.0);
 }

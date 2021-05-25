@@ -1,12 +1,11 @@
-color sRgbTolRgb(color standard) {
-    float sr = standard[0];
-    float sg = standard[1];
-    float sb = standard[2];
+vector le(vector a, float b) {
+    return vector(a[0] <= b, a[1] <= b, a[2] <= b);
+}
 
-    return color(
-        sr <= 0.04045 ? sr / 12.92 : pow((sr + 0.055) / 1.055, 2.4),
-        sg <= 0.04045 ? sg / 12.92 : pow((sg + 0.055) / 1.055, 2.4),
-        sb <= 0.04045 ? sb / 12.92 : pow((sb + 0.055) / 1.055, 2.4));
+color sRgbTolRgb(color standard) {
+    return select(pow((standard + 0.055) / 1.055, 2.4),
+                  standard / 12.92,
+                  le(standard, 0.04045));
 }
 
 shader sRgbLuminance(

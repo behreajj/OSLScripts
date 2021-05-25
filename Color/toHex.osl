@@ -1,0 +1,10 @@
+shader toHex(
+    color Color = 0.0,
+
+    output int Hex = 0x0) {
+
+    color c01 = clamp(Color, 0.0, 1.0);
+    Hex = int(c01[0] * 255.0 + 0.5) << 16
+        | int(c01[1] * 255.0 + 0.5) << 8
+        | int(c01[2] * 255.0 + 0.5);
+}

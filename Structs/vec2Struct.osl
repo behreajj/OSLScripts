@@ -199,6 +199,7 @@ Vec2 trunc(Vec2 a) {
 }
 
 Vec2 fract(Vec2 a) {
+    // GLSL fract is a - floor(a)
     return Vec2(
         a.x - trunc(a.x),
         a.y - trunc(a.y));

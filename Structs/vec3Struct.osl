@@ -143,7 +143,6 @@ int __operator__neq__(float a, Vec3 b) {
 }
 
 Vec3 __operator__bitand__(Vec3 a, Vec3 b) {
-    // AND(A, B) := A * B
     return Vec3(
         (a.x != 0.0) & (b.x != 0.0),
         (a.y != 0.0) & (b.y != 0.0),
@@ -167,7 +166,6 @@ Vec3 __operator__bitand__(float a, Vec3 b) {
 }
 
 Vec3 __operator__xor__(Vec3 a, Vec3 b) {
-    // XOR(A, B) := A + B - 2 * A * B;
     return Vec3(
         (a.x != 0.0) ^ (b.x != 0.0),
         (a.y != 0.0) ^ (b.y != 0.0),
@@ -191,7 +189,6 @@ Vec3 __operator__xor__(float a, Vec3 b) {
 }
 
 Vec3 __operator__bitor__(Vec3 a, Vec3 b) {
-    // OR(A, B) := A + B - A * B
     return Vec3(
         (a.x != 0.0) | (b.x != 0.0),
         (a.y != 0.0) | (b.y != 0.0),

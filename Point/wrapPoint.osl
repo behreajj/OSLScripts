@@ -1,24 +1,8 @@
 float wrap(float v, float lb, float ub) {
-    float lbc = 0.0;
-    float ubc = 0.0;
-    float span = ub - lb;
-
-    if (span < 0.0) {
-        lbc = ub;
-        ubc = lb;
-    } else if (span > 0.0) {
-        lbc = lb;
-        ubc = ub;
-    } else {
-        return 0.0;
-    }
-
-    if (v < lbc) {
-        return ubc - fmod(lbc - v, span);
-    } else if (v >= ubc) {
-        return lbc + fmod(v - lbc, span);
-    }
-    return v;
+    float range = ub - lb;
+    float b = (v - lb) / range;
+    return select(v, v - range * floor(b),
+        range != 0.0);
 }
 
 shader wrapPoint(
